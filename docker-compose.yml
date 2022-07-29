@@ -1,0 +1,23 @@
+version: "2"
+
+services:
+  
+  db:
+    image: postgis/postgis
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: event_service_dev
+
+  test_db:
+    image: postgis/postgis
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: event_service_test
