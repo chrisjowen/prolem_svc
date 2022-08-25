@@ -15,10 +15,7 @@ defmodule EventServiceWeb.Router do
     pipe_through :api
     get "/event", EventController, :list
     get "/event/:id", EventController, :index
-
-
     get "/event/:event_id/chats", EventChatController, :list
-
     get "/tag", TagController, :list
     get "/event/:event_id/media", EventMediaController, :list
     get "/event/:event_id/media/:id/raw", EventMediaController, :raw
