@@ -40,6 +40,11 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
+  config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
+    client_id: "773947543964189",
+    client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b",
+    callback_url: "https://group.chrisjowen.net/auth/facebook/callback"
+
   config :event_service, EventService.Repo,
     username: "lfg_user",
     password: "tempjunkpassword",
