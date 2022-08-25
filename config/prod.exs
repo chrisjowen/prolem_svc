@@ -11,5 +11,11 @@ import Config
 # before starting your production server.
 config :event_service, EventServiceWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 
+config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
+  client_id: "773947543964189",
+  client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b",
+  callback_url: "https://group.chrisjowen.net/auth/facebook/callback"
+
+
 # Do not print debug messages in production
 config :logger, level: :info

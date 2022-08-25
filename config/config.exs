@@ -32,9 +32,7 @@ config :event_service, EventService.Guardian,
   issuer: "event_service",
   secret_key: "SIs0ZqwWwih49ZMx5CeXI2eY0q5Mv6n9gYz1xKvatjBdlpL4Pfo7HAgn/Gug2qtr6"
 
-config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
-  client_id: "773947543964189",
-  client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
+
 
 # Configures the mailer
 #
