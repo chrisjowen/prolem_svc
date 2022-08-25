@@ -13,6 +13,6 @@ build:
 deploy:
   stage: deploy
   before_script:
-     - cd /apps/lfg && docker-compose exec -T app /bin/sh -c "mix ecto.migrate"
+     - cd /apps/lfg && docker-compose exec -T api /bin/sh -c "mix ecto.migrate"
   script:
     - cd /apps/lfg && docker-compose up -d
