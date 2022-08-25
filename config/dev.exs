@@ -29,9 +29,6 @@ config :event_service, EventServiceWeb.Endpoint,
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
 
-config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
-  client_id: "773947543964189",
-  client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
 
 # ## SSL Support
 #

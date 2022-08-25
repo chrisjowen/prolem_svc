@@ -15,34 +15,9 @@ defmodule EventService.AuthController do
   def callback(%{assigns: %{ueberauth_auth: %{provider: provider} = auth}} = conn,  params) do
     with {:ok, user} <- get_or_create_user(provider, params, auth),
          {:ok, token, _claims} <- EventService.Guardian.encode_and_sign(user) do
-      conn |> redirect(external: "http://localhost:8080/callback/#{token}?ref=#{params["referer"]}")
+      conn |> redirect(external: "http://group.chrisjowen.net/callback/#{token}?ref=#{params["referer"]}")
     end
   end
-
-  # def request(conn, _params) do
-  #   q =
-  #     case Plug.Conn.get_req_header(conn, "referer") do
-  #       [referer] = r -> "?referer=#{referer}"
-  #       _ ->
-  #         ""
-  #     end
-
-  #   conn
-  #   |> Ueberauth.run_request(
-  #     "facebook",
-  #     {Ueberauth.Strategy.Facebook,
-  #      [
-  #        callback_path: "/auth/facebook/callback#{q}"
-  #      ]}
-  #   )
-  # end
-
-  # def callback(conn, params) do
-  #   %{assigns: %{ueberauth_auth: auth}} =
-  #     conn
-  #     |> Ueberauth.run_callback("facebook", {Ueberauth.Strategy.Facebook, []})
-  #     |> callback(params)
-  # end
 
   defp get_or_create_user(:facebook, params, auth) do
     case UserRepo.get_by_ext_ref("Facebook", auth.uid) do
