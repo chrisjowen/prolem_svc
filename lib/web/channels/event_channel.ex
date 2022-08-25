@@ -7,14 +7,19 @@ defmodule EventService.EventChannel do
     {:ok, assign(socket, :current_event, event_id)}
   end
 
-  def handle_in("msg", %{"body" => body}, socket) do
+  def handle_in("msg", %{"msg" => body} = msg, socket) do
+    IO.inspect("Sending message")
+    IO.inspect(msg)
     with {:ok, message} <-
            EventChatRepo.insert(%{
              event_id: socket.assigns[:current_event],
              user_id: socket.assigns[:current_user],
+             media_id: Map.get(msg, "media_id"),
              msg: body
            }),
-         message <- EventChatRepo.get(message.id, [:user]) do
+         message <- EventChatRepo.get(message.id, [:user, :media]) do
+
+
       broadcast!(socket, "msg", message)
       {:noreply, socket}
     end

@@ -14,6 +14,15 @@ config :event_service, EventServiceWeb.Endpoint, cache_static_manifest: "priv/st
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :event_service, EventService.Repo,
+  username: "lfg_user",
+  password: "tempjunkpassword",
+  hostname: "db",
+  database: "lfg",
+  types: EventService.PostgresTypes
+
+
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

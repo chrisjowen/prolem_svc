@@ -49,7 +49,8 @@ defmodule EventService.MixProject do
       {:scrivener_ecto, "~> 2.0"},
       {:faker, "~> 0.17"},
       {:ueberauth_facebook, "~> 0.8"},
-      {:guardian, "~> 2.0"}
+      {:guardian, "~> 2.0"},
+      {:waffle_ecto, "~> 0.0"}
     ]
   end
 

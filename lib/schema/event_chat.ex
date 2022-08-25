@@ -7,6 +7,7 @@ defmodule EventService.Schema.EventChat do
     field :msg, :string
     belongs_to :event, Schema.Event
     belongs_to :user, Schema.User
+    belongs_to :media, Schema.EventMedia, type: Ecto.UUID
 
     timestamps()
   end
@@ -14,7 +15,7 @@ defmodule EventService.Schema.EventChat do
   @doc false
   def changeset(event_chat, attrs) do
     event_chat
-    |> cast(attrs, [:msg, :user_id, :event_id])
+    |> cast(attrs, [:msg, :media_id, :user_id, :event_id])
     |> validate_required([:msg, :user_id, :event_id])
   end
 end

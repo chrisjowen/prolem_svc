@@ -12,6 +12,9 @@ defmodule EventService.Schema.Event do
     belongs_to :user, Schema.User
     has_many :event_tags, Schema.EventTag
     has_many :tags, through: [:event_tags, :tag]
+    has_many :chats, Schema.EventChat
+    has_many :media, Schema.EventMedia
+
     timestamps()
   end
 

@@ -5,6 +5,7 @@ defmodule EventService.SchemaRepo do
     quote do
       alias EventService.Repo
       import Ecto.Query
+      alias EventService
       alias unquote(schema)
 
       @this unquote(schema)

@@ -4,6 +4,12 @@ defmodule EventService.EventController do
   import Guardian.Plug
 
 
+  def index(conn, %{"id" => id} = params) do
+    expansions = String.split(Map.get(params, "expansion", ""), ",")
+    json(conn, EventRepo.get_with_expansions(id, expansions))
+  end
+
+
   def list(conn, %{"lat" => lat, "lng" => lng} = params) do
     lat = String.to_float(lat)
     lng = String.to_float(lng)

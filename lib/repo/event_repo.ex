@@ -3,7 +3,7 @@ defmodule EventService.EventRepo do
   import Geo.PostGIS
   alias Ecto.Multi
   alias EventService.Schema.EventTag
-
+  alias EventService.Schema
   def within_distance(point, distance), do: within_distance(@this, point, distance)
 
   def within_distance(query, point, distance) do
@@ -18,5 +18,27 @@ defmodule EventService.EventRepo do
       params["tags"] |> Enum.map(&%{event_id: event.id, tag_id: &1})
     end)
     |> Repo.transaction()
+  end
+
+  def get_with_expansions(id, _expansions) do
+    Repo.one(
+      from e in Schema.Event,
+        as: :event,
+        join: c in assoc(e, :chats),
+        inner_lateral_join:
+          top_five in subquery(
+            from Schema.EventChat,
+              where: [event_id: parent_as(:event).id],
+              limit: 4,
+              select: [:id]
+          ),
+        on: top_five.id == c.id,
+
+
+
+
+        where: e.id == ^id,
+        preload: [{:chats, {c, :user}}, :user, :media]
+    )
   end
 end

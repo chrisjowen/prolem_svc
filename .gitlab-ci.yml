@@ -1,0 +1,20 @@
+stages:
+  - build
+  # - test
+  - deploy
+
+build:
+  # Official docker image.
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  script:
+    - docker build . -t lfg_backend:staging
+
+deploy:
+  stage: deploy
+  before_script:
+     - cd /apps/lfg && docker-compose exec -T app /bin/sh -c "mix ecto.migrate"
+  script:
+    - cd /apps/lfg && docker-compose up -d

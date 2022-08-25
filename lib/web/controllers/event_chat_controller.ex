@@ -4,7 +4,7 @@ defmodule EventService.EventChatController do
   # import Guardian.Plug
 
   def list(conn, %{"event_id" => id}) do
-    json(conn, EventChatRepo.event_latest(id))
+    json(conn, EventChatRepo.event_latest(id) |> IO.inspect)
   end
 
 end

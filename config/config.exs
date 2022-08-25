@@ -22,9 +22,11 @@ config :ueberauth, Ueberauth,
     facebook: {Ueberauth.Strategy.Facebook, [default_scope: "email,public_profile,user_friends"]}
   ]
 
-config :event_service, EventService.SecurePipeline,
-  module: EventService.Guardian
+config :event_service, EventService.SecurePipeline, module: EventService.Guardian
 
+config :waffle,
+  storage: Waffle.Storage.Local,
+  asset_host: {:system, "ASSET_HOST"}
 
 config :event_service, EventService.Guardian,
   issuer: "event_service",

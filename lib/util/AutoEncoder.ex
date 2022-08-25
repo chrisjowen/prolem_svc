@@ -5,6 +5,7 @@ defmodule Modules do
     {Schema.Event, []},
     {Schema.Tag, []},
     {Schema.EventChat, []},
+    {Schema.EventMedia, []},
     {Schema.User, [:credentials]},
   ]
 
