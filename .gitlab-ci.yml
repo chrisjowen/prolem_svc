@@ -1,16 +1,14 @@
 stages:
   - build
-  # - test
   - deploy
 
 build:
-  # Official docker image.
   image: docker:latest
   stage: build
   services:
     - docker:dind
   script:
-    - docker build . -t lfg_backend:staging
+    - docker build . -t lfg_backend:latest
 
 deploy:
   stage: deploy

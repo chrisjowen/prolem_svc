@@ -1,7 +1,5 @@
 version: "2"
-
 services:
-  
   db:
     image: postgis/postgis
     restart: always
@@ -11,7 +9,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: event_service_dev
-
   test_db:
     image: postgis/postgis
     restart: always
