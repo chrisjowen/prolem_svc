@@ -10,9 +10,10 @@ config :event_service, EventService.Repo,
   pool_size: 10,
   types: EventService.PostgresTypes
 
-config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
+  config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
   client_id: "773947543964189",
   client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
+
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -32,6 +33,7 @@ config :event_service, EventServiceWeb.Endpoint,
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
+
 
 # ## SSL Support
 #

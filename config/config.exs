@@ -19,7 +19,7 @@ config :event_service, EventServiceWeb.Endpoint,
 
 config :ueberauth, Ueberauth,
   providers: [
-    facebook: {Ueberauth.Strategy.Facebook, [default_scope: "email,public_profile,user_friends"]}
+    facebook: {Ueberauth.Strategy.Facebook, [default_scope: "email,public_profile,user_friends", callback_url: "https://group.chrisjowen.net/auth/facebook/callback"]}
   ]
 
 config :event_service, EventService.SecurePipeline, module: EventService.Guardian

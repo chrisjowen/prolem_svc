@@ -5,7 +5,6 @@ defmodule EventService.AuthController do
   alias EventService.UserRepo
 
 
-
   def callback(%{assigns: %{ueberauth_failure: fails}} = conn, _params) do
     conn
     |> put_status(:unauthorized)
