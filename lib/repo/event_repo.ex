@@ -24,7 +24,7 @@ defmodule EventService.EventRepo do
     Repo.one(
       from e in Schema.Event,
         as: :event,
-        join: c in assoc(e, :chats),
+        left_join: c in assoc(e, :chats),
         inner_lateral_join:
           top_five in subquery(
             from Schema.EventChat,
@@ -33,10 +33,6 @@ defmodule EventService.EventRepo do
               select: [:id]
           ),
         on: top_five.id == c.id,
-
-
-
-
         where: e.id == ^id,
         preload: [{:chats, {c, :user}}, :user, :media]
     )
