@@ -17,8 +17,6 @@ config :event_service, EventServiceWeb.Endpoint,
   pubsub_server: EventService.PubSub,
   live_view: [signing_salt: "gSpMyCEo"]
 
-
-
 config :event_service, EventService.SecurePipeline, module: EventService.Guardian
 
 config :waffle,
@@ -29,7 +27,15 @@ config :event_service, EventService.Guardian,
   issuer: "event_service",
   secret_key: "SIs0ZqwWwih49ZMx5CeXI2eY0q5Mv6n9gYz1xKvatjBdlpL4Pfo7HAgn/Gug2qtr6"
 
-
+config :ueberauth, Ueberauth,
+  providers: [
+    facebook:
+      {Ueberauth.Strategy.Facebook,
+       [
+         default_scope: "email,public_profile,user_friends",
+         callback_url: "https://group.chrisjowen.net/auth/facebook/callback"
+       ]}
+  ]
 
 # Configures the mailer
 #

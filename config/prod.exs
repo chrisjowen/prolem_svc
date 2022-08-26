@@ -21,7 +21,7 @@ providers: [
     {Ueberauth.Strategy.Facebook,
      [
        default_scope: "email,public_profile,user_friends",
-       callback_url: "https://group.chrisjowen.net:443/auth/facebook/callback"
+       callback_url: "https://group.chrisjowen.net/auth/facebook/callback"
      ]}
 ]
 
