@@ -17,10 +17,7 @@ config :event_service, EventServiceWeb.Endpoint,
   pubsub_server: EventService.PubSub,
   live_view: [signing_salt: "gSpMyCEo"]
 
-config :ueberauth, Ueberauth,
-  providers: [
-    facebook: {Ueberauth.Strategy.Facebook, [default_scope: "email,public_profile,user_friends", callback_url: "https://group.chrisjowen.net:443/auth/facebook/callback"]}
-  ]
+
 
 config :event_service, EventService.SecurePipeline, module: EventService.Guardian
 

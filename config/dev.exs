@@ -10,11 +10,14 @@ config :event_service, EventService.Repo,
   pool_size: 10,
   types: EventService.PostgresTypes
 
-  config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
+config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
   client_id: "773947543964189",
   client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
 
-
+config :ueberauth, Ueberauth,
+  providers: [
+    facebook: {Ueberauth.Strategy.Facebook, [default_scope: "email,public_profile,user_friends"]}
+  ]
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #

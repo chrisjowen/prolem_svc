@@ -42,8 +42,17 @@ if config_env() == :prod do
 
   config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
     client_id: "773947543964189",
-    client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b",
-    callback_url: "https://group.chrisjowen.net/auth/facebook/callback"
+    client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
+
+  config :ueberauth, Ueberauth,
+    providers: [
+      facebook:
+        {Ueberauth.Strategy.Facebook,
+         [
+           default_scope: "email,public_profile,user_friends",
+           callback_url: "https://group.chrisjowen.net:443/auth/facebook/callback"
+         ]}
+    ]
 
   config :event_service, EventService.Repo,
     username: "lfg_user",

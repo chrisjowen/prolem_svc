@@ -25,7 +25,7 @@ defmodule EventService.EventRepo do
       from e in Schema.Event,
         as: :event,
         left_join: c in assoc(e, :chats),
-        inner_lateral_join:
+        left_lateral_join:
           top_five in subquery(
             from Schema.EventChat,
               where: [event_id: parent_as(:event).id],
