@@ -44,15 +44,6 @@ if config_env() == :prod do
     client_id: "773947543964189",
     client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
 
-  config :ueberauth, Ueberauth,
-    providers: [
-      facebook:
-        {Ueberauth.Strategy.Facebook,
-         [
-           default_scope: "email,public_profile,user_friends",
-           callback_url: "https://group.chrisjowen.net:443/auth/facebook/callback"
-         ]}
-    ]
 
   config :event_service, EventService.Repo,
     username: "lfg_user",
@@ -61,7 +52,7 @@ if config_env() == :prod do
     database: "lfg",
     types: EventService.PostgresTypes
 
-  host = System.get_env("PHX_HOST") || "group.chrisjowen.net"
+  host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :event_service, EventServiceWeb.Endpoint,

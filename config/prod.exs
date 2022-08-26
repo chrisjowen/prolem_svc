@@ -15,12 +15,15 @@ config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
 client_id: "773947543964189",
 client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
 
+config :event_service, EventService.AuthController,
+  completion_url: "https://group.chrisjowen.net/callback/"
+
 config :ueberauth, Ueberauth,
 providers: [
   facebook:
     {Ueberauth.Strategy.Facebook,
      [
-       default_scope: "email,public_profile,user_friends",
+       default_scope: "email,public_profile,user_friends"
        callback_url: "https://group.chrisjowen.net/auth/facebook/callback"
      ]}
 ]

@@ -3,7 +3,7 @@ defmodule EventService.AuthController do
   plug Ueberauth
 
   alias EventService.UserRepo
-
+  @completion_url Application.get_env(:event_service, EventService.AuthController)[:completion_url]
 
   def callback(%{assigns: %{ueberauth_failure: fails}} = conn, _params) do
     conn
@@ -14,8 +14,7 @@ defmodule EventService.AuthController do
   def callback(%{assigns: %{ueberauth_auth: %{provider: provider} = auth}} = conn,  params) do
     with {:ok, user} <- get_or_create_user(provider, params, auth),
          {:ok, token, _claims} <- EventService.Guardian.encode_and_sign(user) do
-      conn |> redirect(external: "http://group.chrisjowen.net/callback/#{token}?ref=#{params["referer"]}")
-      # conn |> redirect(external: "http://localhost:8080/callback/#{token}")
+      conn |> redirect(external: "#{@completion_url}#{token}")
     end
   end
 

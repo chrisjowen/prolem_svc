@@ -14,10 +14,20 @@ config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
   client_id: "773947543964189",
   client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
 
+
+config :event_service, EventService.AuthController,
+  completion_url: "http://localhost:8080/callback/"
+
 config :ueberauth, Ueberauth,
   providers: [
-    facebook: {Ueberauth.Strategy.Facebook, [default_scope: "email,public_profile,user_friends"]}
+    facebook:
+      {Ueberauth.Strategy.Facebook,
+       [
+         default_scope: "email,public_profile,user_friends",
+         callback_url: "http://localhost:4000/auth/facebook/callback"
+       ]}
   ]
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
@@ -36,7 +46,6 @@ config :event_service, EventServiceWeb.Endpoint,
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
-
 
 # ## SSL Support
 #
