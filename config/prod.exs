@@ -23,7 +23,7 @@ providers: [
   facebook:
     {Ueberauth.Strategy.Facebook,
      [
-       default_scope: "email,public_profile,user_friends"
+       default_scope: "email,public_profile,user_friends",
        callback_url: "https://group.chrisjowen.net/auth/facebook/callback"
      ]}
 ]
