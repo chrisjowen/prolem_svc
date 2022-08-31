@@ -52,7 +52,7 @@ if config_env() == :prod do
     database: "lfg",
     types: Totem.PostgresTypes
 
-  host = System.get_env("PHX_HOST") || "example.com"
+  host = System.get_env("PHX_HOST") || "group.chrisjowen.net"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :totem, TotemWeb.Endpoint,
