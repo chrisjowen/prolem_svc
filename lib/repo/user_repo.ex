@@ -1,7 +1,7 @@
-defmodule EventService.UserRepo do
-  use EventService.SchemaRepo, schema: EventService.Schema.User
+defmodule Totem.UserRepo do
+  use Totem.SchemaRepo, schema: Totem.Schema.User
   alias Ecto.Multi
-  alias EventService.Schema.Credential
+  alias Totem.Schema.Credential
 
   def get_by_username(username) do
     @this |> with_username(username) |> Repo.one()

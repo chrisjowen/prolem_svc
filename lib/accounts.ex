@@ -1,3 +1,3 @@
-# defmodule EventService.Accounts do
+# defmodule Totem.Accounts do
 #   def login()
 # end

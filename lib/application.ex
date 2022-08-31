@@ -1,4 +1,4 @@
-defmodule EventService.Application do
+defmodule Totem.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -9,20 +9,20 @@ defmodule EventService.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      EventService.Repo,
+      Totem.Repo,
       # Start the Telemetry supervisor
-      EventServiceWeb.Telemetry,
+      TotemWeb.Telemetry,
       # Start the PubSub system
-      {Phoenix.PubSub, name: EventService.PubSub},
+      {Phoenix.PubSub, name: Totem.PubSub},
       # Start the Endpoint (http/https)
-      EventServiceWeb.Endpoint
-      # Start a worker by calling: EventService.Worker.start_link(arg)
-      # {EventService.Worker, arg}
+      TotemWeb.Endpoint
+      # Start a worker by calling: Totem.Worker.start_link(arg)
+      # {Totem.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: EventService.Supervisor]
+    opts = [strategy: :one_for_one, name: Totem.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
@@ -30,7 +30,7 @@ defmodule EventService.Application do
   # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
-    EventServiceWeb.Endpoint.config_change(changed, removed)
+    TotemWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

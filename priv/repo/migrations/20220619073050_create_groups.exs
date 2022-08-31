@@ -1,11 +1,11 @@
-defmodule EventService.Repo.Migrations.CreateEvents do
+defmodule Totem.Repo.Migrations.CreateGroups do
   use Ecto.Migration
 
   def change do
-    create table(:events) do
+    create table(:groups) do
       add :title, :string
       add :start, :naive_datetime
-      add :end, :naive_datetime
+      add :description, :string
       add :banner, :string
 
       timestamps()

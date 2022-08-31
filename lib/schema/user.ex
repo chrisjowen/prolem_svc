@@ -1,7 +1,7 @@
-defmodule EventService.Schema.User do
+defmodule Totem.Schema.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias EventService.Schema
+  alias Totem.Schema
 
   schema "users" do
     field :name, :string

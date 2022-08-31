@@ -1,9 +1,9 @@
-defmodule EventService.MixProject do
+defmodule Totem.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :event_service,
+      app: :totem,
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule EventService.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {EventService.Application, []},
+      mod: {Totem.Application, []},
       extra_applications: [:logger, :runtime_tools, :ueberauth_facebook]
     ]
   end

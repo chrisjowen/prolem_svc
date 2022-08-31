@@ -1,16 +1,32 @@
 defmodule Modules do
-  alias EventService.Schema
+  alias Totem.Schema
 
   @modules [
-    {Schema.Event, []},
+    {Schema.Group, []},
     {Schema.Tag, []},
-    {Schema.EventChat, []},
-    {Schema.EventMedia, []},
+    {Schema.GroupChat, []},
+    {Schema.GroupMedia, []},
+    {Schema.GroupType, []},
     {Schema.User, [:credentials]},
   ]
 
-  def modules, do: @modules
+
+  # def schema_modules() do
+  #   with {:ok, list} <- :application.get_key(:totem, :modules) do
+  #     list
+  #     # |> Enum.filter(fn module ->
+  #     #   parts = module |> Module.split
+  #     #   length(parts) > 2 && Enum.take(parts, 2) == ["Totem.Schema"]
+  #     # end)
+  #     # |> Enum.map(fn  {&1, []})
+  #   end
+  # end
+
+
+
+  def modules, do:  @modules
 end
+
 
 Enum.map(Modules.modules, fn {module, strip} ->
   defimpl Jason.Encoder, for: module do

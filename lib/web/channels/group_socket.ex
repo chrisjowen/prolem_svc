@@ -1,13 +1,13 @@
-defmodule EventService.EventSocket do
+defmodule Totem.GroupSocket do
   use Phoenix.Socket
 
-  channel "event:*", EventService.EventChannel
+  channel "group:*", Totem.GroupChannel
 
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   @impl true
   def connect(params, socket, _info) do
-    case EventService.Guardian.resource_from_token(params["token"]) do
+    case Totem.Guardian.resource_from_token(params["token"]) do
       {:ok, user, _} -> {:ok, assign(socket, :current_user, user.id)}
       {:error, _error} -> :error
     end
@@ -20,7 +20,7 @@ defmodule EventService.EventSocket do
   # Would allow you to broadcast a "disconnect" event and terminate
   # all active sockets and channels for a given user:
   #
-  #     Elixir.EventServiceWeb.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
+  #     Elixir.TotemWeb.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
   @impl true

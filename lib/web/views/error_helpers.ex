@@ -1,4 +1,4 @@
-defmodule EventServiceWeb.ErrorHelpers do
+defmodule TotemWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -25,9 +25,9 @@ defmodule EventServiceWeb.ErrorHelpers do
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do
-      Gettext.dngettext(EventServiceWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(TotemWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(EventServiceWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(TotemWeb.Gettext, "errors", msg, opts)
     end
   end
 end

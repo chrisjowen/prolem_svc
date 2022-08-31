@@ -9,7 +9,7 @@ import Config
 
 # Start the phoenix server if environment is set and running in a release
 if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
-  config :event_service, EventServiceWeb.Endpoint, server: true
+  config :totem, TotemWeb.Endpoint, server: true
 end
 
 if config_env() == :prod do
@@ -22,7 +22,7 @@ if config_env() == :prod do
 
   # maybe_ipv6 = if System.get_env("ECTO_IPV6"), do: [:inet6], else: []
 
-  # config :event_service, EventService.Repo,
+  # config :totem, Totem.Repo,
   #   # ssl: true,
   #   url: database_url,
   #   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
@@ -45,17 +45,17 @@ if config_env() == :prod do
     client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
 
 
-  config :event_service, EventService.Repo,
+  config :totem, Totem.Repo,
     username: "lfg_user",
     password: "tempjunkpassword",
     hostname: "db",
     database: "lfg",
-    types: EventService.PostgresTypes
+    types: Totem.PostgresTypes
 
   host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
-  config :event_service, EventServiceWeb.Endpoint,
+  config :totem, TotemWeb.Endpoint,
     url: [host: host, port: 4000],
     http: [
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
@@ -84,7 +84,7 @@ if config_env() == :prod do
   # If you are doing OTP releases, you need to instruct Phoenix
   # to start each relevant endpoint:
   #
-  #     config :event_service, EventServiceWeb.Endpoint, server: true
+  #     config :totem, TotemWeb.Endpoint, server: true
   #
   # Then you can assemble a release by calling `mix release`.
   # See `mix help release` for more information.
@@ -95,7 +95,7 @@ if config_env() == :prod do
   # Also, you may need to configure the Swoosh API client of your choice if you
   # are not using SMTP. Here is an example of the configuration:
   #
-  #     config :event_service, EventService.Mailer,
+  #     config :totem, Totem.Mailer,
   #       adapter: Swoosh.Adapters.Mailgun,
   #       api_key: System.get_env("MAILGUN_API_KEY"),
   #       domain: System.get_env("MAILGUN_DOMAIN")

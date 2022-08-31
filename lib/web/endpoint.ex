@@ -1,30 +1,30 @@
-defmodule EventServiceWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :event_service
+defmodule TotemWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :totem
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_event_service_key",
+    key: "_totem_key",
     signing_salt: "I8Rhdg8c"
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
-  socket "/socket", EventService.EventSocket,
+  socket "/socket", Totem.GroupSocket,
     websocket: true,
     longpoll: false
 
 
 
-  plug Plug.Static, at: "/", from: :my_app, only: ~w(css images js favicon.ico robots.txt)
+  plug Plug.Static, at: "/", from: :totem, only: ~w(css images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :event_service
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :totem
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -42,5 +42,5 @@ defmodule EventServiceWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug EventServiceWeb.Router
+  plug TotemWeb.Router
 end

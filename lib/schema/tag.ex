@@ -1,4 +1,4 @@
-defmodule EventService.Schema.Tag do
+defmodule Totem.Schema.Tag do
   use Ecto.Schema
   import Ecto.Changeset
 

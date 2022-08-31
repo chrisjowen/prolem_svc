@@ -1,12 +1,12 @@
-defmodule EventServiceWeb do
+defmodule TotemWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use EventServiceWeb, :controller
-      use EventServiceWeb, :view
+      use TotemWeb, :controller
+      use TotemWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,19 +19,19 @@ defmodule EventServiceWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: EventServiceWeb
+      use Phoenix.Controller, namespace: TotemWeb
 
       import Plug.Conn
-      import EventServiceWeb.Gettext
-      alias EventServiceWeb.Router.Helpers, as: Routes
+      import TotemWeb.Gettext
+      alias TotemWeb.Router.Helpers, as: Routes
     end
   end
 
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/event_service_web/templates",
-        namespace: EventServiceWeb
+        root: "lib/totem_web/templates",
+        namespace: TotemWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -54,7 +54,7 @@ defmodule EventServiceWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import EventServiceWeb.Gettext
+      import TotemWeb.Gettext
     end
   end
 
@@ -63,9 +63,9 @@ defmodule EventServiceWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import EventServiceWeb.ErrorHelpers
-      import EventServiceWeb.Gettext
-      alias EventServiceWeb.Router.Helpers, as: Routes
+      import TotemWeb.ErrorHelpers
+      import TotemWeb.Gettext
+      alias TotemWeb.Router.Helpers, as: Routes
     end
   end
 

@@ -1,11 +1,11 @@
-defmodule EventService.SchemaRepo do
+defmodule Totem.SchemaRepo do
   defmacro __using__(opts) do
     schema = Keyword.get(opts, :schema)
 
     quote do
-      alias EventService.Repo
+      alias Totem.Repo
       import Ecto.Query
-      alias EventService
+      alias Totem
       alias unquote(schema)
 
       @this unquote(schema)
@@ -25,6 +25,7 @@ defmodule EventService.SchemaRepo do
       def get_by(term, preloads \\ []) do
         Repo.get_by(@this, term)  |> Repo.preload(preloads)
       end
+
 
       def all(q \\ @this, params \\ %{}, preloads \\ []) do
         Repo.all(q)

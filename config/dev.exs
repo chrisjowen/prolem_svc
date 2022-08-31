@@ -1,21 +1,21 @@
 import Config
 
 # Configure your database
-config :event_service, EventService.Repo,
+config :totem, Totem.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "event_service_dev",
+  database: "totem_dev",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10,
-  types: EventService.PostgresTypes
+  types: Totem.PostgresTypes
 
 config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
   client_id: "773947543964189",
   client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
 
 
-config :event_service, EventService.AuthController,
+config :totem, Totem.AuthController,
   completion_url: "http://localhost:8080/callback/"
 
 config :ueberauth, Ueberauth,
@@ -34,7 +34,7 @@ config :ueberauth, Ueberauth,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with esbuild to bundle .js and .css sources.
-config :event_service, EventServiceWeb.Endpoint,
+config :totem, TotemWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],

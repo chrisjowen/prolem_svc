@@ -1,4 +1,4 @@
-# EventService
+# Totem
 
 To start your Phoenix server:
 

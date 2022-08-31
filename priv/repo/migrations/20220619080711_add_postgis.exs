@@ -1,4 +1,4 @@
-defmodule EventService.Repo.Migrations.AddPostgis do
+defmodule Totem.Repo.Migrations.AddPostgis do
   use Ecto.Migration
 
   def up do

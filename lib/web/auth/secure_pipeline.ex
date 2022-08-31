@@ -1,5 +1,5 @@
-defmodule EventService.SecurePipeline do
-  use Guardian.Plug.Pipeline, otp_app: :event_service
+defmodule Totem.SecurePipeline do
+  use Guardian.Plug.Pipeline, otp_app: :totem
 
   plug Guardian.Plug.VerifyHeader
   plug Guardian.Plug.EnsureAuthenticated

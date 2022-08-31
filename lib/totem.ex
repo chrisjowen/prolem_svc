@@ -1,6 +1,6 @@
-defmodule EventService do
+defmodule Totem do
   @moduledoc """
-  EventService keeps the contexts that define your domain
+  Totem keeps the contexts that define your domain
   and business logic.
 
   Contexts are also responsible for managing your data, regardless

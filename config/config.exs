@@ -7,24 +7,24 @@
 # General application configuration
 import Config
 
-config :event_service,
-  ecto_repos: [EventService.Repo]
+config :totem,
+  ecto_repos: [Totem.Repo]
 
 # Configures the endpoint
-config :event_service, EventServiceWeb.Endpoint,
+config :totem, TotemWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: EventServiceWeb.ErrorView, accepts: ~w(json), layout: false],
-  pubsub_server: EventService.PubSub,
+  render_errors: [view: TotemWeb.ErrorView, accepts: ~w(json), layout: false],
+  pubsub_server: Totem.PubSub,
   live_view: [signing_salt: "gSpMyCEo"]
 
-config :event_service, EventService.SecurePipeline, module: EventService.Guardian
+config :totem, Totem.SecurePipeline, module: Totem.Guardian
 
 config :waffle,
   storage: Waffle.Storage.Local,
   asset_host: {:system, "ASSET_HOST"}
 
-config :event_service, EventService.Guardian,
-  issuer: "event_service",
+config :totem, Totem.Guardian,
+  issuer: "totem",
   secret_key: "SIs0ZqwWwih49ZMx5CeXI2eY0q5Mv6n9gYz1xKvatjBdlpL4Pfo7HAgn/Gug2qtr6"
 
 
@@ -35,7 +35,7 @@ config :event_service, EventService.Guardian,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :event_service, EventService.Mailer, adapter: Swoosh.Adapters.Local
+config :totem, Totem.Mailer, adapter: Swoosh.Adapters.Local
 
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false

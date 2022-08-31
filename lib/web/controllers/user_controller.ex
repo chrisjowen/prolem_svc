@@ -1,5 +1,5 @@
-defmodule EventService.UserController do
-  use EventServiceWeb, :controller
+defmodule Totem.UserController do
+  use TotemWeb, :controller
   import Guardian.Plug
 
   def me(conn, _params) do

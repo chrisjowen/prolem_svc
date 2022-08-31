@@ -1,6 +1,6 @@
-defmodule EventService.Guardian do
-  use Guardian, otp_app: :event_service
-  alias EventService.UserRepo
+defmodule Totem.Guardian do
+  use Guardian, otp_app: :totem
+  alias Totem.UserRepo
 
 
   def subject_for_token(%{id: id}, _claims) do

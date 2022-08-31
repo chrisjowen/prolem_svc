@@ -1,9 +1,9 @@
-defmodule EventService.AuthController do
-  use EventServiceWeb, :controller
+defmodule Totem.AuthController do
+  use TotemWeb, :controller
   plug Ueberauth
 
-  alias EventService.UserRepo
-  @completion_url Application.get_env(:event_service, EventService.AuthController)[:completion_url]
+  alias Totem.UserRepo
+  @completion_url Application.get_env(:totem, Totem.AuthController)[:completion_url]
 
   def callback(%{assigns: %{ueberauth_failure: fails}} = conn, _params) do
     conn
@@ -13,7 +13,7 @@ defmodule EventService.AuthController do
 
   def callback(%{assigns: %{ueberauth_auth: %{provider: provider} = auth}} = conn,  params) do
     with {:ok, user} <- get_or_create_user(provider, params, auth),
-         {:ok, token, _claims} <- EventService.Guardian.encode_and_sign(user) do
+         {:ok, token, _claims} <- Totem.Guardian.encode_and_sign(user) do
       conn |> redirect(external: "#{@completion_url}#{token}")
     end
   end

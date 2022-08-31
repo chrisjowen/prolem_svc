@@ -1,3 +1,3 @@
-defmodule EventService.TagRepo do
-  use EventService.SchemaRepo, schema: EventService.Schema.Tag
+defmodule Totem.TagRepo do
+  use Totem.SchemaRepo, schema: Totem.Schema.Tag
 end

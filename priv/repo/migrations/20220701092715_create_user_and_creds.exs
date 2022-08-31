@@ -1,4 +1,4 @@
-defmodule EventService.Repo.Migrations.CreateUserAndCreds do
+defmodule Totem.Repo.Migrations.CreateUserAndCreds do
   use Ecto.Migration
 
   def change do

@@ -1,5 +1,5 @@
-defmodule EventServiceWeb.Router do
-  use EventServiceWeb, :router
+defmodule TotemWeb.Router do
+  use TotemWeb, :router
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -7,30 +7,35 @@ defmodule EventServiceWeb.Router do
 
 
   pipeline :auth do
-    plug(EventService.SecurePipeline)
+    plug(Totem.SecurePipeline)
   end
 
 
-  scope "/api", EventService do
+  scope "/api", Totem do
     pipe_through :api
-    get "/event", EventController, :list
-    get "/event/:id", EventController, :index
-    get "/event/:event_id/chats", EventChatController, :list
+    get "/group", GroupController, :list
+    get "/group/types", GroupTypeController, :list
+
+
+    get "/group/:id", GroupController, :index
+    get "/group/:group_id/chats", GroupChatController, :list
+
+
     get "/tag", TagController, :list
-    get "/event/:event_id/media", EventMediaController, :list
-    get "/event/:event_id/media/:id/raw", EventMediaController, :raw
+    get "/group/:group_id/media", GroupMediaController, :list
+    get "/group/:group_id/media/:id/raw", GroupMediaController, :raw
   end
 
-  scope "/api", EventService do
+  scope "/api", Totem do
     pipe_through([:api, :auth])
-    post "/event", EventController, :create
-    post "/event/:event_id/media", EventMediaController, :create
+    post "/group", GroupController, :create
+    post "/group/:group_id/media", GroupMediaController, :create
 
     get "/user/me", UserController, :me
   end
 
 
-  scope "/auth", EventService do
+  scope "/auth", Totem do
     pipe_through :api
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
@@ -52,7 +57,7 @@ defmodule EventServiceWeb.Router do
     scope "/" do
       pipe_through [:fetch_session, :protect_from_forgery]
 
-      live_dashboard "/dashboard", metrics: EventServiceWeb.Telemetry
+      live_dashboard "/dashboard", metrics: TotemWeb.Telemetry
     end
   end
 

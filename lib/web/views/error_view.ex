@@ -1,5 +1,5 @@
-defmodule EventServiceWeb.ErrorView do
-  use EventServiceWeb, :view
+defmodule TotemWeb.ErrorView do
+  use TotemWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

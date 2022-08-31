@@ -1,12 +1,12 @@
-defmodule EventService.PageControllerTest do
-  use EventService.DataCase
-  alias EventService.Schema
-  alias EventService.Repo
+defmodule Totem.PageControllerTest do
+  use Totem.DataCase
+  alias Totem.Schema
+  alias Totem.Repo
 
 
   @tag wip: true
   test "A simple test" do
-    EventService.EventMediaRepo.all()
+    Totem.GroupMediaRepo.all()
     |> IO.inspect()
   end
 end

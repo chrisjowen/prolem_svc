@@ -1,10 +1,9 @@
-defmodule Totem.Repo.Migrations.CreateTags do
+defmodule Totem.Repo.Migrations.CreateGroupTypes do
   use Ecto.Migration
 
   def change do
-    create table(:tags) do
+    create table(:group_types) do
       add :name, :string
-      add :type, :string
 
       timestamps()
     end

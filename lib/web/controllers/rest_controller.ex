@@ -1,8 +1,8 @@
 
 
-# defmodule EventService.RestController do
-#   use EventServiceWeb, :controller
-#   alias EventService.Repo
+# defmodule Totem.RestController do
+#   use TotemWeb, :controller
+#   alias Totem.Repo
 #   import Guardian.Plug
 
 #   def list(conn, params) do

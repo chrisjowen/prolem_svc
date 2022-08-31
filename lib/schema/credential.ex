@@ -1,7 +1,7 @@
-defmodule EventService.Schema.Credential do
+defmodule Totem.Schema.Credential do
   use Ecto.Schema
   import Ecto.Changeset
-  alias EventService.Schema
+  alias Totem.Schema
 
   schema "credentials" do
     field :username, :string

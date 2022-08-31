@@ -1,12 +1,12 @@
-defmodule EventService.EventController do
-  use EventServiceWeb, :controller
-  alias EventService.EventRepo
+defmodule Totem.GroupController do
+  use TotemWeb, :controller
+  alias Totem.GroupRepo
   import Guardian.Plug
 
 
   def index(conn, %{"id" => id} = params) do
     expansions = String.split(Map.get(params, "expansion", ""), ",")
-    json(conn, EventRepo.get_with_expansions(id, expansions))
+    json(conn, GroupRepo.get_with_expansions(id, expansions))
   end
 
 
@@ -16,8 +16,8 @@ defmodule EventService.EventController do
     point = %Geo.Point{coordinates: {lng, lat}}
 
     results =
-      EventRepo.within_distance(point, 100_000)
-      |> EventRepo.all(params, [:tags, :user])
+      GroupRepo.within_distance(point, 100_000)
+      |> GroupRepo.all(params, [:tags, :user])
 
     json(conn, results)
   end
@@ -25,8 +25,8 @@ defmodule EventService.EventController do
   def create(conn, params) do
     user = current_resource(conn)
     params = Map.put(params, "user_id", user.id)
-    with {:ok, %{event: event}} <- EventRepo.insert(params) do
-      json(conn, event)
+    with {:ok, %{group: group}} <- GroupRepo.insert(params) do
+      json(conn, group)
     end
   end
 
