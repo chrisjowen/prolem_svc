@@ -31,3 +31,6 @@ providers: [
 
 # Do not print debug messages in production
 config :logger, level: :debug
+
+
+# mix phx.gen.schema GroupMember group_members user_id:references:users is_host:boolean status:string

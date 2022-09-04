@@ -7,6 +7,11 @@ defmodule Modules do
     {Schema.GroupChat, []},
     {Schema.GroupMedia, []},
     {Schema.GroupType, []},
+    {Schema.GroupInvite, []},
+    {Schema.GroupMember, []},
+    {Schema.ContactInvite, []},
+    {Schema.UserFollow, []},
+    {Schema.UserFriendRequest, []},
     {Schema.User, [:credentials]},
   ]
 

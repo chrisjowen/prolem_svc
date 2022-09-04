@@ -4,4 +4,5 @@ defmodule Totem.SecurePipeline do
   plug Guardian.Plug.VerifyHeader
   plug Guardian.Plug.EnsureAuthenticated
   plug Guardian.Plug.LoadResource, allow_blank: true
+  plug Totem.Plug.UserToParams
 end

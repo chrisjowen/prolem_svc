@@ -8,7 +8,13 @@ defmodule Totem.Schema.Group do
     field :start, :naive_datetime
     field :title, :string
     field :description, :string
-    belongs_to :type, GroupType
+    field :place_id, :string
+    field :place_name, :string
+    field :place_address, :string
+    field :distance, :string, virtual: true
+
+
+    belongs_to :type, Schema.GroupType
 
     field :location, Geo.PostGIS.Geometry
     belongs_to :user, Schema.User
@@ -16,6 +22,8 @@ defmodule Totem.Schema.Group do
     has_many :tags, through: [:group_tags, :tag]
     has_many :chats, Schema.GroupChat
     has_many :media, Schema.GroupMedia
+    has_many :group_members, Schema.GroupMember
+    has_many :members,  through: [:group_members, :user]
 
     timestamps()
   end
@@ -32,8 +40,24 @@ defmodule Totem.Schema.Group do
   end
 
   def changeset(event, attrs) do
-      event
-      |> cast(attrs, [:title, :start,  :banner, :location, :user_id, :type_id])
-      |> validate_required([:title, :start, :location, :user_id])
+    required = [
+      :title,
+      :start,
+      :location,
+      :user_id,
+      :type_id
+    ]
+
+    all =
+      [
+        :banner,
+        :place_id,
+        :place_name,
+        :place_address
+      ] ++ required
+
+    event
+    |> cast(attrs, all)
+    |> validate_required(required)
   end
 end

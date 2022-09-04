@@ -15,9 +15,10 @@ defmodule Totem.GroupController do
     lng = String.to_float(lng)
     point = %Geo.Point{coordinates: {lng, lat}}
 
+    # TODO: Totally ineffictient getting all members etc in call
     results =
-      GroupRepo.within_distance(point, 100_000)
-      |> GroupRepo.all(params, [:tags, :user])
+      GroupRepo.within_distance(point, 1)
+      |> GroupRepo.all(params, [:type, :user, :members])
 
     json(conn, results)
   end

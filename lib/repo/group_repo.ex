@@ -14,9 +14,6 @@ defmodule Totem.GroupRepo do
   def insert(params) do
     Multi.new()
     |> Multi.insert(:group, @this.changeset(%@this{}, params))
-    |> Multi.insert_all(:tags, GroupTag, fn %{group: group} ->
-      params["tags"] |> Enum.map(&%{group_id: group.id, tag_id: &1})
-    end)
     |> Repo.transaction()
   end
 
@@ -29,12 +26,12 @@ defmodule Totem.GroupRepo do
           top_five in subquery(
             from Schema.GroupChat,
               where: [group_id: parent_as(:group).id],
-              limit: 4,
+              limit: 2,
               select: [:id]
           ),
         on: top_five.id == c.id,
         where: e.id == ^id,
-        preload: [{:chats, {c, :user}}, :user, :media]
+        preload: [{:chats, {c, :user}}, :user, :media, :type, :members]
     )
   end
 end

@@ -18,6 +18,6 @@ defmodule Totem.Schema.User do
   def changeset(event, attrs) do
       event
       |> cast(attrs, [:name, :last_name, :gender, :email, :profile_pic])
-      |> validate_required([:name, :last_name])
+      |> validate_required([:name, :last_name, :email,:credentials])
   end
 end
