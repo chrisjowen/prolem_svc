@@ -15,17 +15,13 @@ defmodule TotemWeb.Router do
     pipe_through :api
     get "/group", GroupController, :list
     get "/group/types", GroupTypeController, :list
-
-
     get "/group/:id", GroupController, :index
     get "/group/:group_id/chats", GroupChatController, :list
-
-
-
-
     get "/tag", TagController, :list
     get "/group/:group_id/media", GroupMediaController, :list
     get "/group/:group_id/media/:id/raw", GroupMediaController, :raw
+    post "/group/:group_id/member", GroupMemberController, :create
+
   end
 
   scope "/api", Totem do
@@ -33,7 +29,7 @@ defmodule TotemWeb.Router do
 
     post "/group", GroupController, :create
     post "/group/:group_id/media", GroupMediaController, :create
-    post "/group/:group_id/member", GroupMemberController, :create
+    get "/group/:group_id/member", GroupMemberController, :list
 
     get "/user/me", UserController, :me
     get "/user/id", UserController, :id

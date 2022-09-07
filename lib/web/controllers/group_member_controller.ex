@@ -3,6 +3,13 @@ defmodule Totem.GroupMemberController do
   alias Totem.GroupMemberRepo
   alias Totem.GroupChatRepo
 
+  def list(conn, %{"group_id" => group_id}) do
+    result = GroupMemberRepo.in_group(group_id)
+        |> GroupMemberRepo.all(%{}, [:user])
+
+    json(conn, result)
+  end
+
   def create(conn, params) do
     # TODO: Permissions check
 
