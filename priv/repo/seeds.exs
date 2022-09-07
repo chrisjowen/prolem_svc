@@ -1,16 +1,17 @@
 # alias Totem.GroupTypeRepo
 
-# groups =
-#   [
-#     "Drinks",
-#     "Food",
-#     "Sight Seeing",
-#     "Cinema",
-#     "Show",
-#     "Excersise"
-#   ]
-#   |> Enum.each(&GroupTypeRepo.create(%{name: &1}))
 alias Totem.UserRepo
+
+groups =
+  [
+    "Drinks",
+    "Food",
+    "Sight Seeing",
+    "Cinema",
+    "Show",
+    "Excersise"
+  ]
+  |> Enum.each(&GroupTypeRepo.create(%{name: &1}))
 
 # user = UserRepo.insert_with_creds(
 #   %{

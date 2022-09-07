@@ -17,7 +17,10 @@ config :totem, TotemWeb.Endpoint,
   pubsub_server: Totem.PubSub,
   live_view: [signing_salt: "gSpMyCEo"]
 
-config :totem, Totem.SecurePipeline, module: Totem.Guardian
+config :totem, Totem.SecurePipeline,
+  module: Totem.Guardian,
+  error_handler: Totem.AuthErrorHandler
+
 
 config :waffle,
   storage: Waffle.Storage.Local,
