@@ -13,7 +13,7 @@ defmodule Totem.SessionController do
       })
     end
   end
-
+# Nonsense
   def check_password(user, credentials, password) do
     cond do
       credentials.password == password ->  Totem.Guardian.encode_and_sign(user)
