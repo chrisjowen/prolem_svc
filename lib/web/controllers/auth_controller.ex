@@ -11,13 +11,13 @@ defmodule Totem.AuthController do
     |> json(%{status: to_string(fails)})
   end
 
+
   def callback(%{assigns: %{ueberauth_auth: %{provider: provider} = auth}} = conn,  params) do
     with {:ok, user} <- get_or_create_user(provider, params, auth),
          {:ok, token, _claims} <- Totem.Guardian.encode_and_sign(user) do
       conn |> redirect(external: "#{@completion_url}#{token}")
     end
   end
-
 
   defp get_or_create_user(:facebook, params, auth) do
     case UserRepo.get_by_ext_ref("Facebook", auth.uid) do

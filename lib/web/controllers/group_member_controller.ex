@@ -12,7 +12,6 @@ defmodule Totem.GroupMemberController do
 
   def create(conn, params) do
     # TODO: Permissions check
-
     me = current_resource(conn)
     with {:ok, membership} <- GroupMemberRepo.insert(params),
          {:ok, message} <-

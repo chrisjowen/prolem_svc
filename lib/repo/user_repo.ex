@@ -4,7 +4,7 @@ defmodule Totem.UserRepo do
   alias Totem.Schema.Credential
 
   def get_by_username(username) do
-    @this |> with_username(username) |> Repo.one()
+    @this |> with_username(username) |> one()
   end
 
   def get_by_ext_ref(provider, ext_ref) do
@@ -20,12 +20,14 @@ defmodule Totem.UserRepo do
     |> Repo.transaction()
   end
 
+
   # Queries
   defp with_username(query, username) do
     from u in query,
       join: c in Credential,
       on: c.user_id == u.id,
-      where: c.username == ^username and c.provider == "Password"
+      where: c.username == ^username and c.provider == "Password",
+      select: {u, c}
   end
 
   defp with_ext_ref(query, provider, ext_ref) do

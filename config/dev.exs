@@ -25,7 +25,8 @@ config :ueberauth, Ueberauth,
        [
          default_scope: "email,public_profile,user_friends",
          callback_url: "http://localhost:4000/auth/facebook/callback"
-       ]}
+       ]},
+    identity: {Ueberauth.Strategies.Identity, [callback_methods: ["POST"]]}
   ]
 
 # For development, we disable any cache and enable

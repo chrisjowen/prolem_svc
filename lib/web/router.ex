@@ -38,6 +38,9 @@ defmodule TotemWeb.Router do
 
   scope "/auth", Totem do
     pipe_through :api
+    post "/login", SessionController, :login
+
+    # TODO: Uberauth may be a bit of a PITA
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
   end
