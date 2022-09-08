@@ -5,7 +5,6 @@ defmodule Totem.SessionController do
   def login(conn, %{"username" => username, "password" => password}) do
     with {:ok, {user, credentials}} <- UserRepo.get_by_username(username),
          {:ok, token, _claims} <- check_password(user, credentials, password) do
-
       conn
       |> json(%{
         token: token,

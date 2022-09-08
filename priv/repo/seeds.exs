@@ -13,18 +13,18 @@ groups =
   ]
   |> Enum.each(&GroupTypeRepo.create(%{name: &1}))
 
-# user = UserRepo.insert_with_creds(
-#   %{
-#     "name" => "Vivien",
-#     "last_name" => "Koh",
-#     "email" => "kohvvn@gmail.com"
-#   },
-#   %{
-#     "username" => "viv",
-#     "password" => "test",
-#     "salt" => "Nonsense"
-#   }
-# ) |> IO.inspect()
+user = UserRepo.insert_with_creds(
+  %{
+    "name" => "Vivien",
+    "last_name" => "Koh",
+    "email" => "kohvvn@gmail.com"
+  },
+  %{
+    "username" => "viv",
+    "password" => "test",
+    "salt" => "Nonsense"
+  }
+) |> IO.inspect()
 
 
 user = UserRepo.insert_with_creds(
