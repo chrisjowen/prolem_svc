@@ -13,6 +13,7 @@ defmodule Totem.GroupMemberController do
   def create(conn, params) do
     # TODO: Permissions check
     me = current_resource(conn)
+    IO.inspect(me)
     with {:ok, membership} <- GroupMemberRepo.insert(params),
          {:ok, message} <-
            GroupChatRepo.insert(%{

@@ -1,5 +1,4 @@
-# alias Totem.GroupTypeRepo
-
+alias Totem.GroupTypeRepo
 alias Totem.UserRepo
 
 groups =
@@ -34,15 +33,15 @@ user = UserRepo.insert_with_creds(
     "email" => "mohammedsp.me@gmail.com"
   },
   %{
-    "username" => "Mo",
-    "password" => "moman",
+    "username" => "mo",
+    "password" => "test",
     "salt" => "Nonsense"
   }
 ) |> IO.inspect()
 
 
 
-user = UserRepo.get_by(email:  "mohammedsp.me@gmail.com") |> IO.inspect
+# user = UserRepo.get_by(email:  "mohammedsp.me@gmail.com") |> IO.inspect
 
-{:ok, token, _claims} = Totem.Guardian.encode_and_sign(user)
-IO.inspect("http://localhost:8080/callback/#{token}")
+# {:ok, token, _claims} = Totem.Guardian.encode_and_sign(user)
+# IO.inspect("http://localhost:8080/callback/#{token}")

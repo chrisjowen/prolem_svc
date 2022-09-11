@@ -21,7 +21,21 @@ defmodule Totem.UserRepo do
   end
 
 
+  # TODO: PG FT search ecto or move to elastic https://medium.com/socialcom/postgresql-full-text-search-using-ecto-e3f254267208
+  def search(q, preloads \\ []), do: with_search(@this, q) |> all(%{}, preloads)
+
   # Queries
+
+  def with_search(query, q) do
+    term =  "%" <> q <> "%"
+
+    from u in query,
+    where: like(u.name, ^term)
+      or like(u.last_name, ^term)
+      or like(u.email, ^term)
+
+  end
+
   defp with_username(query, username) do
     from u in query,
       join: c in Credential,

@@ -4,9 +4,6 @@ defmodule Totem.GroupMediaController do
   import Guardian.Plug
 
   def create(conn, params) do
-    user = current_resource(conn)
-    params = Map.put(params, "user_id", user.id)
-
     with {:ok, media} <- GroupMediaRepo.insert(params) do
       json(conn, media)
     end
