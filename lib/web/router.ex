@@ -13,7 +13,7 @@ defmodule TotemWeb.Router do
 
   scope "/api", Totem do
     pipe_through :api
-    get "/group", GroupController, :list
+    post "/group/search", GroupController, :search
     get "/group/types", GroupTypeController, :list
     get "/group/:id", GroupController, :index
     get "/group/:group_id/chats", GroupChatController, :list
