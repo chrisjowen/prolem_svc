@@ -39,6 +39,12 @@ defmodule TotemWeb.Router do
 
     get "/notification", NotificationController, :list
 
+    get "/follow", UserFollowController, :list
+    post "/follow", UserFollowController, :create
+
+
+    get "/friend_request", FriendRequestController, :list
+    post "/friend_request", FriendRequestController, :create
 
     get "/user/me", UserController, :me
     get "/user/id", UserController, :id
@@ -50,6 +56,7 @@ defmodule TotemWeb.Router do
   scope "/auth", Totem do
     pipe_through :api
     post "/login", SessionController, :login
+    post "/register", SessionController, :register
 
     # TODO: Uberauth may be a bit of a PITA
     get "/:provider", AuthController, :request

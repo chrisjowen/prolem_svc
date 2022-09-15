@@ -12,6 +12,26 @@ defmodule Totem.SessionController do
       })
     end
   end
+
+
+  def register(conn, %{"username" => username, "password" => password} = params) do
+    creds = %{
+      "username" => username,
+      "password" => password,
+      "salt" => "Somerandomsalt"
+    }
+
+    with {:ok, %{user: user}} <- UserRepo.insert_with_creds(params, creds),
+         {:ok, token, _claims} <-  Totem.Guardian.encode_and_sign(user) do
+      conn
+      |> json(%{
+        token: token,
+        user: user
+      })
+    end
+  end
+
+
 # Nonsense
   def check_password(user, credentials, password) do
     IO.inspect(credentials.password == password)

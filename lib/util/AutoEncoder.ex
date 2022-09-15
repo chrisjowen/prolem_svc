@@ -13,6 +13,7 @@ defmodule Modules do
     {Schema.UserFollow, []},
     {Schema.Notification, []},
     {Schema.UserFriendRequest, []},
+    {Schema.UserFollow, []},
     {Schema.User, [:credentials]},
   ]
 

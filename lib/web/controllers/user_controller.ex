@@ -12,6 +12,8 @@ defmodule Totem.UserController do
     json(conn, params)
   end
 
+
+
   def search(conn, %{"q" => q}) do
     conn |> json(UserRepo.search(q))
   end

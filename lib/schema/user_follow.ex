@@ -4,7 +4,7 @@ defmodule Totem.Schema.UserFollow do
   alias Totem.Schema
 
   schema "user_follows" do
-    field :relationship, :string
+    field :relationship, :string, default: "Friend"
     belongs_to :user, Schema.User
     belongs_to :to, Schema.User
     timestamps()
