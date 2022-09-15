@@ -14,6 +14,7 @@ defmodule Totem.SessionController do
   end
 # Nonsense
   def check_password(user, credentials, password) do
+    IO.inspect(credentials.password == password)
     cond do
       credentials.password == password ->  Totem.Guardian.encode_and_sign(user)
       true -> {:unauthorized, :password_failed}

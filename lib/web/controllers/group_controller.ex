@@ -23,9 +23,6 @@ defmodule Totem.GroupController do
     json(conn, results)
   end
 
-
-
-
   def create(conn, params) do
     user = current_resource(conn)
     params = Map.put(params, "user_id", user.id)
@@ -33,7 +30,5 @@ defmodule Totem.GroupController do
       json(conn, group)
     end
   end
-
-
 
 end

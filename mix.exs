@@ -20,7 +20,7 @@ defmodule Totem.MixProject do
   def application do
     [
       mod: {Totem.Application, []},
-      extra_applications: [:logger, :runtime_tools, :ueberauth_facebook]
+      extra_applications: [:logger, :runtime_tools, :ueberauth_facebook, :que]
     ]
   end
 
@@ -50,7 +50,8 @@ defmodule Totem.MixProject do
       {:faker, "~> 0.17"},
       {:ueberauth_facebook, "~> 0.8"},
       {:guardian, "~> 2.0"},
-      {:waffle_ecto, "~> 0.0"}
+      {:waffle_ecto, "~> 0.0"},
+      {:que, "~> 0.10.1"}
     ]
   end
 

@@ -10,7 +10,7 @@ defmodule Totem.SchemaRepo do
 
       @this unquote(schema)
 
-      def create(params) do
+      def insert!(params) do
         Repo.insert!(@this.changeset(%@this{}, params))
       end
 

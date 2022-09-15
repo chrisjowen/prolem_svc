@@ -17,7 +17,6 @@ defmodule TotemWeb.Endpoint do
     longpoll: false
 
 
-
   plug Plug.Static, at: "/", from: :totem, only: ~w(css images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the

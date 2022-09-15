@@ -11,6 +11,7 @@ defmodule Modules do
     {Schema.GroupMember, []},
     {Schema.ContactInvite, []},
     {Schema.UserFollow, []},
+    {Schema.Notification, []},
     {Schema.UserFriendRequest, []},
     {Schema.User, [:credentials]},
   ]
