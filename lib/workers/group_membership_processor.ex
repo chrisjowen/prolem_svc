@@ -47,7 +47,6 @@ defmodule Totem.Workers.GroupMemberEventProcessor do
 
   defp send_notification(user_id, notification) do
     NotificationRepo.insert!(Map.put(notification, :user_id, user_id))
-    IO.inspect("===== Broadcating to user:#{user_id}")
     TotemWeb.Endpoint.broadcast!("user:#{user_id}", "notification", notification)
   end
 end

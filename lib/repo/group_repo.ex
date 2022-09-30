@@ -4,7 +4,7 @@ defmodule Totem.GroupRepo do
   alias Ecto.Multi
 
   def with_active(query) do
-    time = 60 * 60 * 400
+    time = 60 * 60 * 480
     duration = NaiveDateTime.utc_now() |> NaiveDateTime.add(-time, :second)
 
     from group in query,
@@ -12,7 +12,7 @@ defmodule Totem.GroupRepo do
   end
 
   def with_filters(query, filters) do
-    group_types = Map.get(filters, "groupsTypes")
+    group_types = Map.get(filters, "groupTypes")
 
     case group_types do
       types when is_list(types) and length(types) > 0 ->

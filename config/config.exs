@@ -31,6 +31,8 @@ config :totem, Totem.Guardian,
   secret_key: "SIs0ZqwWwih49ZMx5CeXI2eY0q5Mv6n9gYz1xKvatjBdlpL4Pfo7HAgn/Gug2qtr6"
 
 
+  config :logger, level: :error
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

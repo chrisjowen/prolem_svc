@@ -18,7 +18,7 @@ defmodule Totem.SessionController do
     creds = %{
       "username" => username,
       "password" => password,
-      "salt" => "Somerandomsalt"
+      "salt" => "Somerandomsalt" # TODO: Do this properly
     }
 
     with {:ok, %{user: user}} <- UserRepo.insert_with_creds(params, creds),
@@ -34,7 +34,6 @@ defmodule Totem.SessionController do
 
 # Nonsense
   def check_password(user, credentials, password) do
-    IO.inspect(credentials.password == password)
     cond do
       credentials.password == password ->  Totem.Guardian.encode_and_sign(user)
       true -> {:unauthorized, :password_failed}

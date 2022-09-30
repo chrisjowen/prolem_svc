@@ -4,7 +4,7 @@ defmodule Totem.GroupChatController do
   # import Guardian.Plug
 
   def list(conn, %{"group_id" => id}) do
-    json(conn, GroupChatRepo.latest(id) |> IO.inspect)
+    json(conn, GroupChatRepo.latest(id) )
   end
 
 end

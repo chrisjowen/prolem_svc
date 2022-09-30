@@ -3,6 +3,7 @@ defmodule Modules do
 
   @modules [
     {Schema.Group, []},
+    {Schema.Event, []},
     {Schema.Tag, []},
     {Schema.GroupChat, []},
     {Schema.GroupMedia, []},

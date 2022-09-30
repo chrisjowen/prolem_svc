@@ -7,6 +7,5 @@ defmodule Totem.PageControllerTest do
   @tag wip: true
   test "A simple test" do
     Totem.GroupMediaRepo.all()
-    |> IO.inspect()
   end
 end

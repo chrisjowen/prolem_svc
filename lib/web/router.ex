@@ -5,11 +5,9 @@ defmodule TotemWeb.Router do
     plug :accepts, ["json"]
   end
 
-
   pipeline :auth do
     plug(Totem.SecurePipeline)
   end
-
 
   scope "/api", Totem do
     pipe_through :api
@@ -17,11 +15,11 @@ defmodule TotemWeb.Router do
     get "/group/types", GroupTypeController, :list
     get "/group/:id", GroupController, :index
     get "/group/:group_id/chats", GroupChatController, :list
+    post "/event/search", EventController, :search
+    get "/event/:id", EventController, :index
     get "/tag", TagController, :list
     get "/group/:group_id/media", GroupMediaController, :list
     get "/group/:group_id/media/:id/raw", GroupMediaController, :raw
-
-
   end
 
   scope "/api", Totem do

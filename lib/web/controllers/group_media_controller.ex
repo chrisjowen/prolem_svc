@@ -24,7 +24,7 @@ defmodule Totem.GroupMediaController do
       "original" -> :original
     end
 
-    media = GroupMediaRepo.get(id) |> IO.inspect
+    media = GroupMediaRepo.get(id)
     data =  File.cwd! <> (Totem.Media.url({media.media, media}, ratio) |> String.replace(~r/\?[a-z0-9=]+/, ""))
     |> File.read!
 

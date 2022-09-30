@@ -20,7 +20,6 @@ defmodule Totem.UserRepo do
     |> Repo.transaction()
   end
 
-
   # TODO: PG FT search ecto or move to elastic https://medium.com/socialcom/postgresql-full-text-search-using-ecto-e3f254267208
   def search(q, preloads \\ []), do: with_search(@this, q) |> all(%{}, preloads)
 
