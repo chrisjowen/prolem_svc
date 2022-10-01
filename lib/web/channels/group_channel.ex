@@ -7,13 +7,13 @@ defmodule Totem.GroupChannel do
     {:ok, assign(socket, :current_event, group_id)}
   end
 
-  def handle_in("msg", %{"msg" => body} = msg, socket) do
+  def handle_in("msg", msg, socket) do
     with {:ok, message} <-
            GroupChatRepo.insert(%{
              group_id: socket.assigns[:current_event],
              user_id: socket.assigns[:current_user],
              media_id: Map.get(msg, "media_id"),
-             msg: body
+             msg: Map.get(msg, "body")
            }),
          message <- GroupChatRepo.get(message.id, [:user, :media]) do
       broadcast!(socket, "msg", message)
