@@ -39,10 +39,10 @@ defmodule Totem.Schema.GroupMedia do
   end
 
   @doc false
-  def changeset(event_chat, attrs) do
+  def changeset(item, attrs) do
     attrs = Map.put(attrs ,"id", Ecto.UUID.generate())
 
-    event_chat
+    item
     |> cast(attrs, [:id, :type, :user_id, :group_id])
     |> cast_attachments(attrs, [:media])
     |> validate_required([:type, :media, :user_id, :group_id])

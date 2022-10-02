@@ -8,7 +8,7 @@ defmodule Totem.UserRepo do
   end
 
   def get_by_ext_ref(provider, ext_ref) do
-    @this |> with_ext_ref(provider, ext_ref) |> Repo.one()
+    @this |> with_ext_ref(provider, ext_ref) |> one()
   end
 
   def insert_with_creds(user, credentials) do
@@ -47,6 +47,7 @@ defmodule Totem.UserRepo do
     from u in query,
       join: c in Credential,
       on: c.user_id == u.id,
-      where: c.ext_ref == ^ext_ref and c.provider == ^provider
+      where: c.ext_ref == ^ext_ref and c.provider == ^provider,
+      select: {u, c}
   end
 end

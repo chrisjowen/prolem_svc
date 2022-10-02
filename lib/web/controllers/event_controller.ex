@@ -20,6 +20,13 @@ defmodule Totem.EventController do
     json(conn, results)
   end
 
+  def search(conn, params) do
+    search(conn, Map.merge(params, %{
+      "lat" => "1.3294294462868943",
+      "lng" => "103.9150886511081",
+    }))
+  end
+
   def create(conn, params) do
     with {:ok, event} <- EventRepo.insert(params) do
       json(conn, event)

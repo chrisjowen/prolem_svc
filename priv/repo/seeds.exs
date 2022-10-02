@@ -1,6 +1,7 @@
 alias Totem.GroupTypeRepo
 alias Totem.UserRepo
 alias Totem.EventRepo
+alias Totem.GroupTypeRepo
 
 defmodule Seed do
   def group_types() do
@@ -12,7 +13,7 @@ defmodule Seed do
       "Show",
       "Excersise"
     ]
-    |> Enum.each(&GroupTypeRepo.create(%{name: &1}))
+    |> Enum.each(&GroupTypeRepo.insert!(%{name: &1}))
   end
 
   def users() do
@@ -60,7 +61,7 @@ defmodule Seed do
 end
 
 
-Seed.events()
+Seed.group_types()
 
 
 # user = UserRepo.get_by(email:  "mohammedsp.me@gmail.com") |> IO.inspect

@@ -13,4 +13,15 @@ defmodule Totem.FallbackController do
     |> json(%{error: error})
   end
 
+
+  def call(conn, error) do
+    IO.inspect("Unknown error")
+    IO.inspect(error)
+
+    conn
+    |> put_status(500)
+    |> json(%{error: :unknown})
+  end
+
+
 end
