@@ -4,7 +4,7 @@ defmodule Totem.GroupRepo do
   alias Ecto.Multi
 
   def with_active(query) do
-    time = 60 * 60 * 480
+    time = 60 * 60 * 12
     duration = NaiveDateTime.utc_now() |> NaiveDateTime.add(-time, :second)
 
     from group in query,

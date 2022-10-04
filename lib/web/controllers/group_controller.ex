@@ -14,8 +14,6 @@ defmodule Totem.GroupController do
     lng = String.to_float(lng)
     filters = params["filters"] || %{}
     point = %Geo.Point{coordinates: {lng, lat}}
-    IO.inspect(params)
-    IO.inspect(filters)
     # TODO: Totally ineffictient getting all members etc in call
     results =
       GroupRepo.within_distance(point, 1)
