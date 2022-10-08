@@ -23,6 +23,7 @@ defmodule Totem.GroupRepo do
     end
   end
 
+
   def within_distance(point, distance), do: within_distance(@this, point, distance)
 
   def within_distance(query, point, distance) do

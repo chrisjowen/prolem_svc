@@ -2,11 +2,9 @@ defmodule Totem.GroupController do
   use Totem.BaseController
   alias Totem.GroupRepo
 
-
   def index(conn, %{"id" => id}) do
     json(conn, GroupRepo.get(id, [[chats: :user], :user, :media, :type, :members]))
   end
-
 
 
   def search(conn, %{"lat" => lat, "lng" => lng} = params) do
@@ -30,9 +28,6 @@ defmodule Totem.GroupController do
       "lng" => "103.9150886511081",
     }))
   end
-
-
-
 
   def create(conn, params) do
     with {:ok, %{group: group}} <- GroupRepo.insert(params) do

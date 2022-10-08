@@ -8,8 +8,6 @@ defmodule Totem.Schema.GroupInvite do
     belongs_to :user, Schema.User
     belongs_to :to, Schema.User
     belongs_to :group, Schema.Group
-
-
     timestamps()
   end
 

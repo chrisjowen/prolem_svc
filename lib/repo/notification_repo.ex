@@ -7,4 +7,15 @@ defmodule Totem.NotificationRepo do
     from n in query,
       where: n.user_id == ^user_id
   end
+
+
+  def with_unread(query) do
+    from n in query,
+      where: n.read == false
+  end
+
+  def read(item) do
+    Notification.read_changeset(item) |> update!
+  end
+
 end

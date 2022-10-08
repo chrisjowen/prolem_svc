@@ -20,4 +20,12 @@ defmodule Totem.Schema.Notification do
     |> cast(attrs, [:type, :message, :title, :actions, :user_id])
     |> validate_required([:type, :message, :title, :user_id])
   end
+
+
+  def read_changeset(notification) do
+    notification
+    |> cast(%{ "read" => true}, [:read])
+    |> validate_required([:read])
+  end
+
 end

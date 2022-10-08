@@ -31,11 +31,12 @@ defmodule TotemWeb.Router do
     post "/group/:group_id/member", GroupMemberController, :create
 
 
-    get "/group/:group_id/invite", GroupInviteController, :list
-    post "/group/:group_id/invite", GroupInviteController, :create
-
+    get "/group_invite/me", GroupInviteController, :mine
+    get "/group_invite/:group_id", GroupInviteController, :list
+    post "/group_invite/:group_id", GroupInviteController, :create
 
     get "/notification", NotificationController, :list
+    post "/notification/clear", NotificationController, :clear
 
     get "/follow", UserFollowController, :list
     post "/follow", UserFollowController, :create
@@ -44,8 +45,10 @@ defmodule TotemWeb.Router do
     get "/friend_request", FriendRequestController, :list
     post "/friend_request", FriendRequestController, :create
 
+
     get "/user/me", UserController, :me
     get "/user/id", UserController, :id
+    get "/user/:id", UserController, :index
     post "/user/search", UserController, :search
 
   end

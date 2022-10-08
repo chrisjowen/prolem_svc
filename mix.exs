@@ -51,7 +51,9 @@ defmodule Totem.MixProject do
       {:ueberauth_facebook, "~> 0.8"},
       {:guardian, "~> 2.0"},
       {:waffle_ecto, "~> 0.0"},
-      {:que, "~> 0.10.1"}
+      {:que, "~> 0.10.1"},
+      {:httpoison, "~> 1.8"},
+      {:floki, "~> 0.33.0"}
     ]
   end
 

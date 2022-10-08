@@ -17,7 +17,7 @@ defmodule Totem.Workers.GroupMemberEventProcessor do
       GroupChatRepo.insert(%{
         group_id: group.id,
         user_id: user.id,
-        msg: "#{user.name} #{user.last_name} joined the group"
+        msg: "[mention:#{user.id}] joined the group... say hello!"
       })
 
     message = GroupChatRepo.get(message.id, [:user, :media])
@@ -27,9 +27,9 @@ defmodule Totem.Workers.GroupMemberEventProcessor do
   defp notify_offine_users(group, user, sender_id) do
     notification = %{
       type: "UserJoined",
-      title: "#{user.name} #{user.last_name} joined group #{group.title}",
+      title: "User Joined Group: #{group.title}",
       message: """
-        #{user.name} #{user.last_name} just joined a group your in named #{group.title},
+        [mention:#{user.id}] just joined a group your in named #{group.title},
         go introduce yourself and start chatting now
       """,
       actions: [
