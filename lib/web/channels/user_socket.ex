@@ -9,7 +9,7 @@ defmodule Totem.GroupSocket do
   @impl true
   def connect(params, socket, _info) do
     case Totem.Guardian.resource_from_token(params["token"]) do
-      {:ok, user, _} -> {:ok, assign(socket, :current_user, user.id)}
+      {:ok, user, _} -> {:ok, assign(socket, :current_user, user)}
       {:error, _error} -> {:ok, socket}
     end
   end

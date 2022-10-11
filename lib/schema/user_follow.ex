@@ -14,6 +14,6 @@ defmodule Totem.Schema.UserFollow do
   def changeset(user_follow, attrs) do
     user_follow
     |> cast(attrs, [:relationship, :user_id, :to_id])
-    |> validate_required([:relationship, :user_id, :to_id])
+    |> validate_required([:user_id, :to_id])
   end
 end

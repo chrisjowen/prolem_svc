@@ -20,6 +20,8 @@ defmodule TotemWeb.Router do
     get "/tag", TagController, :list
     get "/group/:group_id/media", GroupMediaController, :list
     get "/group/:group_id/media/:id/raw", GroupMediaController, :raw
+    post "/event", EventController, :create
+    get "/event/:id/banner", EventController, :banner
   end
 
   scope "/api", Totem do
@@ -29,7 +31,6 @@ defmodule TotemWeb.Router do
     post "/group/:group_id/media", GroupMediaController, :create
     get "/group/:group_id/member", GroupMemberController, :list
     post "/group/:group_id/member", GroupMemberController, :create
-
 
     get "/group_invite/me", GroupInviteController, :mine
     get "/group_invite/:group_id", GroupInviteController, :list
