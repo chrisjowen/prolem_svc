@@ -43,6 +43,12 @@ defmodule Totem.SchemaRepo do
         |> Repo.preload(preloads)
       end
 
+      def paginate(q \\ @this, params \\ %{}, preloads \\ []) do
+          query = from q in q, preload: ^preloads
+          Repo.paginate(query, params)
+
+      end
+
       def with_order_latest(), do: with_order_latest(@this)
       def with_order_latest(q) do
         from q in q,

@@ -1,6 +1,7 @@
 defmodule Totem.EventController do
   use Totem.BaseController
   alias Totem.EventRepo
+  alias Totem.Schema.Event
 
 
   def index(conn, %{"id" => id}) do
@@ -9,10 +10,10 @@ defmodule Totem.EventController do
 
 
   def banner(conn, %{"id" => id} = params) do
-    type =  Map.get(params, "type", "original")
+    type =  Map.get(params, "type", "thumb")
     ratio = case type do
       "thumb" -> :thumb
-      "mid" -> :mid
+      "pin" -> :pin
       "original" -> :original
     end
 
@@ -29,14 +30,13 @@ defmodule Totem.EventController do
   def search(conn, %{"lat" => lat, "lng" => lng} = params) do
     lat = String.to_float(lat)
     lng = String.to_float(lng)
-
+    distance = Map.get(params, "distance", "50000") |> String.to_integer
     point = %Geo.Point{coordinates: {lng, lat}}
 
     results =
-      # EventRepo.within_distance(point, 3000)
-
-     EventRepo.with_order_latest()
-      |> EventRepo.all(params, [])
+     EventRepo.within_distance(point, distance)
+      # |> EventRepo.with_order_latest()
+      |> EventRepo.paginate(params, [])
     json(conn, results)
   end
 

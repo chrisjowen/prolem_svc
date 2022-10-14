@@ -43,6 +43,7 @@ defmodule Totem.Schema.Event do
     field :ref, Ecto.UUID
     field :url, :string
     field :provider, :string
+    field :distance, :decimal, virtual: true
 
     # belongs_to :user, Schema.User
 
