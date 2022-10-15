@@ -18,6 +18,7 @@ defmodule Totem.EventController do
     end
 
     event = EventRepo.get(id)
+    IO.inspect(event)
     data =  File.cwd! <> (Totem.EventMedia.url({event.banner, event}, ratio) |> String.replace(~r/\?[a-z0-9=]+/, ""))
     |> File.read!
 
@@ -32,9 +33,13 @@ defmodule Totem.EventController do
     lng = String.to_float(lng)
     distance = Map.get(params, "distance", "50000") |> String.to_integer
     point = %Geo.Point{coordinates: {lng, lat}}
+    filters = params["filters"] || %{}
+
 
     results =
      EventRepo.within_distance(point, distance)
+     |> EventRepo.with_filters(filters)
+
       # |> EventRepo.with_order_latest()
       |> EventRepo.paginate(params, [])
     json(conn, results)

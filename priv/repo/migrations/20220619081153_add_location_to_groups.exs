@@ -3,7 +3,7 @@ defmodule Totem.Repo.Migrations.AddLocationToGroup do
 
   def change do
     alter table(:groups) do
-      add :location,  :geometry
+      add :location,  :geography
     end
   end
 end

@@ -5,30 +5,21 @@ defmodule Totem.EventMedia do
   @versions [:original, :thumb]
 
   def storage_dir(version, {_file, scope}) do
-    IO.inspect(scope)
     "uploads/event/#{scope.ref}/#{version}"
   end
 
-  def filename(version, {_file, scope}) do
+  def filename(version, {_file, _scope}) do
     version
   end
 
   def transform(:thumb, _) do
     {:convert, "-strip -thumbnail 150x150^ -gravity center -extent 150x150"}
   end
-
-  def transform(:mid, _) do
-    {:convert, "-strip -thumbnail 350x350^ -gravity center -extent 350x350"}
-  end
-
 end
-
 
 defmodule Totem.Schema.Event do
   use Ecto.Schema
   use Waffle.Ecto.Schema
-
-
   import Ecto.Changeset
   alias Totem.Schema
 
@@ -43,19 +34,37 @@ defmodule Totem.Schema.Event do
     field :ref, Ecto.UUID
     field :url, :string
     field :provider, :string
-    field :distance, :decimal, virtual: true
+    field :blurb, :string
+    field :tags, {:array, :string}
 
-    # belongs_to :user, Schema.User
+    field :distance, :decimal, virtual: true
+    belongs_to :type, Schema.EventType
 
     timestamps()
   end
 
   @doc false
   def changeset(event, attrs) do
-    attrs = Map.put(attrs ,"ref", Ecto.UUID.generate())
+    attrs = add_ref_if_not_present(event, attrs)
+    required = [:title, :description, :provider, :location, :type_id, :start, :ref]
+    cast  = required ++ [
+      :end,
+      :url,
+      :blurb,
+      :tags,
+      :place_id
+    ]
+
     event
-    |> cast(attrs, [:ref, :url, :provider, :title, :description, :location, :start, :end, :place_id])
+    |> cast(attrs, cast)
     |> cast_attachments(attrs, [:banner])
-    |> validate_required([:title, :description, :location, :start, :end])
+    |> validate_required(required)
+  end
+
+  def add_ref_if_not_present(event, attrs) do
+    case(event) do
+      %{ref: r} when not is_nil(r) -> attrs
+      _ -> Map.put(attrs, "ref", Ecto.UUID.generate())
+    end
   end
 end

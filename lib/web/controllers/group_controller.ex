@@ -10,15 +10,17 @@ defmodule Totem.GroupController do
   def search(conn, %{"lat" => lat, "lng" => lng} = params) do
     lat = String.to_float(lat)
     lng = String.to_float(lng)
+    distance = Map.get(params, "distance", "50000") |> String.to_integer
+
     filters = params["filters"] || %{}
     point = %Geo.Point{coordinates: {lng, lat}}
     # TODO: Totally ineffictient getting all members etc in call
     results =
-      GroupRepo.within_distance(point, 1)
+      GroupRepo.within_distance(point, distance)
       |> GroupRepo.with_order_latest()
       |> GroupRepo.with_active()
       |> GroupRepo.with_filters(filters)
-      |> GroupRepo.all(params, [:type, :user, :members])
+      |> GroupRepo.paginate(params, [:type, :user, :members])
     json(conn, results)
   end
 

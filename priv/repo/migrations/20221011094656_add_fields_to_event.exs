@@ -6,6 +6,8 @@ defmodule Totem.Repo.Migrations.AddFieldsToEvent do
       add :provider, :string
       add :ref, :uuid
       add :url, :string
+      add :blurb, :string
+      add :tags, {:array, :string}
     end
   end
 end

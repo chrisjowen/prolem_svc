@@ -15,6 +15,9 @@ defmodule TotemWeb.Router do
     get "/group/types", GroupTypeController, :list
     get "/group/:id", GroupController, :index
     get "/group/:group_id/chats", GroupChatController, :list
+
+
+    get "/event_type", EventTypeController, :list
     post "/event/search", EventController, :search
     get "/event/:id", EventController, :index
     get "/tag", TagController, :list

@@ -2,6 +2,14 @@ alias Totem.GroupTypeRepo
 alias Totem.UserRepo
 alias Totem.EventRepo
 alias Totem.GroupTypeRepo
+alias Totem.EventTypeRepo
+
+
+# user = UserRepo.get_by(email:  "mohammedsp.me@gmail.com") |> IO.inspect
+
+# {:ok, token, _claims} = Totem.Guardian.encode_and_sign(user)
+# IO.inspect("http://localhost:8080/callback/#{token}")
+
 
 defmodule Seed do
   def group_types() do
@@ -14,6 +22,30 @@ defmodule Seed do
       "Excersise"
     ]
     |> Enum.each(&GroupTypeRepo.insert!(%{name: &1}))
+  end
+
+
+
+
+
+
+
+
+  def event_types() do
+    [
+      "Arts and Culture",
+      "Food & Drinks",
+      "Festival/Cmiarnival",
+      "Sports and Fitness",
+      "Music and Nightlife",
+      "Workshops",
+      "Show",
+      "Shopping",
+      "Pop-up",
+      "Kids",
+      "Other"
+    ]
+    |> Enum.each(&EventTypeRepo.insert!(%{name: &1}))
   end
 
   def users() do
@@ -62,9 +94,4 @@ end
 
 
 Seed.group_types()
-
-
-# user = UserRepo.get_by(email:  "mohammedsp.me@gmail.com") |> IO.inspect
-
-# {:ok, token, _claims} = Totem.Guardian.encode_and_sign(user)
-# IO.inspect("http://localhost:8080/callback/#{token}")
+Seed.event_types()
