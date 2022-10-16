@@ -3,6 +3,9 @@ defmodule Totem.GroupRepo do
   import Geo.PostGIS
   alias Ecto.Multi
 
+
+
+
   def with_active(query) do
     time = 60 * 60 * 12
     duration = NaiveDateTime.utc_now() |> NaiveDateTime.add(-time, :second)

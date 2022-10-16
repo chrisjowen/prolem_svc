@@ -2,7 +2,7 @@ defmodule Totem.EventController do
   use Totem.BaseController
   alias Totem.EventRepo
   alias Totem.Schema.Event
-
+  alias PhoenixApiToolkit.GenericRequestValidator, as: GenReqVal
 
   def index(conn, %{"id" => id}) do
     json(conn, EventRepo.get(id, []))
@@ -18,7 +18,6 @@ defmodule Totem.EventController do
     end
 
     event = EventRepo.get(id)
-    IO.inspect(event)
     data =  File.cwd! <> (Totem.EventMedia.url({event.banner, event}, ratio) |> String.replace(~r/\?[a-z0-9=]+/, ""))
     |> File.read!
 
@@ -28,20 +27,23 @@ defmodule Totem.EventController do
   end
 
 
-  def search(conn, %{"lat" => lat, "lng" => lng} = params) do
-    lat = String.to_float(lat)
-    lng = String.to_float(lng)
+  def search(conn, %{"lat" => lat, "lng" => lng, "filters" => filters} = params) do
+    lat = lat |>  String.to_float()
+    lng = lng |> String.to_float()
     distance = Map.get(params, "distance", "50000") |> String.to_integer
     point = %Geo.Point{coordinates: {lng, lat}}
-    filters = params["filters"] || %{}
-
 
     results =
      EventRepo.within_distance(point, distance)
      |> EventRepo.with_filters(filters)
+     |> EventRepo.paginate(params, [:type])
+    json(conn, results)
+  end
 
-      # |> EventRepo.with_order_latest()
-      |> EventRepo.paginate(params, [])
+  def search(conn, %{"filters" => filters} = params) do
+    results = EventRepo.with_filters(filters)
+      |> EventRepo.paginate(params, [:type])
+
     json(conn, results)
   end
 
@@ -49,6 +51,7 @@ defmodule Totem.EventController do
     search(conn, Map.merge(params, %{
       "lat" => "1.3294294462868943",
       "lng" => "103.9150886511081",
+      "filters" => %{}
     }))
   end
 

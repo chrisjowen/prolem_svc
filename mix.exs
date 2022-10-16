@@ -53,7 +53,8 @@ defmodule Totem.MixProject do
       {:waffle_ecto, "~> 0.0"},
       {:que, "~> 0.10.1"},
       {:httpoison, "~> 1.8"},
-      {:floki, "~> 0.33.0"}
+      {:floki, "~> 0.33.0"},
+      {:phoenix_api_toolkit, "~> 2.0.0"}
     ]
   end
 
