@@ -46,7 +46,7 @@ defmodule TotemWeb.Router do
     post "/group_invite/:group_id", GroupInviteController, :create
 
     get "/notification", NotificationController, :list
-    post "/notification/:id/read", NotificationController, :read
+    post "/notification/read", NotificationController, :read
     post "/notification/clear", NotificationController, :clear
 
     get "/follow", UserFollowController, :list

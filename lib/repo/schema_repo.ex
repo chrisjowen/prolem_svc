@@ -52,7 +52,7 @@ defmodule Totem.SchemaRepo do
       def with_order_latest(), do: with_order_latest(@this)
       def with_order_latest(q) do
         from q in q,
-          order_by: {:desc, q.updated_at}
+          order_by: {:desc, q.inserted_at}
       end
 
       defp prl(q, preloads) do
