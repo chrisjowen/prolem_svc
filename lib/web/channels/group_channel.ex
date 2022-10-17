@@ -8,7 +8,6 @@ defmodule Totem.GroupChannel do
   end
 
   def handle_in("msg", msg, socket) do
-    IO.inspect("GOT MESSAES")
     with {:ok, message} <-
            GroupChatRepo.insert(%{
              group_id: socket.assigns[:current_group],
@@ -21,4 +20,11 @@ defmodule Totem.GroupChannel do
       {:noreply, socket}
     end
   end
+
+
+  def handle_in(event, msg, socket) when event in ["user:typing:start", "user:typing:stop"] do
+      broadcast!(socket, event, msg)
+      {:noreply, socket}
+  end
+
 end
