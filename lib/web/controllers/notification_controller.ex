@@ -6,7 +6,7 @@ defmodule Totem.NotificationController do
   def list(conn, _params) do
     user = current_resource(conn)
     r = NotificationRepo.with_user(user.id)
-        |>  NotificationRepo.with_unread()
+        |> NotificationRepo.with_order_latest()
         |> NotificationRepo.all()
 
     json(conn, r)
@@ -21,6 +21,12 @@ defmodule Totem.NotificationController do
 
     json(conn, :ok)
   end
+
+  def read(conn, %{"id" => id}) do
+    NotificationRepo.get(id) |> NotificationRepo.read
+    json(conn, :ok)
+  end
+
 
 
 end

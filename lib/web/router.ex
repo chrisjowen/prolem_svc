@@ -25,6 +25,8 @@ defmodule TotemWeb.Router do
     get "/group/:group_id/media/:id/raw", GroupMediaController, :raw
     post "/event", EventController, :create
     get "/event/:id/banner", EventController, :banner
+    get "/user/:id", UserController, :index
+
   end
 
   scope "/api", Totem do
@@ -44,6 +46,7 @@ defmodule TotemWeb.Router do
     post "/group_invite/:group_id", GroupInviteController, :create
 
     get "/notification", NotificationController, :list
+    post "/notification/:id/read", NotificationController, :read
     post "/notification/clear", NotificationController, :clear
 
     get "/follow", UserFollowController, :list
@@ -56,7 +59,6 @@ defmodule TotemWeb.Router do
 
     get "/user/me", UserController, :me
     get "/user/id", UserController, :id
-    get "/user/:id", UserController, :index
     post "/user/search", UserController, :search
 
   end
