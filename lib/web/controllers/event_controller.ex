@@ -5,7 +5,7 @@ defmodule Totem.EventController do
   alias PhoenixApiToolkit.GenericRequestValidator, as: GenReqVal
 
   def index(conn, %{"id" => id}) do
-    json(conn, EventRepo.get(id, []))
+    json(conn, EventRepo.get(id, [:type]))
   end
 
 

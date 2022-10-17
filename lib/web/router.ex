@@ -35,6 +35,10 @@ defmodule TotemWeb.Router do
     get "/group/:group_id/member", GroupMemberController, :list
     post "/group/:group_id/member", GroupMemberController, :create
 
+
+    post "/share", ShareController, :create
+
+
     get "/group_invite/me", GroupInviteController, :mine
     get "/group_invite/:group_id", GroupInviteController, :list
     post "/group_invite/:group_id", GroupInviteController, :create
