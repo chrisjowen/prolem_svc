@@ -1,6 +1,7 @@
 defmodule Totem.UserFollowController do
   use Totem.BaseController
   alias Totem.UserFollowRepo
+  alias Totem.Workers.UserFollowsProcessor
 
   def list(conn, params) do
     me = current_resource(conn)
@@ -13,6 +14,10 @@ defmodule Totem.UserFollowController do
   end
 
   def create(conn, params) do
-    json(conn, UserFollowRepo.insert!(params))
+    with {:ok, follow}  <- UserFollowRepo.insert(params),
+         {:ok, _} <- Que.add(UserFollowsProcessor, follow: follow) do
+      json(conn, follow)
+    end
   end
+
 end

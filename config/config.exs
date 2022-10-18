@@ -10,6 +10,11 @@ import Config
 config :totem,
   ecto_repos: [Totem.Repo]
 
+config :web_push_encryption, :vapid_details,
+  subject: "mailto:hello@reddotz.com",
+  public_key: "BFQyyzI-VwFmI-3pdXfnlIR9AUBaDCO0suRKG32e6Y8fSv6nvzBOfMP8zxrstvN7WyqA9HVMaF7wsM3KQKsZLJY",
+  private_key: "5Tk7JFzIdJNwVB68yhWYeFicliNCkRCT3xVJyUFHHi8"
+
 # Configures the endpoint
 config :totem, TotemWeb.Endpoint,
   url: [host: "localhost"],

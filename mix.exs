@@ -54,7 +54,8 @@ defmodule Totem.MixProject do
       {:que, "~> 0.10.1"},
       {:httpoison, "~> 1.8"},
       {:floki, "~> 0.33.0"},
-      {:phoenix_api_toolkit, "~> 2.0.0"}
+      {:phoenix_api_toolkit, "~> 2.0.0"},
+      {:web_push_encryption, "~> 0.3"}
     ]
   end
 

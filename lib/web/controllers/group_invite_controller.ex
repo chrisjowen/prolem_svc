@@ -18,9 +18,7 @@ defmodule Totem.GroupInviteController do
 
   def create(conn, params) do
     with {:ok, invite} <- GroupInviteRepo.insert(params),
-         {:ok, _} <- Que.add(Workers.GroupInviteEventProcessor,
-             invite: invite
-           ) do
+         {:ok, _} <- Que.add(Workers.GroupInviteEventProcessor, invite: invite) do
       json(conn, invite)
     end
   end
