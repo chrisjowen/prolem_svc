@@ -2,10 +2,17 @@ defmodule Totem.GroupRepo do
   use Totem.SchemaRepo, schema: Totem.Schema.Group
   import Geo.PostGIS
   alias Ecto.Multi
+  alias Totem.Schema.GroupMember
 
+  def with_member(id), do: with_member(@this, id)
+  def with_member(query, id) do
+    from group in query,
+      left_join: m in GroupMember,
+      on: group.id == m.group_id,
+      where: m.user_id == ^id or group.user_id == ^id
+  end
 
-
-
+  def with_active(), do: with_active(@this)
   def with_active(query) do
     time = 60 * 60 * 12
     duration = NaiveDateTime.utc_now() |> NaiveDateTime.add(-time, :second)

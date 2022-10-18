@@ -26,6 +26,8 @@ defmodule TotemWeb.Router do
     post "/event", EventController, :create
     get "/event/:id/banner", EventController, :banner
     get "/user/:id", UserController, :index
+    get "/profile/:id/group", ProfileController, :groups
+
 
   end
 
