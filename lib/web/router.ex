@@ -38,6 +38,7 @@ defmodule TotemWeb.Router do
     post "/group/:group_id/media", GroupMediaController, :create
     get "/group/:group_id/member", GroupMemberController, :list
     post "/group/:group_id/member", GroupMemberController, :create
+    post "/push_sub/", PushSubController, :create
 
 
     post "/share", ShareController, :create

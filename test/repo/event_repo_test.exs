@@ -12,7 +12,6 @@ defmodule TestRequestValidator do
   end
 end
 
-
 defmodule Totem.EventRepoTest do
   use Totem.DataCase
   alias Totem.EventRepo
@@ -44,7 +43,6 @@ defmodule Totem.EventRepoTest do
   # #   {:ok, events: events}
   # # end
 
-
   # test "Get all" do
   #   t1 = EventTypeRepo.insert!(%{name: "Type A"})
   #   t2 = EventTypeRepo.insert!(%{name: "Type B"})
@@ -54,22 +52,36 @@ defmodule Totem.EventRepoTest do
   #   EventRepo.insert!(Map.merge(e2, %{"type_id" => t2.id}))
   #   # roles: ["admin", "superadmin"]
 
-
-
   #   EventRepo.with_filters(%{ "type_id" => [t1.id, t2.id], "starts_after" =>  "2022-02-01T00:00:00.575Z"})
   #   |> EventRepo.all()
   #   |> IO.inspect()
   # end
 
+  test "wip" do
+    endpoint =
+      "https://fcm.googleapis.com/fcm/send/cGuFZUnTpXQ:APA91bF7c2BQ9AEnHUBrXxG8qytxXPgG0_xYKswCNEkRElta_NaZSjs2qVCdhvIYVc0PQNPQ_8w2CMj9rQhbURXL-IwcA7nfdf3bSw_yryaTAbTMTHj116qjnDWvLbZX3ssEMjCtPf12"
 
-    test "wip" do
-      body = ~s({"hello": "elixir"})
-      subscription = %{keys: %{p256dh: "P256DH", auth: "AUTH" }, endpoint: "ENDPOINT"}
-      gcm_api_key = "API_KEY"
+    data = ~s({"hello": "elixir"})
 
-      # encrypt the body
-      encrypted_body = WebPushEncryption.encrypt(body, subscription)
+    body = %{
+      notification: %{
+        title: "Notificaiton Title",
+        body: "Notificaiton Body",
+        # image: notification.image ? notification.image : context.app.settings.image ,
+        data: data
+      }
+    }
 
-    end
 
+    subscription = %{
+      keys: %{
+        p256dh:
+          "BIjVYsVgsCwglwpylljvrerzb3cxeox_c8M87jbIZz7mA37dAjrfnR98Ml384HHsm_4ahA9QHbbBUJz6Mwzwt0w",
+        auth: "cNxhufvNqDWs6pgAmxSAAQ"
+      },
+      endpoint: endpoint
+    }
+
+    WebPushEncryption.send_web_push(Jason.encode!(body), subscription) |> IO.inspect()
+  end
 end

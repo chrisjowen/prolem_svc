@@ -19,6 +19,7 @@ defmodule Totem.Workers.UserFollowsProcessor do
         }
       ]
     }
+
     NotificationRepo.insert!(Map.put(notification, :user_id, follow.to.id))
     TotemWeb.Endpoint.broadcast!("user:#{follow.to.id}", "notification", notification)
   end

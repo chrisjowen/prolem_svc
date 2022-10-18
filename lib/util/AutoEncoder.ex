@@ -15,6 +15,7 @@ defmodule Modules do
     {Schema.UserFollow, []},
     {Schema.Notification, []},
     {Schema.UserFriendRequest, []},
+    {Schema.PushSub, []},
     {Scrivener.Page, []},
     {Schema.UserFollow, []},
     {Schema.User, [:credentials]},
