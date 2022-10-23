@@ -9,6 +9,7 @@ defmodule Modules do
     {Schema.GroupMedia, []},
     {Schema.GroupType, []},
     {Schema.EventType, []},
+    {Schema.EventDate, []},
     {Schema.GroupInvite, []},
     {Schema.GroupMember, []},
     {Schema.ContactInvite, []},

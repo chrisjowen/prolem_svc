@@ -24,18 +24,11 @@ defmodule Seed do
     |> Enum.each(&GroupTypeRepo.insert!(%{name: &1}))
   end
 
-
-
-
-
-
-
-
   def event_types() do
     [
       "Arts and Culture",
       "Food & Drinks",
-      "Festival/Cmiarnival",
+      "Festival/Carnival",
       "Sports and Fitness",
       "Music and Nightlife",
       "Workshops",

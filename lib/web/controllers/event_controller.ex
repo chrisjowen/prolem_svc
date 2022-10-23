@@ -1,18 +1,15 @@
 defmodule Totem.EventController do
   use Totem.BaseController
   alias Totem.EventRepo
-  alias Totem.Schema.Event
-  alias PhoenixApiToolkit.GenericRequestValidator, as: GenReqVal
 
   def index(conn, %{"id" => id}) do
     json(conn, EventRepo.get(id, [:type]))
   end
 
-
   def banner(conn, %{"id" => id} = params) do
-    type =  Map.get(params, "type", "thumb")
+    type =  Map.get(params, "type", "pin")
     ratio = case type do
-      "thumb" -> :thumb
+      "card" -> :card
       "pin" -> :pin
       "original" -> :original
     end
@@ -26,23 +23,22 @@ defmodule Totem.EventController do
     |> send_resp(200, data)
   end
 
-
   def search(conn, %{"lat" => lat, "lng" => lng, "filters" => filters} = params) do
     lat = lat |>  String.to_float()
     lng = lng |> String.to_float()
-    distance = Map.get(params, "distance", "50000") |> String.to_integer
+    distance = Map.get(params, "distance", "500000") |> String.to_integer
     point = %Geo.Point{coordinates: {lng, lat}}
 
     results =
      EventRepo.within_distance(point, distance)
      |> EventRepo.with_filters(filters)
-     |> EventRepo.paginate(params, [:type])
+     |> EventRepo.paginate(params, [:type, :dates])
     json(conn, results)
   end
 
   def search(conn, %{"filters" => filters} = params) do
     results = EventRepo.with_filters(filters)
-      |> EventRepo.paginate(params, [:type])
+      |> EventRepo.paginate(params, [:type, :dates])
 
     json(conn, results)
   end
@@ -62,7 +58,7 @@ defmodule Totem.EventController do
     point = %Geo.Point{coordinates: {lng, lat}}
     attrs = Map.put(attrs, "banner", Map.get(params, "banner"))
     attrs = Map.put(attrs, "location", point)
-    with {:ok, event} <- EventRepo.insert(attrs) do
+    with {:ok, %{event: event}} <- EventRepo.insert(attrs) do
       json(conn, event)
     end
   end

@@ -2,7 +2,7 @@ defmodule Totem.EventMedia do
   use Waffle.Definition
   use Waffle.Ecto.Definition
 
-  @versions [:original, :thumb]
+  @versions [:original, :card, :pin]
 
   def storage_dir(version, {_file, scope}) do
     "uploads/event/#{scope.ref}/#{version}"
@@ -12,9 +12,16 @@ defmodule Totem.EventMedia do
     version
   end
 
-  def transform(:thumb, _) do
-    {:convert, "-strip -thumbnail 150x150^ -gravity center -extent 150x150"}
+
+  def transform(:card, _) do
+    {:convert, "-strip -thumbnail 500x500^ -gravity center -extent 500x500"}
   end
+
+  def transform(:pin, _) do
+    {:convert, "-strip -thumbnail 50x50^ -gravity center -extent 50x50"}
+  end
+
+
 end
 
 defmodule Totem.Schema.Event do
@@ -26,10 +33,11 @@ defmodule Totem.Schema.Event do
   schema "events" do
     field :banner, Totem.EventMedia.Type
     field :description, :string
-    field :end, :naive_datetime
     field :location, Geo.PostGIS.Geometry
     field :place_id, :string
-    field :start, :naive_datetime
+    field :start, :utc_datetime
+    field :end, :utc_datetime
+
     field :title, :string
     field :ref, Ecto.UUID
     field :url, :string
@@ -39,6 +47,7 @@ defmodule Totem.Schema.Event do
 
     field :distance, :decimal, virtual: true
     belongs_to :type, Schema.EventType
+    has_many :dates, Schema.EventDate
 
     timestamps()
   end
@@ -46,9 +55,8 @@ defmodule Totem.Schema.Event do
   @doc false
   def changeset(event, attrs) do
     attrs = add_ref_if_not_present(event, attrs)
-    required = [:title, :description, :provider, :location, :type_id, :start, :ref]
+    required = [:title, :description, :provider, :location, :type_id, :ref]
     cast  = required ++ [
-      :end,
       :url,
       :blurb,
       :tags,
