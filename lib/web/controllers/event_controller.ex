@@ -3,7 +3,7 @@ defmodule Totem.EventController do
   alias Totem.EventRepo
 
   def index(conn, %{"id" => id}) do
-    json(conn, EventRepo.get(id, [:type]))
+    json(conn, EventRepo.get(id, [:type, :dates]))
   end
 
   def banner(conn, %{"id" => id} = params) do
