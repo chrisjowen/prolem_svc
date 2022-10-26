@@ -23,7 +23,11 @@ defmodule Totem.Schema.Credential do
 
   def changeset(attrs), do: changeset(%__MODULE__{}, attrs)
 
-  def changeset(credentials, %{"username" => _u} = attrs) do
+  def changeset(credentials, %{"password" => password} = attrs) do
+    salt = Randomizer.generate!(40)
+    attrs = attrs |> Map.put("salt", salt)
+                  |> Map.put("password", encrypt_password(salt,password))
+
     changeset(credentials, attrs, [
       :username,
       :password,
@@ -45,4 +49,22 @@ defmodule Totem.Schema.Credential do
     |> cast(attrs, params)
     |> validate_required(params)
   end
+
+
+  def encrypt_password(salt, password) do
+    sha = :crypto.hash_init(:sha256)
+    sha = :crypto.hash_update(sha, salt)
+    sha = :crypto.hash_update(sha, password)
+    sha_binary = :crypto.hash_final(sha)
+    sha_binary |> Base.encode16 |> String.downcase
+  end
+
+  def check_password(credential, password) do
+    IO.inspect(credential.password )
+    IO.inspect(encrypt_password(credential.salt, password))
+    IO.inspect(credential.salt)
+    IO.inspect(password)
+    credential.password == encrypt_password(credential.salt, password)
+  end
+
 end

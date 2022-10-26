@@ -21,7 +21,6 @@ defmodule Totem.EventMedia do
     {:convert, "-strip -thumbnail 50x50^ -gravity center -extent 50x50"}
   end
 
-
 end
 
 defmodule Totem.Schema.Event do

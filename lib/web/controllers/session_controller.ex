@@ -2,6 +2,7 @@ defmodule Totem.SessionController do
   use Totem.BaseController
   alias Totem.UserRepo
   alias Totem.CredentialRepo
+  alias Totem.Schema.Credential
 
   def login(conn, %{"fbToken" => token, "fbRef" => ref}) do
     with {:ok, {user, _credentials}} <- UserRepo.get_by_ext_ref("Facebook", ref),
@@ -32,9 +33,7 @@ defmodule Totem.SessionController do
   def register(conn, %{"email" => email, "password" => password} = params) when not is_nil(password) do
     creds = %{
       "username" => email,
-      "password" => password,
-      # TODO: Do this properly
-      "salt" => "Somerandomsalt"
+      "password" => password
     }
 
     with {:ok, %{user: user}} <- UserRepo.insert_with_creds(params, creds),
@@ -82,7 +81,7 @@ defmodule Totem.SessionController do
   # Nonsense
   def check_password(user, credentials, password) do
     cond do
-      credentials.password == password -> Totem.Guardian.encode_and_sign(user)
+      Credential.check_password(credentials, password) -> Totem.Guardian.encode_and_sign(user)
       true -> {:unauthorized, :password_failed}
     end
   end

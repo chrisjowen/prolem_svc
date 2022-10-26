@@ -2,7 +2,7 @@ defmodule Totem.Avatar do
   use Waffle.Definition
   use Waffle.Ecto.Definition
 
-  @versions [:original, :thumb]
+  @versions [:original]
 
   def storage_dir(version, {_file, scope}) do
     "uploads/avatars/#{scope.media_id}/#{version}"
@@ -12,8 +12,8 @@ defmodule Totem.Avatar do
     scope.id
   end
 
-  def transform(:small, _) do
-    {:convert, "-strip -thumbnail 150x150^ -gravity center -extent 150x150"}
+  def transform(:original, _) do
+    {:convert, "-strip -thumbnail 500x500^ -gravity center -extent 500x500"}
   end
 end
 
@@ -22,6 +22,7 @@ defmodule Totem.Schema.User do
   use Waffle.Ecto.Schema
   import Ecto.Changeset
   alias Totem.Schema
+  use Waffle.Ecto.Schema
 
   schema "users" do
     field :name, :string
@@ -42,9 +43,9 @@ defmodule Totem.Schema.User do
 
   @doc false
 
-  def changeset(event, attrs) do
+  def changeset(user, attrs) do
     attrs = Map.put(attrs ,"avatar_id", Ecto.UUID.generate())
-    event
+    user
     |> cast(attrs, [
       :name,
       :last_name,
@@ -56,7 +57,7 @@ defmodule Totem.Schema.User do
       :dob,
       :avatar_id
     ])
-    # |> cast_attachments(event, [:avatar])
+    |> cast_attachments(attrs, [:avatar])
     |> validate_required([:name, :last_name, :email, :credentials, :nickname, :avatar_id])
   end
 end

@@ -2,6 +2,12 @@ defmodule Totem.EventController do
   use Totem.BaseController
   alias Totem.EventRepo
 
+  @default_filters %{
+    "lat" => "1.3294294462868943",
+    "lng" => "103.9150886511081",
+    "filters" => %{}
+  }
+
   def index(conn, %{"id" => id}) do
     json(conn, EventRepo.get(id, [:type, :dates]))
   end
@@ -36,20 +42,7 @@ defmodule Totem.EventController do
     json(conn, results)
   end
 
-  def search(conn, %{"filters" => filters} = params) do
-    results = EventRepo.with_filters(filters)
-      |> EventRepo.paginate(params, [:type, :dates])
-
-    json(conn, results)
-  end
-
-  def search(conn, params) do
-    search(conn, Map.merge(params, %{
-      "lat" => "1.3294294462868943",
-      "lng" => "103.9150886511081",
-      "filters" => %{}
-    }))
-  end
+  def search(conn, params), do: search(conn, Map.merge(params, @default_filters ))
 
   def create(conn, %{"body" => body} = params ) do
     attrs = Jason.decode!(body)

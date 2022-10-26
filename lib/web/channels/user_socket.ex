@@ -8,12 +8,10 @@ defmodule Totem.GroupSocket do
   # performing token verification on connect.
   @impl true
   def connect(params, socket, _info) do
-
-    IO.inspect( Totem.Guardian.resource_from_token(params["token"]))
     case Totem.Guardian.resource_from_token(params["token"]) do
-      {:ok, user, _} ->
+      {:ok, user, _} when not is_nil(user) ->
         {:ok, assign(socket, :current_user, user.id)}
-      {:error, _error} ->
+      _ ->
         {:ok, socket}
     end
   end
