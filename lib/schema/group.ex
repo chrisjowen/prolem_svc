@@ -18,6 +18,7 @@ defmodule Totem.Schema.Group do
 
     field :location, Geo.PostGIS.Geometry
     belongs_to :user, Schema.User
+    belongs_to :event, Schema.Event
     has_many :group_tags, Schema.GroupTag
     has_many :tags, through: [:group_tags, :tag]
     has_many :chats, Schema.GroupChat
@@ -29,17 +30,17 @@ defmodule Totem.Schema.Group do
   end
 
   @doc false
-  def changeset(event, %{"location" => %{"lat" => lat, "lng" => lng}} = attrs) do
+  def changeset(group, %{"location" => %{"lat" => lat, "lng" => lng}} = attrs) do
     attrs = Map.merge(attrs, %{"location" => %Geo.Point{coordinates: {lng, lat}}})
-    changeset(event, attrs)
+    changeset(group, attrs)
   end
 
-  def changeset(event, %{"tags" => [h | _] = tags} = attrs) when is_integer(h) do
+  def changeset(group, %{"tags" => [h | _] = tags} = attrs) when is_integer(h) do
     attrs = Map.merge(attrs, %{"tags" => Enum.map(tags, &%{"tag_id" => &1})})
-    changeset(event, attrs)
+    changeset(group, attrs)
   end
 
-  def changeset(event, attrs) do
+  def changeset(group, attrs) do
     required = [
       :title,
       :start,
@@ -52,11 +53,12 @@ defmodule Totem.Schema.Group do
       [
         :banner,
         :place_id,
+        :event_id,
         :place_name,
         :place_address
       ] ++ required
 
-    event
+      group
     |> cast(attrs, all)
     |> validate_required(required)
   end

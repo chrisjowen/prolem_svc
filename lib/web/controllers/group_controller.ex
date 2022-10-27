@@ -3,7 +3,7 @@ defmodule Totem.GroupController do
   alias Totem.GroupRepo
 
   def index(conn, %{"id" => id}) do
-    json(conn, GroupRepo.get(id, [[chats: :user], :user, :media, :type, :members]))
+    json(conn, GroupRepo.get(id, [[chats: :user],  [event: [:dates, :type]], :user, :media, :type, :members]))
   end
 
 

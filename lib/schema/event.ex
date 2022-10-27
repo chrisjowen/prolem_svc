@@ -47,6 +47,7 @@ defmodule Totem.Schema.Event do
     field :distance, :decimal, virtual: true
     belongs_to :type, Schema.EventType
     has_many :dates, Schema.EventDate
+    has_many :groups, Schema.Group
 
     timestamps()
   end

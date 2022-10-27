@@ -38,7 +38,7 @@ defmodule Totem.EventController do
     results =
      EventRepo.within_distance(point, distance)
      |> EventRepo.with_filters(filters)
-     |> EventRepo.paginate(params, [:type, :dates])
+     |> EventRepo.paginate(params, [:type, :dates, :groups])
     json(conn, results)
   end
 
