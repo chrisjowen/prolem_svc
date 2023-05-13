@@ -1,13 +1,13 @@
-defmodule Totem.MixProject do
+defmodule ProblemService.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :totem,
+      app: :problem_service,
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
+      compilers:  Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -19,7 +19,7 @@ defmodule Totem.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Totem.Application, []},
+      mod: {ProblemService.Application, []},
       extra_applications: [:logger, :runtime_tools, :ueberauth_facebook, :que]
     ]
   end
@@ -43,7 +43,7 @@ defmodule Totem.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
-      {:jason, "~> 1.2"},
+      {:jason, "~> 1.4"},
       {:plug_cowboy, "~> 2.5"},
       {:geo_postgis, "~> 3.4"},
       {:scrivener_ecto, "~> 2.0"},
@@ -52,12 +52,15 @@ defmodule Totem.MixProject do
       {:guardian, "~> 2.0"},
       {:waffle_ecto, "~> 0.0"},
       {:que, "~> 0.10.1"},
-      {:httpoison, "~> 1.8"},
+      {:httpoison, "~> 2.0"},
       {:floki, "~> 0.33.0"},
       {:phoenix_api_toolkit, "~> 2.0.0"},
-      {:web_push_encryption, "~> 0.3"},
+      # {:web_push_encryption, "~> 0.3.1"},
       {:cors_plug, "~> 3.0"},
-      {:randomizer, "~> 1.1.0"}
+      {:randomizer, "~> 1.1.0"},
+      {:cachex, "~> 3.2"},
+      {:openai, "~> 0.5.2"},
+      {:yugo, "~> 0.3.0"}
     ]
   end
 

@@ -1,34 +1,27 @@
 defmodule Modules do
-  alias Totem.Schema
+  alias ProblemService.Schema
 
   @modules [
-    {Schema.Group, []},
+    {Schema.Problem, []},
+    {Schema.Questionaire, []},
+    {Schema.Questionaire.Question, []},
+    {Schema.Product, []},
+    {Schema.Solution, []},
+    {Schema.Stakeholder, []},
     {Schema.Event, []},
     {Schema.Tag, []},
-    {Schema.GroupChat, []},
-    {Schema.GroupMedia, []},
-    {Schema.GroupType, []},
-    {Schema.EventType, []},
-    {Schema.EventDate, []},
-    {Schema.GroupInvite, []},
-    {Schema.GroupMember, []},
-    {Schema.ContactInvite, []},
-    {Schema.UserFollow, []},
-    {Schema.Notification, []},
-    {Schema.UserFriendRequest, []},
     {Schema.PushSub, []},
     {Scrivener.Page, []},
-    {Schema.UserFollow, []},
-    {Schema.User, [:credentials]},
+    {Schema.User, []},
   ]
 
 
   # def schema_modules() do
-  #   with {:ok, list} <- :application.get_key(:totem, :modules) do
+  #   with {:ok, list} <- :application.get_key(:problem_service, :modules) do
   #     list
   #     # |> Enum.filter(fn module ->
   #     #   parts = module |> Module.split
-  #     #   length(parts) > 2 && Enum.take(parts, 2) == ["Totem.Schema"]
+  #     #   length(parts) > 2 && Enum.take(parts, 2) == ["ProblemService.Schema"]
   #     # end)
   #     # |> Enum.map(fn  {&1, []})
   #   end

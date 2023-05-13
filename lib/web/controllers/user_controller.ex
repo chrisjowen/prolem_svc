@@ -1,7 +1,7 @@
-defmodule Totem.UserController do
-  use TotemWeb, :controller
+defmodule ProblemService.UserController do
+  use ProblemService.Web, :controller
   import Guardian.Plug
-  alias Totem.UserRepo
+  alias ProblemService.UserRepo
 
 
   def me(conn, _params) do

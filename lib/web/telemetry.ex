@@ -1,4 +1,4 @@
-defmodule TotemWeb.Telemetry do
+defmodule ProblemService.Web.Telemetry do
   use Supervisor
   import Telemetry.Metrics
 
@@ -31,23 +31,23 @@ defmodule TotemWeb.Telemetry do
       ),
 
       # Database Metrics
-      summary("totem.repo.query.total_time",
+      summary("problem_service.repo.query.total_time",
         unit: {:native, :millisecond},
         description: "The sum of the other measurements"
       ),
-      summary("totem.repo.query.decode_time",
+      summary("problem_service.repo.query.decode_time",
         unit: {:native, :millisecond},
         description: "The time spent decoding the data received from the database"
       ),
-      summary("totem.repo.query.query_time",
+      summary("problem_service.repo.query.query_time",
         unit: {:native, :millisecond},
         description: "The time spent executing the query"
       ),
-      summary("totem.repo.query.queue_time",
+      summary("problem_service.repo.query.queue_time",
         unit: {:native, :millisecond},
         description: "The time spent waiting for a database connection"
       ),
-      summary("totem.repo.query.idle_time",
+      summary("problem_service.repo.query.idle_time",
         unit: {:native, :millisecond},
         description:
           "The time the connection spent waiting before being checked out for the query"
@@ -65,7 +65,7 @@ defmodule TotemWeb.Telemetry do
     [
       # A module, function and arguments to be invoked periodically.
       # This function must call :telemetry.execute/3 and a metric must be added above.
-      # {TotemWeb, :count_users, []}
+      # {ProblemService.Web, :count_users, []}
     ]
   end
 end

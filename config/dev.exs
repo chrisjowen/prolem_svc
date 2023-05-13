@@ -1,21 +1,22 @@
 import Config
 
 # Configure your database
-config :totem, Totem.Repo,
+config :problem_service, ProblemService.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "totem_dev",
+  database: "problem_service_dev",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10,
-  types: Totem.PostgresTypes
+  port: 5532,
+  types: ProblemService.PostgresTypes
 
 config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
   client_id: "773947543964189",
   client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
 
 
-config :totem, Totem.AuthController,
+config :problem_service, ProblemService.AuthController,
   completion_url: "http://localhost:8080/callback/"
 
 config :ueberauth, Ueberauth,
@@ -35,7 +36,7 @@ config :ueberauth, Ueberauth,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with esbuild to bundle .js and .css sources.
-config :totem, TotemWeb.Endpoint,
+config :problem_service, ProblemService.Web.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
@@ -47,6 +48,10 @@ config :totem, TotemWeb.Endpoint,
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
+
+
+
+
 
 # ## SSL Support
 #

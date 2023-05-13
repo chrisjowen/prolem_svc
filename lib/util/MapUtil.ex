@@ -21,13 +21,15 @@ defmodule MapUtil do
   end
 
   # TODO: Move to protocol
-  def from_struct({key, %Totem.Schema.GroupMedia{} = media }, modules, _) do
-    result = from_struct(media, modules)
-    path = Totem.Media.url({media.media, media}, :thumb) |> String.replace(~r/\?[a-z0-9=]+/, "")
-    result = Map.put(result, "thumb", path)
-    {key, result}
-  end
-  def from_struct({key, %Geo.Point{coordinates: {lng, lat}} }, _, _), do: {key, %{ "lat" => lat, "lng" => lng}}
+  # def from_struct({key, %ProblemService.Schema.GroupMedia{} = media }, modules, _) do
+  #   result = from_struct(media, modules)
+  #   path = ProblemService.Media.url({media.media, media}, :thumb) |> String.replace(~r/\?[a-z0-9=]+/, "")
+  #   result = Map.put(result, "thumb", path)
+  #   {key, result}
+  # end
+  # def from_struct({key, %Geo.Point{coordinates: {lng, lat}} }, _, _), do: {key, %{ "lat" => lat, "lng" => lng}}
+
+
   def from_struct({key, %Ecto.Association.NotLoaded{ __cardinality__: :many}}, _, _), do: {key, []}
   def from_struct({key, %Ecto.Association.NotLoaded{}}, _, _), do: {key, nil}
   def from_struct({key, %{__struct__: struct} = val}, _, _) when struct in @exceptions, do: {key, val}

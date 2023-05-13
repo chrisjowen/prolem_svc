@@ -7,37 +7,37 @@
 # General application configuration
 import Config
 
-config :totem,
-  ecto_repos: [Totem.Repo]
+config :problem_service,
+  ecto_repos: [ProblemService.Repo]
 
 config :cors_plug,
   origin: ["http://localhost:8080"],
   max_age: 86400,
   methods: ["GET", "POST"]
 
-config :web_push_encryption, :vapid_details,
-  subject: "mailto:hello@reddotz.com",
-  public_key: "BFQyyzI-VwFmI-3pdXfnlIR9AUBaDCO0suRKG32e6Y8fSv6nvzBOfMP8zxrstvN7WyqA9HVMaF7wsM3KQKsZLJY",
-  private_key: "5Tk7JFzIdJNwVB68yhWYeFicliNCkRCT3xVJyUFHHi8"
+# config :web_push_encryption, :vapid_details,
+#   subject: "mailto:hello@reddotz.com",
+#   public_key: "BFQyyzI-VwFmI-3pdXfnlIR9AUBaDCO0suRKG32e6Y8fSv6nvzBOfMP8zxrstvN7WyqA9HVMaF7wsM3KQKsZLJY",
+#   private_key: "5Tk7JFzIdJNwVB68yhWYeFicliNCkRCT3xVJyUFHHi8"
 
 # Configures the endpoint
-config :totem, TotemWeb.Endpoint,
+config :problem_service, ProblemService.Web.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: TotemWeb.ErrorView, accepts: ~w(json), layout: false],
-  pubsub_server: Totem.PubSub,
+  render_errors: [view: ProblemService.Web.ErrorView, accepts: ~w(json), layout: false],
+  pubsub_server: ProblemService.PubSub,
   live_view: [signing_salt: "gSpMyCEo"]
 
-config :totem, Totem.SecurePipeline,
-  module: Totem.Guardian,
-  error_handler: Totem.AuthErrorHandler
+config :problem_service, ProblemService.SecurePipeline,
+  module: ProblemService.Guardian,
+  error_handler: ProblemService.AuthErrorHandler
 
 
 config :waffle,
   storage: Waffle.Storage.Local,
   asset_host: {:system, "ASSET_HOST"}
 
-config :totem, Totem.Guardian,
-  issuer: "totem",
+config :problem_service, ProblemService.Guardian,
+  issuer: "problem_service",
   secret_key: "SIs0ZqwWwih49ZMx5CeXI2eY0q5Mv6n9gYz1xKvatjBdlpL4Pfo7HAgn/Gug2qtr6"
 
 
@@ -50,7 +50,7 @@ config :totem, Totem.Guardian,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :totem, Totem.Mailer, adapter: Swoosh.Adapters.Local
+config :problem_service, ProblemService.Mailer, adapter: Swoosh.Adapters.Local
 
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
@@ -75,6 +75,19 @@ config :phoenix, :json_library, Jason
 
 config :geo_postgis,
   json_library: Jason
+
+
+
+  config :openai,
+    api_key: "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",
+    organization_key: "org-2cJ3cEThmAglpQRKQr3X2W64",
+    http_options: [recv_timeout: 120_000]
+  # optional, useful if you want to do local integration tests using Bypass or similar
+  # (https://github.com/PSPDFKit-labs/bypass), do not use it for production code,
+  # but only in your test config!
+  # api_url: "http://localhost/"
+
+
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

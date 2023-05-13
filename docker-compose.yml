@@ -4,17 +4,17 @@ services:
     image: postgis/postgis
     restart: always
     ports:
-      - "5432:5432"
+      - "5532:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: totem_dev
+      POSTGRES_DB: problem_service_dev
   test_db:
     image: postgis/postgis
     restart: always
     ports:
-      - "5433:5432"
+      - "5533:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: totem_test
+      POSTGRES_DB: problem_service_test

@@ -1,3 +1,3 @@
-# defmodule Totem.Accounts do
+# defmodule ProblemService.Accounts do
 #   def login()
 # end

@@ -1,6 +1,6 @@
-defmodule Totem.Guardian do
-  use Guardian, otp_app: :totem
-  alias Totem.UserRepo
+defmodule ProblemService.Guardian do
+  use Guardian, otp_app: :problem_service
+  alias ProblemService.UserRepo
 
 
   def subject_for_token(%{id: id}, _claims) do

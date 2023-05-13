@@ -1,4 +1,4 @@
-defmodule Totem.Avatar do
+defmodule ProblemService.Avatar do
   use Waffle.Definition
   use Waffle.Ecto.Definition
 
@@ -17,21 +17,21 @@ defmodule Totem.Avatar do
   end
 end
 
-defmodule Totem.Schema.User do
+defmodule ProblemService.Schema.User do
   use Ecto.Schema
   use Waffle.Ecto.Schema
   import Ecto.Changeset
-  alias Totem.Schema
+  alias ProblemService.Schema
   use Waffle.Ecto.Schema
 
   schema "users" do
     field :name, :string
     field :last_name, :string
     field :email, :string
-    field :avatar, Totem.Avatar.Type
+    field :avatar, ProblemService.Avatar.Type
     field :avatar_id, Ecto.UUID
 
-    has_many :credentials, Schema.Credential
+    # has_many :credentials, Schema.Credential
 
     field :nickname, :string
     field :nationality, :string

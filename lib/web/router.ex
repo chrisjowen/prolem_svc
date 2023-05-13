@@ -1,65 +1,48 @@
-defmodule TotemWeb.Router do
-  use TotemWeb, :router
+defmodule ProblemService.Web.Router do
+  use ProblemService.Web, :router
 
   pipeline :api do
     plug :accepts, ["json"]
   end
 
   pipeline :auth do
-    plug(Totem.SecurePipeline)
+    plug(ProblemService.SecurePipeline)
   end
 
-  scope "/api", Totem do
+  scope "/api", ProblemService.Public do
     pipe_through :api
-    post "/group/search", GroupController, :search
-    get "/group/types", GroupTypeController, :list
-    get "/group/:id", GroupController, :index
-    get "/group/:group_id/chats", GroupChatController, :list
+    # Unsecured
+
+    get "/problem", ProblemsController, :list
+    get "/problem/:id", ProblemsController, :show
+    post "/problem", ProblemsController, :create
+    put "/problem/:id", ProblemsController, :update
+
+    post "/problem/submit", ProblemsController, :submit
 
 
-    get "/event_type", EventTypeController, :list
-    post "/event/search", EventController, :search
-    get "/event/:id", EventController, :index
-    get "/tag", TagController, :list
-    get "/group/:group_id/media", GroupMediaController, :list
-    get "/group/:group_id/media/:id/raw", GroupMediaController, :raw
-    post "/event", EventController, :create
-    get "/event/:id/banner", EventController, :banner
-    get "/user/:id", UserController, :index
-    get "/profile/:id/group", ProfileController, :groups
+    get "/problem/:problem_id/product", ProblemProductController, :list
+    post "/problem/:problem_id/product/submit", ProblemProductController, :submit
+    post "/problem/:problem_id/stakeholder/submit", ProblemStakeholderController, :submit
+    get "/problem/:problem_id/stakeholder", ProblemStakeholderController, :list
+    get "/problem/:problem_id/solution", ProblemSolutionController, :list
+    get "/problem/:problem_id/questionaire", ProblemQuestionaireController, :list
 
+
+
+    post "/assistant/improve", AssistantController, :improvements
+    post "/assistant/similar", AssistantController, :similar
+    post "/assistant/solution", AssistantController, :solution
+    post "/assistant/features", AssistantController, :features
+    post "/assistant/persona", AssistantController, :persona
+    post "/assistant/persona/avatar", AssistantController, :avatar
+    post "/assistant/actors", AssistantController, :actors
+    post "/assistant/statement", AssistantController, :statement
 
   end
 
-  scope "/api", Totem do
+  scope "/api", ProblemService do
     pipe_through([:api, :auth])
-
-    post "/group", GroupController, :create
-    post "/group/:group_id/media", GroupMediaController, :create
-    get "/group/:group_id/member", GroupMemberController, :list
-    post "/group/:group_id/member", GroupMemberController, :create
-    post "/push_sub/", PushSubController, :create
-
-
-    post "/share", ShareController, :create
-
-
-    get "/group_invite/me", GroupInviteController, :mine
-    get "/group_invite/:group_id", GroupInviteController, :list
-    post "/group_invite/:group_id", GroupInviteController, :create
-
-    get "/notification", NotificationController, :list
-    post "/notification/read", NotificationController, :read
-    post "/notification/clear", NotificationController, :clear
-
-    get "/follow", UserFollowController, :list
-    post "/follow", UserFollowController, :create
-
-
-    get "/friend_request", FriendRequestController, :list
-    post "/friend_request", FriendRequestController, :create
-
-
     get "/user/me", UserController, :me
     get "/user/id", UserController, :id
     post "/user/search", UserController, :search
@@ -67,7 +50,7 @@ defmodule TotemWeb.Router do
   end
 
 
-  scope "/auth", Totem do
+  scope "/auth", ProblemService do
     pipe_through :api
     post "/login", SessionController, :login
     post "/register", SessionController, :register
@@ -93,7 +76,7 @@ defmodule TotemWeb.Router do
     scope "/" do
       pipe_through [:fetch_session, :protect_from_forgery]
 
-      live_dashboard "/dashboard", metrics: TotemWeb.Telemetry
+      live_dashboard "/dashboard", metrics: ProblemService.Web.Telemetry
     end
   end
 

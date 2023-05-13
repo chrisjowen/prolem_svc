@@ -1,4 +1,4 @@
-defmodule Totem.Application do
+defmodule ProblemService.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -8,21 +8,14 @@ defmodule Totem.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
-      Totem.Repo,
-      # Start the Telemetry supervisor
-      TotemWeb.Telemetry,
-      # Start the PubSub system
-      {Phoenix.PubSub, name: Totem.PubSub},
-      # Start the Endpoint (http/https)
-      TotemWeb.Endpoint
-      # Start a worker by calling: Totem.Worker.start_link(arg)
-      # {Totem.Worker, arg}
+      ProblemService.Repo,
+      ProblemService.Web.Telemetry,
+      {Phoenix.PubSub, name: ProblemService.PubSub},
+      ProblemService.Web.Endpoint,
+      {Cachex, :lfg_cache}
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Totem.Supervisor]
+    opts = [strategy: :one_for_one, name: ProblemService.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
@@ -30,7 +23,7 @@ defmodule Totem.Application do
   # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
-    TotemWeb.Endpoint.config_change(changed, removed)
+    ProblemService.Web.Endpoint.config_change(changed, removed)
     :ok
   end
 end

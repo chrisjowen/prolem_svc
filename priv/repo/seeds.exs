@@ -1,90 +1,47 @@
-alias Totem.GroupTypeRepo
-alias Totem.UserRepo
-alias Totem.EventRepo
-alias Totem.GroupTypeRepo
-alias Totem.EventTypeRepo
+defmodule Seeds do
+  alias ProblemService.ProblemRepo
 
-
-# user = UserRepo.get_by(email:  "mohammedsp.me@gmail.com") |> IO.inspect
-
-# {:ok, token, _claims} = Totem.Guardian.encode_and_sign(user)
-# IO.inspect("http://localhost:8080/callback/#{token}")
-
-
-defmodule Seed do
-  def group_types() do
+  def problems do
     [
-      "Drinks",
-      "Food",
-      "Sight Seeing",
-      "Cinema",
-      "Show",
-      "Excersise"
-    ]
-    |> Enum.each(&GroupTypeRepo.insert!(%{name: &1}))
-  end
-
-  def event_types() do
-    [
-      "Arts and Culture",
-      "Food & Drinks",
-      "Festival/Carnival",
-      "Sports and Fitness",
-      "Music and Nightlife",
-      "Workshops",
-      "Show",
-      "Shopping",
-      "Pop-up",
-      "Kids",
-      "Other"
-    ]
-    |> Enum.each(&EventTypeRepo.insert!(%{name: &1}))
-  end
-
-  def users() do
-    UserRepo.insert_with_creds(
       %{
-        "name" => "Vivien",
-        "last_name" => "Koh",
-        "email" => "kohvvn@gmail.com"
+        title: "Problems Worth Solving",
+        slug: "problem_worth_solving",
+        blurb: "Bring the pool of development talent together to solve interesting problems",
+        overview: "Bring the pool of development talent together to solve interesting problems",
+        img: "https://source.unsplash.com/random/1280x540?idea"
       },
       %{
-        "username" => "viv",
-        "password" => "test",
-        "salt" => "Nonsense"
-      }
-    )
-
-    UserRepo.insert_with_creds(
-      %{
-        "name" => "Mo",
-        "last_name" => "Man",
-        "email" => "mohammedsp.me@gmail.com"
+        title: "AI Automation Testing & Usability Checking",
+        slug: "ai_usabiity_testing",
+        blurb: "Use ChatGPT or equivillent to drive automation testing",
+        overview: "Use ChatGPT or equivillent to drive automation testing",
+        img: "https://source.unsplash.com/random/1280x540?test"
       },
       %{
-        "username" => "mo",
-        "password" => "test",
-        "salt" => "Nonsense"
+        title: "Hack Yourself",
+        slug: "hack_yourself",
+        blurb: "Use the online signals we generate for our own good, not advertising",
+        overview: "Use the online signals we generate for our own good, not advertising",
+        img: "https://source.unsplash.com/random/1280x540?hack"
+      },
+      %{
+        title: "Codified best practice architectures",
+        slug: "codified_best_practice",
+        blurb: "Best practice architectures on real working applications, easily customizable",
+        overview: "Best practice architectures on real working applications, easily customizable",
+        img: "https://source.unsplash.com/random/1280x540?brain"
+      },
+      %{
+        title: "Idea for autism",
+        slug: "autism_nice",
+        blurb: "Best practice architectures on real working applications, easily customizable",
+        overview: "Best practice architectures on real working applications, easily customizable",
+        img: "https://source.unsplash.com/random/1280x540?smile"
       }
-    )
+    ]
+    |> Enum.each(&ProblemRepo.insert!/1)
   end
-
-  def events do
-    point = %Geo.Point{coordinates: {103.84631, 1.2901908}}
-    %{
-      "title" => "My Awesome Event",
-      "description" => "Some description of the event this can be large",
-      "location" => point,
-      "place_id" => "ChIJxcECHaAZ2jERfOrtQ1ZT0Oc",
-      "start" => ~N[2022-09-30 23:00:07],
-      "end" => ~N[2022-09-30 23:00:07]
-    }
-    |> EventRepo.insert!()
-
-  end
-
 end
 
 
-Seed.group_types()
-Seed.event_types()
+# Seeds.problems()

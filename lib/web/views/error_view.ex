@@ -1,5 +1,5 @@
-defmodule TotemWeb.ErrorView do
-  use TotemWeb, :view
+defmodule ProblemService.Web.ErrorView do
+  use ProblemService.Web, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

@@ -1,8 +1,8 @@
-defmodule Totem.SecurePipeline do
-  use Guardian.Plug.Pipeline, otp_app: :totem
+defmodule ProblemService.SecurePipeline do
+  use Guardian.Plug.Pipeline, otp_app: :problem_service
 
   plug Guardian.Plug.VerifyHeader
   plug Guardian.Plug.EnsureAuthenticated
   plug Guardian.Plug.LoadResource, allow_blank: true
-  plug Totem.Plug.UserToParams
+  plug ProblemService.Plug.UserToParams
 end

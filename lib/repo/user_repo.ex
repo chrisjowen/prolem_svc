@@ -1,7 +1,7 @@
-defmodule Totem.UserRepo do
-  use Totem.SchemaRepo, schema: Totem.Schema.User
+defmodule ProblemService.UserRepo do
+  use ProblemService.SchemaRepo, schema: ProblemService.Schema.User
   alias Ecto.Multi
-  alias Totem.Schema.Credential
+  alias ProblemService.Schema.Credential
 
   def get_by_username(username) do
     @this |> with_username(username) |> one()
