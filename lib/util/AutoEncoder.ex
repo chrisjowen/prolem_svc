@@ -2,7 +2,10 @@ defmodule Modules do
   alias ProblemService.Schema
 
   @modules [
+    {Schema.Idea, []},
     {Schema.Problem, []},
+    {Schema.ProblemFollower, []},
+    {Schema.Sector, []},
     {Schema.Questionaire, []},
     {Schema.Questionaire.Question, []},
     {Schema.Product, []},

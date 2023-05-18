@@ -9,6 +9,9 @@ defmodule ProblemService.Schema.Problem do
     field :overview, :string
     field :status, :string, default: "DRAFT"
     field :img, :string
+    belongs_to :sector, ProblemService.Schema.Sector
+    has_many :problem_followers, ProblemService.Schema.ProblemFollower
+    has_many :followers, through: [:problem_followers, :user]
     timestamps()
   end
 
@@ -17,7 +20,7 @@ defmodule ProblemService.Schema.Problem do
   def changeset(user, attrs) do
     # attrs = Map.put(attrs ,"avatar_id", Ecto.UUID.generate())
 
-    required = [:title,:overview,:slug]
+    required = [:title,:overview,:slug, :sector_id]
     additional = [
       :img, :blurb
     ]

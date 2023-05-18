@@ -1,5 +1,5 @@
 defmodule ProblemService.Workers.SimilarProductsWorker do
-  use Que.Worker
+  use Que.Worker, concurrency: 10
   alias ProblemService.ProductRepo
   alias ProblemService.ProblemRepo
   alias ProblemService.Web.Endpoint

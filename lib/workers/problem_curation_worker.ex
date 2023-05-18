@@ -1,14 +1,15 @@
 defmodule ProblemService.Workers.ProblemCurationWorker do
-  use Que.Worker
+  use Que.Worker, concurrency: 50
   alias ProblemService.Web.Endpoint
   alias ProblemService.ProblemRepo
 
-  def perform(%{problem: raw, user_id: user_id, identifier: identifier}) do
+  def perform(%{sector_id: sector_id, problem: raw, user_id: user_id, identifier: identifier}) do
     with {:ok, statement} <- Openai.Statement.generate(raw),
          {:ok, %{"title" => title, "blurb" => blurb}} <- Openai.Title.generate(statement),
          #  {:ok, image} <- Openai.Image.generate("Banner image for problem: #{blurb}"),
          {:ok, problem} <-
            ProblemRepo.insert(%{
+            sector_id: sector_id,
              title: title,
              blurb: blurb,
              overview: statement,
@@ -26,6 +27,7 @@ defmodule ProblemService.Workers.ProblemCurationWorker do
       identifier: identifier
     }
     [
+      ProblemService.Workers.ProblemImageWorker,
       ProblemService.Workers.SimilarProductsWorker,
       ProblemService.Workers.StakeholdersWorker,
       ProblemService.Workers.SolutionWorker

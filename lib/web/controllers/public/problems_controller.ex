@@ -1,9 +1,10 @@
 defmodule ProblemService.Public.ProblemsController do
   use ProblemService.BaseController
   alias ProblemService.ProblemRepo
+  alias ProblemService.Schema.Problem
 
-  def list(conn, _params) do
-    conn |> json(ProblemRepo.all())
+  def list(conn, params) do
+    conn |> json(ProblemRepo.search(params, [:sector]))
   end
 
   def create(conn, params) do
@@ -20,7 +21,7 @@ defmodule ProblemService.Public.ProblemsController do
   end
 
   def show(conn, %{"id" => id}) do
-    json(conn, ProblemRepo.get(id))
+    json(conn, ProblemRepo.get(id, [:sector, :followers]))
   end
 
   def submit(conn, %{"problem" => problem, "identifer" => identifer}) do

@@ -1,5 +1,6 @@
 defmodule Seeds do
   alias ProblemService.ProblemRepo
+  alias ProblemService.UserRepo
 
   def problems do
     [
@@ -41,7 +42,26 @@ defmodule Seeds do
     ]
     |> Enum.each(&ProblemRepo.insert!/1)
   end
+
+  def users do
+    users =
+      [
+        # %{
+        #   "name" => "Christopher",
+        #   "last_name" => "Owen",
+        #   "email" => "chris.j.owen@hotmail.co.uk",
+        #   "password" => "letmein123"
+        # }
+        %{
+          "name" => "Jame",
+          "last_name" => "Brown",
+          "email" => "jamesbrown@hotmail.co.uk",
+          "password" => "letmein123"
+        }
+      ]
+      |> Enum.map(&UserRepo.insert!/1)
+      |> IO.inspect()
+  end
 end
 
-
-# Seeds.problems()
+Seeds.users()

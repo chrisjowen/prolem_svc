@@ -13,9 +13,20 @@ defmodule ProblemService.Web.Router do
     pipe_through :api
     # Unsecured
 
+    get "/image/*path", ImageController, :show
+
     get "/problem", ProblemsController, :list
+
+
+    get "/idea", IdeaController, :list
+    get "/idea/:id", IdeaController, :show
+
+    get "/sector", SectorController, :list
+    get "/sector/:id", SectorController, :show
+    get "/sector/:sector_id/problems", SectorProblemsController, :list
+    get "/sector/:sector_id/ideas", SectorIdeaController, :list
+
     get "/problem/:id", ProblemsController, :show
-    post "/problem", ProblemsController, :create
     put "/problem/:id", ProblemsController, :update
 
     post "/problem/submit", ProblemsController, :submit
@@ -29,15 +40,8 @@ defmodule ProblemService.Web.Router do
     get "/problem/:problem_id/questionaire", ProblemQuestionaireController, :list
 
 
+    post "/login", LoginController, :login
 
-    post "/assistant/improve", AssistantController, :improvements
-    post "/assistant/similar", AssistantController, :similar
-    post "/assistant/solution", AssistantController, :solution
-    post "/assistant/features", AssistantController, :features
-    post "/assistant/persona", AssistantController, :persona
-    post "/assistant/persona/avatar", AssistantController, :avatar
-    post "/assistant/actors", AssistantController, :actors
-    post "/assistant/statement", AssistantController, :statement
 
   end
 
@@ -45,7 +49,22 @@ defmodule ProblemService.Web.Router do
     pipe_through([:api, :auth])
     get "/user/me", UserController, :me
     get "/user/id", UserController, :id
+
     post "/user/search", UserController, :search
+    post "/ai/advice/solution/:type", AiSolutionController, :advice
+    post "/ai/advice/text", AiTextController, :advice
+
+    post "/problem", ProblemsController, :create
+    post "/problem/:problem_id/follow", ProblemFollowerController, :follow
+    # post "/problem/:problem_id/solution", ProblemSolutionController, :create
+    # post "/assistant/improve", AssistantController, :improvements
+    # post "/assistant/similar", AssistantController, :similar
+    # post "/assistant/solution", AssistantController, :solution
+    # post "/assistant/features", AssistantController, :features
+    # post "/assistant/persona", AssistantController, :persona
+    # post "/assistant/persona/avatar", AssistantController, :avatar
+    # post "/assistant/actors", AssistantController, :actors
+    # post "/assistant/statement", AssistantController, :statement
 
   end
 

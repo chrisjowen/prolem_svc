@@ -18,17 +18,19 @@ defmodule ProblemScv.Integration.OpenAITest do
     #   Task.await(task, 10 * 60 * 1000)
     # end)
 
-    problem = ProblemRepo.get(2)
-    stakeholders = StakeholderRepo.all_for_problem(problem.id)
+    # problem = ProblemRepo.get(2)
+    # stakeholders = StakeholderRepo.all_for_problem(problem.id)
 
-    ProblemService.Workers.QuestionaireWorker.perform(
-      %{
-        problem_id: problem.id,
-        stakeholder_id: Enum.at(stakeholders, 0).id,
-        user_id: 1,
-        identifier: "test"
-      }
-    )
+    # ProblemService.Workers.QuestionaireWorker.perform(
+    #   %{
+    #     problem_id: problem.id,
+    #     stakeholder_id: Enum.at(stakeholders, 0).id,
+    #     user_id: 1,
+    #     identifier: "test"
+    #   }
+    # )
+
+    ProblemService.Workers.SectorImageWorker.perform(40)
 
 
   end

@@ -31,8 +31,6 @@ defmodule ProblemService.SchemaRepo do
         Repo.get(@this, id) |> Repo.preload(preloads)
       end
 
-
-
       def one(q \\ @this, preloads \\ []) do
         case Repo.one(q) do
           nil -> {:error, :not_found}

@@ -28,10 +28,12 @@ defmodule ProblemService.Schema.User do
     field :name, :string
     field :last_name, :string
     field :email, :string
-    field :avatar, ProblemService.Avatar.Type
-    field :avatar_id, Ecto.UUID
+    field :password, :string
+    field :salt, :string, default: Ecto.UUID.generate()
 
-    # has_many :credentials, Schema.Credential
+    # field :avatar, ProblemService.Avatar.Type
+    # field :avatar_id, Ecto.UUID
+
 
     field :nickname, :string
     field :nationality, :string
@@ -44,7 +46,7 @@ defmodule ProblemService.Schema.User do
   @doc false
 
   def changeset(user, attrs) do
-    attrs = Map.put(attrs ,"avatar_id", Ecto.UUID.generate())
+    # attrs = Map.put(attrs ,"avatar_id", Ecto.UUID.generate())
     user
     |> cast(attrs, [
       :name,
@@ -55,9 +57,10 @@ defmodule ProblemService.Schema.User do
       :nationality,
       :gender,
       :dob,
-      :avatar_id
+      :password,
+      :salt
     ])
-    |> cast_attachments(attrs, [:avatar])
-    |> validate_required([:name, :last_name, :email, :credentials, :nickname, :avatar_id])
+    # |> cast_attachments(attrs, [:avatar])
+    |> validate_required([:name, :last_name, :email, :password, :salt])
   end
 end

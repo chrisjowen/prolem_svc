@@ -1,5 +1,5 @@
 defmodule ProblemService.Workers.StakeholdersWorker do
-  use Que.Worker
+  use Que.Worker, concurrency: 10
   alias ProblemService.Web.Endpoint
   alias ProblemService.StakeholderRepo
   alias ProblemService.ProblemRepo
@@ -20,21 +20,21 @@ defmodule ProblemService.Workers.StakeholdersWorker do
           )
         )
       end)
-      |> Enum.each(&enqueue_questionaire(&1, problem, user_id, identifier))
+      # |> Enum.each(&enqueue_questionaire(&1, problem, user_id, identifier))
 
       Endpoint.broadcast("problem:#{problem.id}", "reload:stakeholders", %{ok: :ok})
     end
   end
 
-  def enqueue_questionaire(stakeholder, problem, user_id, identifer) do
-    Que.add(
-      ProblemService.Workers.QuestionaireWorker,
-      %{
-        stakeholder_id: stakeholder.id,
-        problem_id: problem.id,
-        user_id: user_id,
-        identifier: identifer
-      }
-    )
-  end
+  # def enqueue_questionaire(stakeholder, problem, user_id, identifer) do
+  #   Que.add(
+  #     ProblemService.Workers.QuestionaireWorker,
+  #     %{
+  #       stakeholder_id: stakeholder.id,
+  #       problem_id: problem.id,
+  #       user_id: user_id,
+  #       identifier: identifer
+  #     }
+  #   )
+  # end
 end

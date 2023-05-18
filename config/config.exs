@@ -78,6 +78,7 @@ config :geo_postgis,
 
 
 
+
   config :openai,
     api_key: "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",
     organization_key: "org-2cJ3cEThmAglpQRKQr3X2W64",

@@ -7,4 +7,11 @@ defmodule ProblemService.Public.ProblemSolutionController do
       json(conn, solution)
     end
   end
+
+
+  def create(conn, %{"problem_id" => problem_id} = params) do
+    with {:ok, solution} <- SolutionRepo.insert(params) do
+      json(conn, solution)
+    end
+  end
 end
