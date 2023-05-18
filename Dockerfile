@@ -1,4 +1,5 @@
-FROM elixir:1.13.4-otp-25
+# FROM elixir:1.13.4-otp-25
+FROM elixir:1.14.2 
 
 ARG mix_env=prod
 ENV MIX_ENV $mix_env
