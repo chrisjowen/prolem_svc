@@ -13,12 +13,13 @@ if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
 end
 
 if config_env() == :prod do
-  # database_url =
-  #   System.get_env("DATABASE_URL") ||
-  #     raise """
-  #     environment variable DATABASE_URL is missing.
-  #     For example: ecto://USER:PASS@HOST/DATABASE
-  #     """
+  database_url =
+    System.get_env("DATABASE_URL") ||
+      raise """
+      environment variable DATABASE_URL is missing.
+      For example: ecto://USER:PASS@HOST/DATABASE
+      """
+
 
   # maybe_ipv6 = if System.get_env("ECTO_IPV6"), do: [:inet6], else: []
 
@@ -46,10 +47,7 @@ if config_env() == :prod do
 
 
   config :problem_service, ProblemService.Repo,
-    username: "lfg_user",
-    password: "tempjunkpassword",
-    hostname: "db",
-    database: "lfg",
+    url: database_url,
     types: ProblemService.PostgresTypes
 
   host = System.get_env("PHX_HOST") || "www.reddotz.com"
