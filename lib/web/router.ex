@@ -56,6 +56,7 @@ defmodule ProblemService.Web.Router do
 
     post "/problem", ProblemsController, :create
     post "/problem/:problem_id/follow", ProblemFollowerController, :follow
+    post "/problem/:problem_id/unfollow", ProblemFollowerController, :unfollow
     # post "/problem/:problem_id/solution", ProblemSolutionController, :create
     # post "/assistant/improve", AssistantController, :improvements
     # post "/assistant/similar", AssistantController, :similar

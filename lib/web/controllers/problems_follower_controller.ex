@@ -13,5 +13,10 @@ defmodule ProblemService.ProblemFollowerController do
     end
   end
 
+  def unfollow(conn, %{"problem_id" => problem_id}) do
+    ProblemFollowerRepo.unfollow( problem_id, current_resource(conn).id)
+    json(conn, :ok)
+  end
+
 
 end

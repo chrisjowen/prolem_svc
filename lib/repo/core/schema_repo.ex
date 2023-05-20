@@ -11,6 +11,14 @@ defmodule ProblemService.SchemaRepo do
       @this unquote(schema)
 
 
+      def delete!(item) do
+        Repo.delete!(item)
+      end
+
+      def delete_all(q) do
+        Repo.delete_all(q)
+      end
+
       def update!(item) do
         Repo.update!(item)
       end
