@@ -28,7 +28,7 @@ defmodule ProblemService.Schema.User do
     field :name, :string
     field :last_name, :string
     field :email, :string
-    field :password, :string
+    field :password, Comeonin.Ecto.Password
     field :salt, :string, default: Ecto.UUID.generate()
 
     # field :avatar, ProblemService.Avatar.Type
@@ -39,14 +39,20 @@ defmodule ProblemService.Schema.User do
     field :nationality, :string
     field :gender, :string
     field :dob, :date
-
+    field :clear_password, :string, virtual: true
+    has_many :problems, ProblemService.Schema.Problem
     timestamps()
   end
 
   @doc false
 
   def changeset(user, attrs) do
-    # attrs = Map.put(attrs ,"avatar_id", Ecto.UUID.generate())
+
+    IO.inspect(attrs)
+    attrs = Map.put(attrs ,"clear_password", Map.get(attrs, "password"))
+    |> IO.inspect()
+
+
     user
     |> cast(attrs, [
       :name,
@@ -58,9 +64,13 @@ defmodule ProblemService.Schema.User do
       :gender,
       :dob,
       :password,
-      :salt
+      :salt,
+      :clear_password
     ])
     # |> cast_attachments(attrs, [:avatar])
-    |> validate_required([:name, :last_name, :email, :password, :salt])
+    |> validate_length(:clear_password, min: 6, max: 15)
+    |> validate_format(:clear_password, ~r/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, message: "must contain at least one uppercase letter, a number and a special character")
+    |> validate_required([:clear_password, :name, :last_name, :email, :password, :salt])
   end
+
 end

@@ -3,8 +3,8 @@ defmodule ProblemService.Public.ProblemSolutionController do
   alias ProblemService.SolutionRepo
 
   def list(conn, %{"problem_id" => problem_id}) do
-    with {:ok, solution} <- SolutionRepo.for_problem(problem_id) do
-      json(conn, solution)
+    with solutions <- SolutionRepo.for_problem(problem_id, [:user]) do
+      json(conn, solutions)
     end
   end
 

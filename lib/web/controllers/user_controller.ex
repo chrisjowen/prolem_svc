@@ -1,5 +1,5 @@
 defmodule ProblemService.UserController do
-  use ProblemService.Web, :controller
+  use ProblemService.BaseController
   import Guardian.Plug
   alias ProblemService.UserRepo
 
@@ -8,8 +8,8 @@ defmodule ProblemService.UserController do
     json(conn, current_resource(conn))
   end
 
-  def index(conn, %{"id" => id}) do
-    conn |> json(UserRepo.get(id))
+  def show(conn, %{"id" => id} = params) do
+    conn |> json(UserRepo.get(id, params))
   end
 
   def id(conn, params) do

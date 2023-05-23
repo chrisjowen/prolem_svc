@@ -27,6 +27,10 @@ config :problem_service, ProblemService.Web.Endpoint,
   pubsub_server: ProblemService.PubSub,
   live_view: [signing_salt: "gSpMyCEo"]
 
+config :comeonin, Ecto.Password, Pbkdf2
+config :comeonin, :pbkdf2_rounds, 120_000
+config :comeonin, :pbkdf2_salt_len, 512
+
 config :problem_service, ProblemService.SecurePipeline,
   module: ProblemService.Guardian,
   error_handler: ProblemService.AuthErrorHandler
@@ -78,7 +82,7 @@ config :geo_postgis,
 
 
   config :openai,
-    api_key: "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",
+    api_key: "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",
     organization_key: "org-2cJ3cEThmAglpQRKQr3X2W64",
     http_options: [recv_timeout: 120_000]
   # optional, useful if you want to do local integration tests using Bypass or similar

@@ -27,9 +27,7 @@ defmodule ProblemService.Web.Router do
     get "/sector/:sector_id/ideas", SectorIdeaController, :list
 
     get "/problem/:id", ProblemsController, :show
-    put "/problem/:id", ProblemsController, :update
 
-    post "/problem/submit", ProblemsController, :submit
 
 
     get "/problem/:problem_id/product", ProblemProductController, :list
@@ -41,6 +39,7 @@ defmodule ProblemService.Web.Router do
 
 
     post "/login", LoginController, :login
+    post "/register", LoginController, :register
 
 
   end
@@ -49,14 +48,23 @@ defmodule ProblemService.Web.Router do
     pipe_through([:api, :auth])
     get "/user/me", UserController, :me
     get "/user/id", UserController, :id
+    get "/user/:id", UserController, :show
 
     post "/user/search", UserController, :search
     post "/ai/advice/solution/:type", AiSolutionController, :advice
     post "/ai/advice/text", AiTextController, :advice
 
+
+    delete "/product/:id", ProductController, :delete
+
     post "/problem", ProblemsController, :create
     post "/problem/:problem_id/follow", ProblemFollowerController, :follow
     post "/problem/:problem_id/unfollow", ProblemFollowerController, :unfollow
+
+    post "/problem/submit", ProblemsController, :submit
+    put "/problem/:id", ProblemsController, :update
+
+
     # post "/problem/:problem_id/solution", ProblemSolutionController, :create
     # post "/assistant/improve", AssistantController, :improvements
     # post "/assistant/similar", AssistantController, :similar
@@ -73,7 +81,6 @@ defmodule ProblemService.Web.Router do
   scope "/auth", ProblemService do
     pipe_through :api
     post "/login", SessionController, :login
-    post "/register", SessionController, :register
 
     # TODO: Uberauth may be a bit of a PITA
     get "/:provider", AuthController, :request

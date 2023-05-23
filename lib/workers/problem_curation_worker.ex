@@ -4,7 +4,8 @@ defmodule ProblemService.Workers.ProblemCurationWorker do
   alias ProblemService.ProblemRepo
 
   def perform(%{sector_id: sector_id, problem: raw, user_id: user_id, identifier: identifier}) do
-    with {:ok, statement} <- Openai.Statement.generate(raw),
+    sector = ProblemService.SectorRepo.get(sector_id)
+    with {:ok, statement} <- Openai.Statement.generate(raw, sector),
          {:ok, %{"title" => title, "blurb" => blurb}} <- Openai.Title.generate(statement),
          #  {:ok, image} <- Openai.Image.generate("Banner image for problem: #{blurb}"),
          {:ok, problem} <-
@@ -13,6 +14,7 @@ defmodule ProblemService.Workers.ProblemCurationWorker do
              title: title,
              blurb: blurb,
              overview: statement,
+             user_id: user_id,
              slug: title |> String.downcase() |> String.replace(" ", "_")
            }) do
       enqueue_workers(problem, user_id, identifier)

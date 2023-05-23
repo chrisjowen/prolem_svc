@@ -20,17 +20,18 @@ defmodule ProblemService.Public.ProblemsController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    json(conn, ProblemRepo.get(id, [:sector, :followers]))
+  def show(conn, %{"id" => id} =params) do
+    json(conn, ProblemRepo.get(id,  [:sector, :followers, :user]))
   end
 
-  def submit(conn, %{"problem" => problem, "identifer" => identifer}) do
+  def submit(conn, %{"problem" => problem, "identifer" => identifer, "sector_id" => sector_id}) do
     with {:ok, problem} <-
            Que.add(
              ProblemService.Workers.ProblemCurationWorker,
              %{
                problem: problem,
                user_id: 1,
+               sector_id: sector_id,
                identifier: identifer
              }
            ) do

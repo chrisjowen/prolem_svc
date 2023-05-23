@@ -20,11 +20,12 @@ defmodule ProblemService.ProblemRepo do
     # - https://nathanmlong.com/2018/01/fast-fulltext-search-with-ecto-and-postgresql/
   end
 
-  def all_for_sector(sector_id, preloads \\ []) do
+  def all_for_sector(sector_id, params, preloads \\ []) do
     from(p in Problem,
       where: p.sector_id == ^sector_id,
+      order_by: [desc: p.inserted_at],
       select: p
     )
-    |> all(%{}, preloads)
+    |> paginate(params, preloads)
   end
 end

@@ -1,5 +1,5 @@
 defmodule Openai.Statement do
-  def generate(problem) do
+  def generate(problem, sector) do
     with {:ok, response} <-
            OpenAI.chat_completion(
              model: "gpt-3.5-turbo",
@@ -7,7 +7,9 @@ defmodule Openai.Statement do
                %{
                  role: "user",
                  content:
-                   "Your goal is to rewrite a problem statement to make it more well defined"
+                   "Your goal is to rewrite a problem statement to make it more well defined.
+                   The problem statement is for the industry sector #{sector.name}.
+                   "
                },
                %{
                  role: "user",
@@ -36,7 +38,6 @@ defmodule Openai.Statement do
         %{"error" => :timeout}
     end
   end
-
 
   def felxible_format() do
     """

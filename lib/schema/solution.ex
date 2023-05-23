@@ -12,7 +12,7 @@ defmodule ProblemService.Schema.Solution do
     field :technologies, {:array, :string}
     field :expertise, {:array, :string}
 
-    # belongs_to :user, ProblemService.Schema.User
+    belongs_to :user, ProblemService.Schema.User
     belongs_to :problem, ProblemService.Schema.Problem
     timestamps()
   end
