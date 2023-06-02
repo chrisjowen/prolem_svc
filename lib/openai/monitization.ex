@@ -27,7 +27,7 @@ defmodule Openai.Monetization do
                 role: "user",
                 content: "
                 Below is the proposed solution in the following tripple backticks:
-                    ```#{problem}```"
+                    ```#{solution}```"
               },
               %{
                 role: "user",
@@ -37,8 +37,7 @@ defmodule Openai.Monetization do
            ) do
       [choice | _] = response.choices
       content = choice["message"]["content"]
-      IO.inspect(content)
-      content |> Jason.decode!()
+      {:ok, Jason.decode!(content)}
     else
       {:error, error} ->
         IO.inspect(error)

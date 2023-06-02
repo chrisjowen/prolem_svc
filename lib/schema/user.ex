@@ -21,7 +21,6 @@ defmodule ProblemService.Schema.User do
   use Ecto.Schema
   use Waffle.Ecto.Schema
   import Ecto.Changeset
-  alias ProblemService.Schema
   use Waffle.Ecto.Schema
 
   schema "users" do
@@ -72,5 +71,19 @@ defmodule ProblemService.Schema.User do
     |> validate_format(:clear_password, ~r/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, message: "must contain at least one uppercase letter, a number and a special character")
     |> validate_required([:clear_password, :name, :last_name, :email, :password, :salt])
   end
+
+
+
+  defmodule Queries do
+    import Ecto.Query
+
+    def with_username(user, email) do
+      from u in user,
+        where: u.email == ^email
+    end
+  end
+
+
+
 
 end

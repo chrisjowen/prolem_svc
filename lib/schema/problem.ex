@@ -14,6 +14,7 @@ defmodule ProblemService.Schema.Problem do
     has_many :problem_followers, ProblemService.Schema.ProblemFollower
     has_many :followers, through: [:problem_followers, :user]
     has_many :solutions, ProblemService.Schema.Solution
+    has_many :products, ProblemService.Schema.Product
 
     timestamps()
   end

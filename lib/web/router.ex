@@ -9,33 +9,15 @@ defmodule ProblemService.Web.Router do
     plug(ProblemService.SecurePipeline)
   end
 
-  scope "/api", ProblemService.Public do
+  scope "/api", ProblemService do
     pipe_through :api
     # Unsecured
 
     get "/image/*path", ImageController, :show
 
-    get "/problem", ProblemsController, :list
-
-
-    get "/idea", IdeaController, :list
-    get "/idea/:id", IdeaController, :show
-
-    get "/sector", SectorController, :list
-    get "/sector/:id", SectorController, :show
-    get "/sector/:sector_id/problems", SectorProblemsController, :list
-    get "/sector/:sector_id/ideas", SectorIdeaController, :list
-
-    get "/problem/:id", ProblemsController, :show
-
-
-
-    get "/problem/:problem_id/product", ProblemProductController, :list
-    post "/problem/:problem_id/product/submit", ProblemProductController, :submit
-    post "/problem/:problem_id/stakeholder/submit", ProblemStakeholderController, :submit
-    get "/problem/:problem_id/stakeholder", ProblemStakeholderController, :list
-    get "/problem/:problem_id/solution", ProblemSolutionController, :list
-    get "/problem/:problem_id/questionaire", ProblemQuestionaireController, :list
+    resources "/sector", SectorController, only: [:show, :index]
+    resources "/problem", ProblemController, only: [:show, :index]
+    resources "/solution", SolutionController, only: [:show, :index]
 
 
     post "/login", LoginController, :login
@@ -46,46 +28,30 @@ defmodule ProblemService.Web.Router do
 
   scope "/api", ProblemService do
     pipe_through([:api, :auth])
+
+    resources "/problem", ProblemController, only: [:create, :update, :delete]
+    post "/problem/:problem_id/follow", ProblemFollowerController, :follow
+    post "/problem/:problem_id/unfollow", ProblemFollowerController, :unfollow
+
+    resources "/product", ProductController, only: [:create, :update, :delete]
+    resources "/solution", SolutionController, only: [:create, :update, :delete]
+
+
     get "/user/me", UserController, :me
     get "/user/id", UserController, :id
     get "/user/:id", UserController, :show
-
     post "/user/search", UserController, :search
+
+
     post "/ai/advice/solution/:type", AiSolutionController, :advice
     post "/ai/advice/text", AiTextController, :advice
 
 
-    delete "/product/:id", ProductController, :delete
-
-    post "/problem", ProblemsController, :create
-    post "/problem/:problem_id/follow", ProblemFollowerController, :follow
-    post "/problem/:problem_id/unfollow", ProblemFollowerController, :unfollow
-
-    post "/problem/submit", ProblemsController, :submit
-    put "/problem/:id", ProblemsController, :update
-
-
-    # post "/problem/:problem_id/solution", ProblemSolutionController, :create
-    # post "/assistant/improve", AssistantController, :improvements
-    # post "/assistant/similar", AssistantController, :similar
-    # post "/assistant/solution", AssistantController, :solution
-    # post "/assistant/features", AssistantController, :features
-    # post "/assistant/persona", AssistantController, :persona
-    # post "/assistant/persona/avatar", AssistantController, :avatar
-    # post "/assistant/actors", AssistantController, :actors
-    # post "/assistant/statement", AssistantController, :statement
 
   end
 
 
-  scope "/auth", ProblemService do
-    pipe_through :api
-    post "/login", SessionController, :login
 
-    # TODO: Uberauth may be a bit of a PITA
-    get "/:provider", AuthController, :request
-    get "/:provider/callback", AuthController, :callback
-  end
 
 
 

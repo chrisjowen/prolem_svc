@@ -1,8 +1,10 @@
 defmodule Openai.SolutionOverview do
-  alias ProblemService.ProblemRepo
+  alias ProblemService.Schema.Problem
+  alias ProblemService.Repo
 
   def process(%{"problem_id" => problem_id}) do
-    process(ProblemRepo.get(problem_id).overview)
+    problem = Repo.get(Problem, problem_id)
+    process(problem.overview)
   end
 
   def process(problem) do
@@ -31,7 +33,6 @@ defmodule Openai.SolutionOverview do
              ]
            ) do
       [choice | _] = response.choices
-      content = choice["message"]["content"]
       {:ok, choice["message"]}
     end
   end

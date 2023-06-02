@@ -30,7 +30,6 @@ defmodule Openai.EditText do
              ]
            ) do
       [choice | _] = response.choices
-      content = choice["message"]["content"]
       {:ok, choice["message"]}
     end
   end

@@ -1,5 +1,4 @@
 defmodule ProblemService.Plug.UserToParams do
-  import Plug.Conn
   import Guardian.Plug
   def init(options) do
     # initialize options

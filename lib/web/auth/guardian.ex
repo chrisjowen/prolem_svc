@@ -1,6 +1,7 @@
 defmodule ProblemService.Guardian do
   use Guardian, otp_app: :problem_service
-  alias ProblemService.UserRepo
+  alias ProblemService.Schema.User
+  alias ProblemService.Repo
 
 
   def subject_for_token(%{id: id}, _claims) do
@@ -20,7 +21,7 @@ defmodule ProblemService.Guardian do
     # Here we'll look up our resource from the claims, the subject can be
     # found in the `"sub"` key. In above `subject_for_token/2` we returned
     # the resource id so here we'll rely on that to look it up.
-    resource = UserRepo.get(id)
+    resource = Repo.get(User, id)
     {:ok,  resource}
   end
   def resource_from_claims(_claims) do

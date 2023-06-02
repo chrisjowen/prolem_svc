@@ -1,7 +1,7 @@
 defmodule Openai.SuggestSectorIdeas
 do
 
-  def execute(name, overview) do
+  def execute(name) do
     with {:ok, response} <-
            OpenAI.chat_completion(
              model: "gpt-3.5-turbo",

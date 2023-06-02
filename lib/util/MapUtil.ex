@@ -1,4 +1,4 @@
-defmodule MapUtil do
+defmodule Util.MapUtil do
   @exceptions [NaiveDateTime, DateTime, Geo.Point]
   @bloat [:__meta__, :__struct__, :__cardinality__, :__field__,  :__owner__]
 

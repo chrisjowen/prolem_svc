@@ -1,4 +1,4 @@
-defmodule ProblemService.Public.ImageController do
+defmodule ProblemService.ImageController do
   use ProblemService.BaseController
 
   def show(conn, %{"path" => parts }) do

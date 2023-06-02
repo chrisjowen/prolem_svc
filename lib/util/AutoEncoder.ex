@@ -39,7 +39,7 @@ end
 Enum.map(Modules.modules, fn {module, strip} ->
   defimpl Jason.Encoder, for: module do
     def encode(schema, options) do
-      stripped = MapUtil.from_struct(schema, unquote(Modules.modules))
+      stripped = Util.MapUtil.from_struct(schema, unquote(Modules.modules))
 
       stripped
       |> Map.take(Map.keys(stripped))
