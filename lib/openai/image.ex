@@ -13,7 +13,6 @@ defmodule Openai.Image do
              %OpenAI.Config{http_options: [recv_timeout: 10 * 60 * 1000]}
            ) do
       [h | _] = response.data
-      IO.inspect(h)
     end
   end
 end

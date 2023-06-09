@@ -14,6 +14,12 @@ defmodule ProblemService.Schema.Solution do
 
     belongs_to :user, ProblemService.Schema.User
     belongs_to :problem, ProblemService.Schema.Problem
+
+    has_many :solution_members, ProblemService.Schema.SolutionMember
+    has_many :comments, ProblemService.Schema.Comment
+    has_many :announcements, ProblemService.Schema.Announcement
+    has_many :members, through: [:solution_members, :user]
+
     timestamps()
   end
 
@@ -31,8 +37,5 @@ defmodule ProblemService.Schema.Solution do
     |> cast(attrs, required ++ additional)
     |> validate_required(required)
   end
-
-
-
 
 end

@@ -60,7 +60,7 @@ defmodule Seeds do
         }
       ]
       |> Enum.map(&UserRepo.insert!/1)
-      |> IO.inspect()
+      |> #IO.inspect()
   end
 end
 

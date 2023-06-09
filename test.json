@@ -1,36 +1,5 @@
 {
-    "questions"[
-        {
-            "question": "How many insurance claims does the company process annually?",
-            "type": "text"
-        },
-        {
-            "question": "How much time does it take to process a single claim manually?",
-            "type": "text"
-        },
-        {
-            "question": "Do you face any challenges in validating claims against policy details?",
-            "type": "boolean"
-        },
-        {
-            "question": "What are the most common errors you encounter while processing insurance claims manually?",
-            "type": "text"
-        },
-        {
-            "question": "Are there any particular types of fraud that frequently occur in the claims process?",
-            "type": "text"
-        },
-        {
-            "question": "What factors contribute to customer dissatisfaction with the claims process?",
-            "type": "text"
-        },
-        {
-            "question": "Would you be interested in adopting an AI-based platform for claim processing?",
-            "type": "boolean"
-        },
-        {
-            "question": "What features would you like to see in an AI-based platform for claim processing?",
-            "type": "text"
-        }
-    ]
+    "imagery": "A drone flying over a crop field and capturing images of the crops using a camera attached to it. The images are processed using machine learning algorithms to evaluate crop health.",
+    "title": "Crop Health Monitoring System",
+    "blurb": "Develop a crop health monitoring system that uses drones and sensors to collect data on crop health and identify potential problems using machine learning algorithms. The system aims to increase crop yields, reduce the use of harmful pesticides and chemicals, as well as monitor the spread of diseases in crops."
 }

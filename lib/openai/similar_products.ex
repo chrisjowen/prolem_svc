@@ -1,6 +1,6 @@
 defmodule Openai.SimilarProducts do
   def generate(problem) do
-    IO.inspect(problem)
+    #IO.inspect(problem)
 
     with {:ok, response} <-
            OpenAI.chat_completion(
@@ -35,7 +35,7 @@ defmodule Openai.SimilarProducts do
       {:ok, Jason.decode!(content)}
     else
       {:error, error} ->
-        IO.inspect(error)
+        #IO.inspect(error)
         {:error, error}
     end
   end

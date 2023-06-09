@@ -47,9 +47,8 @@ defmodule ProblemService.Schema.User do
 
   def changeset(user, attrs) do
 
-    IO.inspect(attrs)
+    #IO.inspect(attrs)
     attrs = Map.put(attrs ,"clear_password", Map.get(attrs, "password"))
-    |> IO.inspect()
 
 
     user

@@ -1,4 +1,4 @@
-defmodule ProblemService.Schema.ProblemFollower do
+defmodule ProblemService.Schema.Follower do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -17,8 +17,4 @@ defmodule ProblemService.Schema.ProblemFollower do
     |> cast(attrs, required ++ additional)
     |> validate_required(required)
   end
-
-
-
-
 end

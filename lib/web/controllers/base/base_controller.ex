@@ -6,19 +6,38 @@ defmodule ProblemService.BaseController do
       alias ProblemService.Repo
       import Guardian.Plug
       import ProblemService.BaseController
+      import Ecto.Query
+      require Logger
 
       @ops unquote(ops)
 
       if(Keyword.has_key?(@ops, :schema)) do
-        defcrud(Keyword.get(@ops, :schema), Keyword.get(@ops, :only, [:show, :index, :create, :update, :delete]))
+        defcrud(
+          Keyword.get(@ops, :schema),
+          Keyword.get(@ops, :only, [:show, :index, :create, :update, :delete])
+        )
       end
 
       defp extract_preloads(params) do
         Map.get(params, "preloads", "")
         |> String.split(",")
         |> Enum.filter(&(&1 != ""))
-        |> Enum.map(&string_to_atom/1)
+        |> Enum.map(&to_preload/1)
       end
+
+      defp to_preload(assoc) when is_list(assoc) do
+        [h|t] = assoc
+
+        case t do
+          [] -> string_to_atom(h)
+          _ -> {string_to_atom(h), Enum.map(t, &string_to_atom/1)}
+        end
+      end
+
+      defp to_preload(assoc) do
+        String.split(assoc, ".") |> to_preload
+      end
+
 
       def string_to_atom(str) do
         try do
@@ -40,35 +59,45 @@ defmodule ProblemService.BaseController do
           result = Repo.get(unquote(schema), id) |> Repo.preload(extract_preloads(params))
           json(conn, result)
         end
+
+        defoverridable show: 2
       end
 
       if(Enum.member?(unquote(routes), :index)) do
         def index(conn, params) do
-          preloads = extract_preloads(params) |> IO.inspect()
+          preloads = extract_preloads(params)
           query = Map.get(params, "query", "")
+          order_by = Map.get(params, "order_by", Map.get(conn.assigns, :order_by, "updated_at|desc"))
 
           result =
             from(q in unquote(schema),
-              preload: ^preloads
+              preload: ^preloads,
             )
-            |> Util.ParamQueryGenerator.generate(query)
+            |> Util.ParamQueryGenerator.generate(query, conn.assigns[:q], order_by)
             |> Repo.paginate(params)
 
           json(conn, result)
         end
+
+        defoverridable index: 2
       end
 
       if(Enum.member?(unquote(routes), :create)) do
         def create(conn, params) do
-          with {:ok, entity} <- Repo.insert(unquote(schema), params) do
+
+          params = if(authenticated?(conn), do: Map.put(params, "user_id", current_resource(conn).id), else: params)
+          with {:ok, entity} <- Repo.change(unquote(schema), params) |> Repo.insert() do
             json(conn, entity)
           end
         end
+
+        defoverridable create: 2
       end
 
       if(Enum.member?(unquote(routes), :update)) do
         def update(conn, %{"id" => id} = params) do
           entity = Repo.get(unquote(schema), id)
+          params = if(authenticated?(conn), do: Map.put(params, "user_id", current_resource(conn).id), else: params)
 
           with {:ok, updated} <-
                  entity
@@ -77,6 +106,8 @@ defmodule ProblemService.BaseController do
             json(conn, updated)
           end
         end
+
+        defoverridable update: 2
       end
 
       if(Enum.member?(unquote(routes), :delete)) do
@@ -85,6 +116,8 @@ defmodule ProblemService.BaseController do
           Repo.delete!(item)
           json(conn, %{ok: id})
         end
+
+        defoverridable delete: 2
       end
     end
   end

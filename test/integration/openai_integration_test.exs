@@ -10,7 +10,7 @@ defmodule ProblemScv.Integration.OpenAITest do
     # |> Enum.map(fn stakeholder ->
     #   Task.async( fn  ->
     #     Openai.Questionaire.generate(problem.overview, "TYPE: #{stakeholder.type}, DESCRIPTION: TYPE: #{stakeholder.description}, PROBLEMS: #{Enum.join(stakeholder.problems, ",")}")
-    #     |> IO.inspect
+    #     |> #IO.inspect
     #   end )
     # end)
 
@@ -46,7 +46,7 @@ defmodule ProblemScv.Integration.OpenAITest do
   #            %OpenAI.Config{http_options: [recv_timeout: 10 * 60 * 1000]}
   #          ) do
   #     [h | _] = response.data
-  #     IO.inspect(h)
+  #     #IO.inspect(h)
   #   end
   # end
 end

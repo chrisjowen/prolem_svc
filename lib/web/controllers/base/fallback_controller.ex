@@ -37,7 +37,7 @@ defmodule ProblemService.FallbackController do
   end
 
   def call(conn, error) do
-    Logger.debug(error)
+    Logger.error(error)
     conn
     |> put_status(500)
     |> json(%{error: :unknown})

@@ -12,7 +12,7 @@ defmodule Openai.Persona.Avatar do
       h
     else
       {:error, error} ->
-        IO.inspect(error)
+        # #IO.inspect(error)
         %{"error" => :timeout}
     end
   end

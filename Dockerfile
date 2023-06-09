@@ -3,6 +3,7 @@ FROM elixir:1.14.2
 
 ARG mix_env=prod
 ENV MIX_ENV $mix_env
+ENV OPEN_AI_KEY $OPEN_AI_KEY
 
 # 
 RUN mkdir /app
@@ -19,5 +20,6 @@ RUN mix deps.get
 RUN mix deps.update gettext
 
 RUN mix compile 
+ 
 
-CMD ["mix", "phx.server"]
+CMD ["sh", "./run.sh"]

@@ -1,4 +1,4 @@
-defmodule ProblemService.Repo.Migrations.CreateProblemFollowers do
+defmodule ProblemService.Repo.Migrations.CreateFollowers do
   use Ecto.Migration
 
   def change do

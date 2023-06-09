@@ -11,14 +11,9 @@ config :problem_service,
   ecto_repos: [ProblemService.Repo]
 
 config :cors_plug,
-  origin: ["http://localhost:8080"],
+  origin: ["http://localhost:8080","http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173"],
   max_age: 86400,
-  methods: ["GET", "POST"]
-
-# config :web_push_encryption, :vapid_details,
-#   subject: "mailto:hello@reddotz.com",
-#   public_key: "BFQyyzI-VwFmI-3pdXfnlIR9AUBaDCO0suRKG32e6Y8fSv6nvzBOfMP8zxrstvN7WyqA9HVMaF7wsM3KQKsZLJY",
-#   private_key: "5Tk7JFzIdJNwVB68yhWYeFicliNCkRCT3xVJyUFHHi8"
+  methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS", "HEAD"]
 
 # Configures the endpoint
 config :problem_service, ProblemService.Web.Endpoint,
@@ -82,7 +77,7 @@ config :geo_postgis,
 
 
   config :openai,
-    api_key: "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",
+    api_key: System.get_env("OPEN_AI_KEY") ,
     organization_key: "org-2cJ3cEThmAglpQRKQr3X2W64",
     http_options: [recv_timeout: 120_000]
   # optional, useful if you want to do local integration tests using Bypass or similar

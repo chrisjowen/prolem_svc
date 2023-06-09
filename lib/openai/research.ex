@@ -102,7 +102,7 @@ defmodule Openai.Research do
       decode_choices(response, encode)
     else
       {:error, error} ->
-        IO.inspect(error)
+        #IO.inspect(error)
         %{"error" => :timeout}
     end
   end
@@ -110,7 +110,7 @@ defmodule Openai.Research do
   defp decode_choices(response, encode) do
     [choice | _] = response.choices
     content = choice["message"]["content"]
-    IO.inspect(content)
+    #IO.inspect(content)
     case encode do
       true -> content |> Jason.decode!()
       _ -> content

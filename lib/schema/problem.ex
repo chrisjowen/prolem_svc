@@ -11,7 +11,7 @@ defmodule ProblemService.Schema.Problem do
     field :img, :string
     belongs_to :user, ProblemService.Schema.User
     belongs_to :sector, ProblemService.Schema.Sector
-    has_many :problem_followers, ProblemService.Schema.ProblemFollower
+    has_many :problem_followers, ProblemService.Schema.Follower
     has_many :followers, through: [:problem_followers, :user]
     has_many :solutions, ProblemService.Schema.Solution
     has_many :products, ProblemService.Schema.Product

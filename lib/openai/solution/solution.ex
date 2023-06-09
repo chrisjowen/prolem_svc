@@ -26,11 +26,11 @@ defmodule Openai.Solution do
            ) do
       [choice | _] = response.choices
       content = choice["message"]["content"]
-      IO.inspect(content)
+      #IO.inspect(content)
       {:ok, Jason.decode!(content)}
     else
       {:error, error} ->
-        IO.inspect(error)
+        #IO.inspect(error)
         {:error, error}
     end
   end

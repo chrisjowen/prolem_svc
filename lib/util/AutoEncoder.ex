@@ -3,8 +3,12 @@ defmodule Modules do
 
   @modules [
     {Schema.Idea, []},
+    {Schema.Comment, []},
+    {Schema.Discussion, []},
+    {Schema.Link, []},
+    {Schema.Answer, []},
     {Schema.Problem, []},
-    {Schema.ProblemFollower, []},
+    {Schema.Follower, []},
     {Schema.Sector, []},
     {Schema.Questionaire, []},
     {Schema.Questionaire.Question, []},

@@ -40,7 +40,7 @@ defmodule Openai.Monetization do
       {:ok, Jason.decode!(content)}
     else
       {:error, error} ->
-        IO.inspect(error)
+        # #IO.inspect(error)
         %{"error" => :timeout}
     end
   end

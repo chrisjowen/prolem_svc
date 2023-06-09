@@ -30,11 +30,10 @@ defmodule Openai.Persona do
            ) do
       [choice | _] = response.choices
       content = choice["message"]["content"]
-      IO.inspect(content)
       content |> Jason.decode!()
     else
       {:error, error} ->
-        IO.inspect(error)
+        #IO.inspect(error)
         %{"error" => :timeout}
     end
   end

@@ -9,7 +9,7 @@
 
 #     with problem <- ProblemRepo.get(problem_id),
 #          {:ok, similar} <- Openai.SimilarProducts.generate(problem.overview) do
-#       IO.inspect(similar)
+#       #IO.inspect(similar)
 
 #       Enum.each(similar["products"], fn product ->
 #         ProductRepo.insert!(%{

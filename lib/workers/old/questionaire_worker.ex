@@ -30,7 +30,7 @@
 #           }
 #         )
 
-#       QuestionaireRepo.insert!(params) |> IO.inspect()
+#       QuestionaireRepo.insert!(params) |> #IO.inspect()
 #       Endpoint.broadcast("problem:#{problem_id}", "reload:questionaire", %{problem_id: problem_id})
 
 #     end
