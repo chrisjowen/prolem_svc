@@ -11,7 +11,7 @@ config :problem_service,
   ecto_repos: [ProblemService.Repo]
 
 config :cors_plug,
-  origin: ["http://localhost:8080","http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173"],
+  origin: ["http://localhost:8080","http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173", "http://problem.chrisjowen.net"],
   max_age: 86400,
   methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS", "HEAD"]
 
