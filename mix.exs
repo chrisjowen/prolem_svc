@@ -20,7 +20,7 @@ defmodule ProblemService.MixProject do
   def application do
     [
       mod: {ProblemService.Application, []},
-      extra_applications: [:logger, :runtime_tools, :ueberauth_facebook, :que]
+      extra_applications: [:logger, :runtime_tools, :ueberauth_facebook, :que, :httpoison]
     ]
   end
 

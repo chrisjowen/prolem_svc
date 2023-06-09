@@ -17,7 +17,7 @@ defmodule ProblemService.Workers.CreateProblemTemplateWorker do
     Endpoint.broadcast!("problem:trace:#{trace_id}", "problem:creating", %{})
     with {:ok, full_statement} <- Ai.ProblemStatementGenerator.execute(statement, sector.name),
          {:ok, meta} <- generate_meta(statement, sector, trace_id),
-         {:ok, path} <- generate_image(meta["imageary"], trace_id),
+         {:ok, path} <- generate_image(meta["imagery"], trace_id),
          {:ok, problem} <- save_problem(full_statement, sector, meta, user_id, path) do
       Endpoint.broadcast("problem:trace:#{trace_id}", "problem:created", %{
         id: problem.id
@@ -49,6 +49,7 @@ defmodule ProblemService.Workers.CreateProblemTemplateWorker do
     Endpoint.broadcast!("problem:trace:#{id}", "problem:creating:image", %{})
     path = "problems/#{id}.png"
 
+    IO.inspect("A ink sketch of: #{keywords}. NO FONTS OR TEXT. ONLY IMAGES!!!")
     with {:ok, image} <-
            OpenAI.images_generations(
              [

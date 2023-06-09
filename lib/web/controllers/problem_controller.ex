@@ -32,6 +32,13 @@ defmodule ProblemService.ProblemController do
     end
   end
 
+  def meta(conn, %{"statement" => statement, "sector" => sector}) do
+    with {:ok, response} <- Ai.ProblemStatementMetaGenerator.execute(statement, sector) do
+      json(conn, response)
+    end
+  end
+
+
   def links(conn, %{"statement" => statement, "sector" => sector}) do
     with {:ok, response} <- Ai.ProblemLinksGenerator.execute(statement, sector) do
       json(conn, response)

@@ -63,6 +63,7 @@ defmodule ProblemService.Web.Router do
     post "/problem/obstacles", ProblemController, :obstacles
     post "/problem/discussions", ProblemController, :discussions
     post "/problem/suggestions", ProblemController, :suggestions
+    post "/problem/meta", ProblemController, :meta
 
     resources "/problem_suggestion", ProblemSuggestionController,
       only: [:create, :update, :delete]

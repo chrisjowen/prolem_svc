@@ -37,7 +37,7 @@ defmodule Ai.ProblemStatementMetaGenerator do
     """
       For the following fields, here is some advice on how to extract them:
 
-      - Imagery: Describe what imagery you would expect to be associated with the problem statement. Be creative suggest imagery that are not obvious.
+      - Imagery: Describe what imagery you would expect to be associated with the input.
       - Title: Give the problem statment a title that is no more than 5 words.
       - Blurb: Give a single paragraph high level description of the problem statement.
     """
@@ -54,7 +54,7 @@ defmodule Ai.ProblemStatementMetaGenerator do
 
      ```
      {
-      "imagery": "A drone flying over a crop field and capturing images of the crops using a camera attached to it. The images are processed using machine learning algorithms to evaluate crop health.",
+      "imagery": "A drone flying over a crop field and capturing images of the crops using a camera attached to it.",
       "title": "Crop Health Monitoring System",
       "blurb": "Develop a crop health monitoring system that uses drones and sensors to collect data on crop health and identify potential problems using machine learning algorithms. The system aims to increase crop yields, reduce the use of harmful pesticides and chemicals, as well as monitor the spread of diseases in crops."
     }
