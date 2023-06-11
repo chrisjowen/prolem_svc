@@ -7,6 +7,7 @@ defmodule Modules do
     {Schema.Discussion, []},
     {Schema.Link, []},
     {Schema.Answer, []},
+    {Schema.Obstacle, []},
     {Schema.Problem, []},
     {Schema.Follower, []},
     {Schema.Sector, []},

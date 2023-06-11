@@ -28,4 +28,17 @@ defmodule ProblemService.WorkflowController do
       :ok
     )
   end
+
+  def problem_resources(conn, %{"problem_id" => problem_id} = params) do
+    Que.add(
+      ProblemService.Workers.CreateProblemResourcesWorker,
+      params
+    )
+
+    json(
+      conn,
+      :ok
+    )
+  end
+
 end

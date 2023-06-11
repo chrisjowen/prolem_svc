@@ -24,11 +24,12 @@ defmodule ProblemService.Web.Router do
     resources "/problem_suggestion", ProblemSuggestionController, only: [:show, :index]
 
     resources "/follower", FollowerController, only: [:index]
-
+    resources("/obstacle", ObstacleController, only: [:show, :index])
 
     resources "/problem", ProblemController, only: [:show, :index] do
       resources("/comment", CommentController, only: [:show, :index])
       resources("/discussion", DiscussionController, only: [:show, :index])
+      resources("/obstacle", ObstacleController, only: [:show, :index])
       resources("/link", LinkController, only: [:index, :show])
     end
 
@@ -56,24 +57,29 @@ defmodule ProblemService.Web.Router do
 
     post "/workflow/template", WorkflowController, :problem_template
     post "/workflow/problem_suggestions", WorkflowController, :problem_suggestions
+    post "/workflow/problem_resources", WorkflowController, :problem_resources
 
-    post "/problem/precheck", ProblemController, :precheck
-    post "/problem/statement", ProblemController, :problem_statement
-    post "/problem/links", ProblemController, :links
-    post "/problem/obstacles", ProblemController, :obstacles
-    post "/problem/discussions", ProblemController, :discussions
-    post "/problem/suggestions", ProblemController, :suggestions
-    post "/problem/meta", ProblemController, :meta
+    post "/ai/problem/precheck", AIProblemController, :precheck
+
+    post "/ai/problem/:problem_id/:type", AIProblemController, :execute
+    post "/ai/problem/:type", AIProblemController, :execute
+
+    # post "/ai/problem/statement", ProblemController, :problem_statement
+    # post "/ai/problem/links", ProblemController, :links
+    # post "/ai/problem/obstacles", ProblemController, :obstacles
+    # post "/ai/problem/discussions", ProblemController, :discussions
+    # post "/ai/problem/suggestions", ProblemController, :suggestions
+    # post "/ai/problem/meta", ProblemController, :meta
 
     resources "/problem_suggestion", ProblemSuggestionController,
       only: [:create, :update, :delete]
 
-
-
+    resources("/obstacle", ObstacleController, only: [:create, :update, :delete])
 
     resources "/problem", ProblemController, only: [:create, :update, :delete] do
       resources("/comment", CommentController, only: [:create, :update, :delete])
       resources("/discussion", DiscussionController, only: [:create, :update, :delete])
+      resources("/obstacle", ObstacleController, only: [:create, :update, :delete])
       resources("/link", LinkController, only: [:create, :update, :delete])
     end
 

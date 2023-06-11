@@ -7,8 +7,11 @@ alias ProblemService.Repo
 defmodule ProblemSeeder do
 
     def one() do
-        [suggestion | _] = Repo.all(ProblemSuggestion) |> IO.inspect
-        generate_template(suggestion)
+        suggestions = Repo.all(ProblemSuggestion)
+
+        suggestions
+         |> Enum.slice(10,length(suggestions))
+         |> Enum.each(&generate_template/1)
     end
 
     def generate_template(suggestion) do
