@@ -65,6 +65,15 @@ defmodule ProblemService.BaseController do
 
       if(Enum.member?(unquote(routes), :index)) do
         def index(conn, params) do
+          result = search(conn, params)
+          json(conn, result)
+        end
+
+
+        defoverridable index: 2
+
+
+        defp search(conn, params) do
           preloads = extract_preloads(params)
           query = Map.get(params, "query", "")
           order_by = Map.get(params, "order_by", Map.get(conn.assigns, :order_by, "updated_at|desc"))
@@ -75,11 +84,7 @@ defmodule ProblemService.BaseController do
             )
             |> Util.ParamQueryGenerator.generate(query, conn.assigns[:q], order_by)
             |> Repo.paginate(params)
-
-          json(conn, result)
         end
-
-        defoverridable index: 2
       end
 
       if(Enum.member?(unquote(routes), :create)) do

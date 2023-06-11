@@ -23,20 +23,6 @@ defmodule Modules do
     {Schema.User, []},
   ]
 
-
-  # def schema_modules() do
-  #   with {:ok, list} <- :application.get_key(:problem_service, :modules) do
-  #     list
-  #     # |> Enum.filter(fn module ->
-  #     #   parts = module |> Module.split
-  #     #   length(parts) > 2 && Enum.take(parts, 2) == ["ProblemService.Schema"]
-  #     # end)
-  #     # |> Enum.map(fn  {&1, []})
-  #   end
-  # end
-
-
-
   def modules, do:  @modules
 end
 
