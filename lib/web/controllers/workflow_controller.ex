@@ -23,10 +23,7 @@ defmodule ProblemService.WorkflowController do
       filters
     )
 
-    json(
-      conn,
-      :ok
-    )
+    json(conn, :ok)
   end
 
   def problem_resources(conn, %{"problem_id" => problem_id} = params) do
@@ -35,10 +32,15 @@ defmodule ProblemService.WorkflowController do
       params
     )
 
-    json(
-      conn,
-      :ok
-    )
+    json(conn, :ok)
   end
 
+  def problem_obstacles(conn, %{"problem_id" => problem_id} = params) do
+    Que.add(
+      ProblemService.Workers.CreateProblemObstaclesWorker,
+      params
+    )
+
+    json(conn, :ok)
+  end
 end

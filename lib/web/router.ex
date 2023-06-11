@@ -58,6 +58,7 @@ defmodule ProblemService.Web.Router do
     post "/workflow/template", WorkflowController, :problem_template
     post "/workflow/problem_suggestions", WorkflowController, :problem_suggestions
     post "/workflow/problem_resources", WorkflowController, :problem_resources
+    post "/workflow/problem_obstacles", WorkflowController, :problem_obstacles
 
     post "/ai/problem/precheck", AIProblemController, :precheck
 

@@ -1,5 +1,4 @@
 defmodule Ai.ProblemObstaclesGenerator do
-  alias Faker.Commerce
   alias Ai.PromptBuilder
   alias Ai.PromptExecutor
 
