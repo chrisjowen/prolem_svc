@@ -9,6 +9,7 @@ defmodule ProblemService.Schema.Problem do
     field :overview, :string
     field :status, :string, default: "DRAFT"
     field :img, :string
+    belongs_to :space, ProblemService.Schema.Space
     belongs_to :user, ProblemService.Schema.User
     belongs_to :sector, ProblemService.Schema.Sector
     has_many :problem_followers, ProblemService.Schema.Follower
@@ -22,11 +23,12 @@ defmodule ProblemService.Schema.Problem do
   @doc false
 
   def changeset(user, attrs) do
-    # attrs = Map.put(attrs ,"avatar_id", Ecto.UUID.generate())
+    required = [:title, :overview, :slug, :sector_id, :user_id]
 
-    required = [:title,:overview,:slug, :sector_id, :user_id]
     additional = [
-      :img, :blurb
+      :img,
+      :blurb,
+      :space_id
     ]
 
     user

@@ -30,7 +30,10 @@ defmodule ProblemService.Schema.Solution do
 
     required = [:description, :problem_id]
     additional = [
-      :keyFeatures, :estimatedTeamSize, :estimatedCost, :estimatedTimescale, :technologies, :expertise, :userStories
+      :keyFeatures,
+      :estimatedTeamSize,
+      :estimatedCost,
+      :estimatedTimescale, :technologies, :expertise, :userStories
     ]
 
     schema

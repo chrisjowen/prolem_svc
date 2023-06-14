@@ -48,6 +48,10 @@ defmodule ProblemService.Web.Router do
   scope "/api", ProblemService do
     pipe_through([:api, :auth])
 
+
+    post("/image/:type", ImageController, :create)
+
+
     post("/problem/:problem_id/follow", FollowerController, :create)
     post("/problem/:problem_id/unfollow", FollowerController, :unfollow)
 
@@ -99,6 +103,7 @@ defmodule ProblemService.Web.Router do
 
     post("/ai/advice/solution/:type", AiSolutionController, :advice)
     post("/ai/advice/text", AiTextController, :advice)
+
   end
 
   # Enables LiveDashboard only for development
