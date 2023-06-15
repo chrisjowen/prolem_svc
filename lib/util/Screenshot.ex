@@ -8,7 +8,11 @@ defmodule Util.Screenshot do
     path = File.cwd!() <> "/resources/images" <> response
 
     with {:ok, image_url} <- capture(url),
-         %HTTPoison.Response{body: body} <- HTTPoison.get!(image_url) do
+         %HTTPoison.Response{body: body} <-
+           HTTPoison.get!(image_url, [],
+             timeout: 50_000,
+             recv_timeout: 50_000
+           ) do
       File.write!(path, body) |> IO.inspect()
       {:ok, response} |> IO.inspect()
     else
@@ -48,6 +52,5 @@ defmodule Util.Screenshot do
 end
 
 # Comment to bounce build
-
 
 # Util.Screenshot.capture("https://www.google.com")
