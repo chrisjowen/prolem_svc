@@ -47,4 +47,7 @@ defmodule Util.Screenshot do
   end
 end
 
+# Comment to bounce build
+
+
 # Util.Screenshot.capture("https://www.google.com")
