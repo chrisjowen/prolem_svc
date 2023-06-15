@@ -4,6 +4,7 @@ FROM elixir:1.14.2
 ARG mix_env=prod
 ENV MIX_ENV $mix_env
 ENV OPEN_AI_KEY $OPEN_AI_KEY
+ENV SCREENSHOT_API_KEY $SCREENSHOT_API_KEY
 
 # 
 RUN mkdir /app
