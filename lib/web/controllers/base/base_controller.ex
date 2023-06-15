@@ -89,10 +89,9 @@ defmodule ProblemService.BaseController do
 
       if(Enum.member?(unquote(routes), :create)) do
         def create(conn, params) do
-
           params = if(authenticated?(conn), do: Map.put(params, "user_id", current_resource(conn).id), else: params)
           with {:ok, entity} <- Repo.change(unquote(schema), params) |> Repo.insert() do
-            json(conn, entity)
+            assign(conn, :entity, entity) |> json(entity)
           end
         end
 
@@ -108,7 +107,8 @@ defmodule ProblemService.BaseController do
                  entity
                  |> unquote(schema).changeset(params)
                  |> Repo.update() do
-            json(conn, updated)
+
+            assign(conn, :entity, updated) |> json(updated)
           end
         end
 

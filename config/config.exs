@@ -31,6 +31,10 @@ config :problem_service, ProblemService.SecurePipeline,
   error_handler: ProblemService.AuthErrorHandler
 
 
+config :problem_service, Util.Screenshot,
+  token: System.get_env("SCREENSHOT_API_KEY")
+
+
 config :waffle,
   storage: Waffle.Storage.Local,
   asset_host: {:system, "ASSET_HOST"}
