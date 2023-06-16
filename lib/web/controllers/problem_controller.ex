@@ -1,5 +1,6 @@
 defmodule ProblemService.ProblemController do
   use ProblemService.BaseController, schema: ProblemService.Schema.Problem
+  # plug :check_permission when action in [:update, :delete]
 
 
   @excluded_fields [
@@ -15,5 +16,12 @@ defmodule ProblemService.ProblemController do
     json(conn, result)
   end
 
+
+  def check_permission(conn, _) do
+    problem = Repo.get(ProblemService.Schema.Problem, conn.params["id"]) |> Repo.preload(:problem_users)
+    with :ok <- Bodyguard.permit(ProblemService.Schema.Problem, :create, current_resource(conn),problem) do
+      conn
+    end
+  end
 
 end

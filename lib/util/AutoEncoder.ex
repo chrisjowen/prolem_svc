@@ -5,6 +5,7 @@ defmodule Modules do
     {Schema.Idea, []},
     {Schema.Comment, []},
     {Schema.Discussion, []},
+    {Schema.Notification, []},
     {Schema.Link, []},
     {Schema.Answer, []},
     {Schema.Obstacle, []},
@@ -17,10 +18,12 @@ defmodule Modules do
     {Schema.Solution, []},
     {Schema.Stakeholder, []},
     {Schema.Event, []},
+    {Schema.ProblemUser, []},
+    {Schema.Page, []},
     {Schema.Tag, []},
     {Schema.PushSub, []},
     {Scrivener.Page, []},
-    {Schema.User, []},
+    {Schema.User, [:password, :clear_password]},
   ]
 
   def modules, do:  @modules

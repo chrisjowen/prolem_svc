@@ -1,7 +1,7 @@
 defmodule ProblemService.Workers.CreateProblemTemplateWorker do
   use Que.Worker, concurrency: 50
   alias ProblemService.Web.Endpoint
-  alias ProblemService.Repo
+  alias ProblemService.Eventing.Repo
   alias ProblemService.Schema.Sector
   alias ProblemService.Schema.Problem
   require Logger

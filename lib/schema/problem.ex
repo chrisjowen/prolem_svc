@@ -16,6 +16,8 @@ defmodule ProblemService.Schema.Problem do
     has_many :followers, through: [:problem_followers, :user]
     has_many :solutions, ProblemService.Schema.Solution
     has_many :products, ProblemService.Schema.Product
+    has_many :problem_users, ProblemService.Schema.ProblemUser
+    has_many :users, through: [:problem_users, :user]
 
     timestamps()
   end
@@ -41,4 +43,17 @@ defmodule ProblemService.Schema.Problem do
     <overview>#{problem.overview}</overview>
     "
   end
+
+  def authorize(mode, user, problem) when mode in [:update, :delete] do
+    is_owner = problem.user_id == user.id
+    is_admin =
+      problem.problem_users
+      |> Enum.any?(fn problem_user ->
+        problem_user.role == "admin" && problem_user.member_id == user.id
+      end)
+
+    is_owner || is_admin
+  end
+
+
 end

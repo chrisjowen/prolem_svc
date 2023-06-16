@@ -19,7 +19,6 @@ defmodule ProblemService.Workers.ScreenshotLinksWorker do
   # end
 
   defp capture_screenshot(link) do
-    IO.inspecgt(link)
     with {:ok, path} <- Util.Screenshot.capture_and_store(link.url) do
       link
       |> Link.changeset(%{screenshot: path})

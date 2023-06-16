@@ -63,6 +63,7 @@ defmodule ProblemService.MixProject do
       {:yugo, "~> 0.3.0"},
       {:comeonin_ecto_password, "~> 3.0.0"},
       {:pbkdf2_elixir, "~> 1.0"},
+      {:bodyguard, "~> 2.4"}
     ]
   end
 

@@ -26,7 +26,11 @@ defmodule ProblemService.Web.Router do
     resources "/follower", FollowerController, only: [:index]
     resources("/obstacle", ObstacleController, only: [:show, :index])
 
+    resources "/user", UserController, only: [:show, :index]
+
     resources "/problem", ProblemController, only: [:show, :index] do
+      resources "/user", ProblemUserController, only: [:show, :index]
+      resources "/page", PageController, only: [:show, :index]
       resources("/comment", CommentController, only: [:show, :index])
       resources("/discussion", DiscussionController, only: [:show, :index])
       resources("/obstacle", ObstacleController, only: [:show, :index])
@@ -48,9 +52,9 @@ defmodule ProblemService.Web.Router do
   scope "/api", ProblemService do
     pipe_through([:api, :auth])
 
+    resources "/notification", NotificationController, only: [:show, :index]
 
     post("/image/:type", ImageController, :create)
-
 
     post("/problem/:problem_id/follow", FollowerController, :create)
     post("/problem/:problem_id/unfollow", FollowerController, :unfollow)
@@ -80,8 +84,11 @@ defmodule ProblemService.Web.Router do
       only: [:create, :update, :delete]
 
     resources("/obstacle", ObstacleController, only: [:create, :update, :delete])
+    resources "/notification", NotificationController, only: [:update, :delete]
 
     resources "/problem", ProblemController, only: [:create, :update, :delete] do
+      resources "/page", PageController, only: [:create, :update, :delete]
+      resources "/user", ProblemUserController, only: [:create, :update, :delete]
       resources("/comment", CommentController, only: [:create, :update, :delete])
       resources("/discussion", DiscussionController, only: [:create, :update, :delete])
       resources("/obstacle", ObstacleController, only: [:create, :update, :delete])
@@ -103,7 +110,6 @@ defmodule ProblemService.Web.Router do
 
     post("/ai/advice/solution/:type", AiSolutionController, :advice)
     post("/ai/advice/text", AiTextController, :advice)
-
   end
 
   # Enables LiveDashboard only for development

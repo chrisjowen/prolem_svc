@@ -1,5 +1,5 @@
 defmodule ProblemService.UserController do
-  use ProblemService.BaseController
+  use ProblemService.BaseController, schema: ProblemService.Schema.User, only: [:show, :index]
   import Guardian.Plug
 
   defcrud(ProblemService.Schema.User, [:show])

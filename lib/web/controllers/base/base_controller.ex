@@ -3,7 +3,7 @@ defmodule ProblemService.BaseController do
     quote do
       use ProblemService.Web, :controller
       action_fallback ProblemService.FallbackController
-      alias ProblemService.Repo
+      alias ProblemService.Eventing.Repo
       import Guardian.Plug
       import ProblemService.BaseController
       import Ecto.Query
@@ -14,7 +14,8 @@ defmodule ProblemService.BaseController do
       if(Keyword.has_key?(@ops, :schema)) do
         defcrud(
           Keyword.get(@ops, :schema),
-          Keyword.get(@ops, :only, [:show, :index, :create, :update, :delete])
+          Keyword.get(@ops, :only, [:show, :index, :create, :update, :delete]),
+          Keyword.get(@ops, :add_user, true)
         )
       end
 
@@ -49,10 +50,12 @@ defmodule ProblemService.BaseController do
     end
   end
 
-  defmacro defcrud(schema, routes \\ [:show, :index, :create, :update, :delete]) do
+  defmacro defcrud(schema, routes \\ [:show, :index, :create, :update, :delete], add_user \\ true) do
     quote do
-      alias ProblemService.Repo
+      alias ProblemService.Eventing.Repo
       import Ecto.Query
+
+
 
       if(Enum.member?(unquote(routes), :show)) do
         def show(conn, %{"id" => id} = params) do
@@ -85,11 +88,14 @@ defmodule ProblemService.BaseController do
             |> Util.ParamQueryGenerator.generate(query, conn.assigns[:q], order_by)
             |> Repo.paginate(params)
         end
+
+        defoverridable search: 2
+
       end
 
       if(Enum.member?(unquote(routes), :create)) do
         def create(conn, params) do
-          params = if(authenticated?(conn), do: Map.put(params, "user_id", current_resource(conn).id), else: params)
+          params = if((authenticated?(conn) and unquote(add_user)), do: Map.put(params, "user_id", current_resource(conn).id), else: params)
           with {:ok, entity} <- Repo.change(unquote(schema), params) |> Repo.insert() do
             assign(conn, :entity, entity) |> json(entity)
           end
@@ -101,7 +107,7 @@ defmodule ProblemService.BaseController do
       if(Enum.member?(unquote(routes), :update)) do
         def update(conn, %{"id" => id} = params) do
           entity = Repo.get(unquote(schema), id)
-          params = if(authenticated?(conn), do: Map.put(params, "user_id", current_resource(conn).id), else: params)
+          params = if((authenticated?(conn) and unquote(add_user)), do: Map.put(params, "user_id", current_resource(conn).id), else: params)
 
           with {:ok, updated} <-
                  entity
