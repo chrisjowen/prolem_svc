@@ -30,6 +30,7 @@ defmodule ProblemService.Web.Router do
 
     resources "/problem", ProblemController, only: [:show, :index] do
       resources "/user", ProblemUserController, only: [:show, :index]
+      resources "/member", ProblemUserController, only: [:show, :index]
       resources "/page", PageController, only: [:show, :index]
       resources("/comment", CommentController, only: [:show, :index])
       resources("/discussion", DiscussionController, only: [:show, :index])
@@ -85,10 +86,10 @@ defmodule ProblemService.Web.Router do
 
     resources("/obstacle", ObstacleController, only: [:create, :update, :delete])
     resources "/notification", NotificationController, only: [:update, :delete]
-
     resources "/problem", ProblemController, only: [:create, :update, :delete] do
       resources "/page", PageController, only: [:create, :update, :delete]
       resources "/user", ProblemUserController, only: [:create, :update, :delete]
+      resources "/member", ProblemUserController, only: [:create, :update, :delete]
       resources("/comment", CommentController, only: [:create, :update, :delete])
       resources("/discussion", DiscussionController, only: [:create, :update, :delete])
       resources("/obstacle", ObstacleController, only: [:create, :update, :delete])

@@ -8,8 +8,6 @@ defmodule ProblemService.ProblemUserController do
 
 
   def check_permission(conn, _) do
-    IO.inspect("conn.params")
-    IO.inspect(conn.params)
     problem = Repo.get(Problem, conn.params["problem_id"]) |> Repo.preload(:problem_users)
     with :ok <- Bodyguard.permit(ProblemService.Schema.ProblemUser, :create, current_resource(conn),problem) do
       conn
