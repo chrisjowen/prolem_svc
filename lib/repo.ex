@@ -39,7 +39,6 @@ defmodule ProblemService.Eventing.Repo do
   def delete(struct, opts \\ []), do: Repo.delete(struct, opts)
   def delete!(struct, opts \\ []), do: Repo.delete!(struct, opts)
   def preload(struct_or_structs, preloads), do: Repo.preload(struct_or_structs, preloads)
-  def log(entry), do: Repo.log(entry)
   def paginate(a,b), do: Repo.paginate(a,b)
 
   def change(principal, params) when is_atom(principal) and is_map(params) do

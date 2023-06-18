@@ -1,6 +1,7 @@
 defmodule ProblemService.Schema.DiscussionReference do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Util.EctoUtil
 
   schema "discussion_references" do
     field :notes, :string

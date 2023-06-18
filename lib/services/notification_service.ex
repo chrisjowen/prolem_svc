@@ -9,10 +9,13 @@ defmodule ProblemService.Services.NotificationService do
       title: "Problem Updated",
       actions: [%{
         title: "Show Problem",
-        href: "/problems/show/#{problem.id}"
+        href: "/problem/show/#{problem.id}"
       }],
       to_id: user.id,
-      content: "Problem #{problem.title} has been updated"
+      content: """
+        <p>Problem: <strong>#{problem.title}</strong></p>
+        <p>Was updated by #{problem.updated_by.name}</p>
+      """
     })
     |> Repo.insert()
     |> IO.inspect()

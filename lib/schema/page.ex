@@ -11,6 +11,7 @@ defmodule ProblemService.Schema.Page do
 
     belongs_to :problem, ProblemService.Schema.Problem
     belongs_to :user, ProblemService.Schema.User
+    belongs_to :updated_by, ProblemService.Schema.User
     belongs_to :parent, ProblemService.Schema.Page
 
     timestamps()
@@ -19,7 +20,7 @@ defmodule ProblemService.Schema.Page do
   @doc false
   def changeset(page, attrs) do
     page
-    |> cast(attrs, [:title, :body, :tags, :version, :status, :parent_id, :user_id, :problem_id])
+    |> cast(attrs, [:title, :body, :tags, :version, :status, :parent_id, :user_id, :problem_id, :updated_by_id])
     |> validate_required([:title, :body, :version, :status, :user_id, :problem_id])
   end
 end

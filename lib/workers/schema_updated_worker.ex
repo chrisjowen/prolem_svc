@@ -8,6 +8,9 @@ defmodule ProblemService.Workers.SchemaUpdatedWorker do
   require Logger
 
   def perform([%Schema.Problem{} = problem, mode]) do
+
+    problem = Repo.preload(problem, [:updated_by])
+
     followers = Schema.Follower.by_problem(problem.id)
     |> Repo.all()
     |> IO.inspect

@@ -30,6 +30,14 @@ config :problem_service, ProblemService.SecurePipeline,
   module: ProblemService.Guardian,
   error_handler: ProblemService.AuthErrorHandler
 
+#  config :swoosh, :api_client, ProblemService.ApiClient
+
+config :problem_service, ProblemService.Mailer,
+  adapter: Swoosh.Adapters.Mailgun,
+  api_key: System.get_env("MAILGUN_API_KEY"),
+  domain: System.get_env("MAILGUN_DOMAIN"),
+  base_url: "https://api.mailgun.net/v3"
+
 
 config :problem_service, Util.Screenshot,
   token: System.get_env("SCREENSHOT_API_KEY")

@@ -9,15 +9,18 @@ defmodule ProblemService.Schema.Problem do
     field :overview, :string
     field :status, :string, default: "DRAFT"
     field :img, :string
+    field :public, :boolean, default: true
+
     belongs_to :space, ProblemService.Schema.Space
     belongs_to :user, ProblemService.Schema.User
+    belongs_to :updated_by, ProblemService.Schema.User
     belongs_to :sector, ProblemService.Schema.Sector
     has_many :problem_followers, ProblemService.Schema.Follower
     has_many :followers, through: [:problem_followers, :user]
     has_many :solutions, ProblemService.Schema.Solution
     has_many :products, ProblemService.Schema.Product
     has_many :problem_users, ProblemService.Schema.ProblemUser
-    has_many :users, through: [:problem_users, :user]
+    has_many :users, through: [:problem_users, :member]
 
     timestamps()
   end
@@ -30,7 +33,8 @@ defmodule ProblemService.Schema.Problem do
     additional = [
       :img,
       :blurb,
-      :space_id
+      :space_id,
+      :updated_by_id
     ]
 
     user

@@ -9,6 +9,8 @@ defmodule ProblemService.Web.Router do
     plug(ProblemService.SecurePipeline)
   end
 
+
+
   scope "/api", ProblemService do
     pipe_through(:api)
     # Unsecured
@@ -29,6 +31,7 @@ defmodule ProblemService.Web.Router do
     resources "/user", UserController, only: [:show, :index]
 
     resources "/problem", ProblemController, only: [:show, :index] do
+      resources "/feed", ProblemFeedController, only: [:index]
       resources "/user", ProblemUserController, only: [:show, :index]
       resources "/member", ProblemUserController, only: [:show, :index]
       resources "/page", PageController, only: [:show, :index]
@@ -125,7 +128,6 @@ defmodule ProblemService.Web.Router do
 
     scope "/" do
       pipe_through([:fetch_session, :protect_from_forgery])
-
       live_dashboard("/dashboard", metrics: ProblemService.Web.Telemetry)
     end
   end
@@ -138,6 +140,7 @@ defmodule ProblemService.Web.Router do
     scope "/dev" do
       pipe_through([:fetch_session, :protect_from_forgery])
 
+      get("/sendmail", ProblemService.EmailController, :send)
       forward("/mailbox", Plug.Swoosh.MailboxPreview)
     end
   end

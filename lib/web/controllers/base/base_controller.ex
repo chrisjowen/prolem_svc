@@ -27,7 +27,7 @@ defmodule ProblemService.BaseController do
       end
 
       defp to_preload(assoc) when is_list(assoc) do
-        [h|t] = assoc
+        [h | t] = assoc
 
         case t do
           [] -> string_to_atom(h)
@@ -38,7 +38,6 @@ defmodule ProblemService.BaseController do
       defp to_preload(assoc) do
         String.split(assoc, ".") |> to_preload
       end
-
 
       def string_to_atom(str) do
         try do
@@ -55,8 +54,6 @@ defmodule ProblemService.BaseController do
       alias ProblemService.Eventing.Repo
       import Ecto.Query
 
-
-
       if(Enum.member?(unquote(routes), :show)) do
         def show(conn, %{"id" => id} = params) do
           result = Repo.get(unquote(schema), id) |> Repo.preload(extract_preloads(params))
@@ -72,30 +69,34 @@ defmodule ProblemService.BaseController do
           json(conn, result)
         end
 
-
         defoverridable index: 2
-
 
         defp search(conn, params) do
           preloads = extract_preloads(params)
           query = Map.get(params, "query", "")
-          order_by = Map.get(params, "order_by", Map.get(conn.assigns, :order_by, "updated_at|desc"))
+
+          order_by =
+            Map.get(params, "order_by", Map.get(conn.assigns, :order_by, "updated_at|desc"))
 
           result =
             from(q in unquote(schema),
-              preload: ^preloads,
+              preload: ^preloads
             )
             |> Util.ParamQueryGenerator.generate(query, conn.assigns[:q], order_by)
             |> Repo.paginate(params)
         end
 
         defoverridable search: 2
-
       end
 
       if(Enum.member?(unquote(routes), :create)) do
         def create(conn, params) do
-          params = if((authenticated?(conn) and unquote(add_user)), do: Map.put(params, "user_id", current_resource(conn).id), else: params)
+          params =
+            if(authenticated?(conn) and unquote(add_user),
+              do: Map.put(params, "user_id", current_resource(conn).id),
+              else: params
+            )
+
           with {:ok, entity} <- Repo.change(unquote(schema), params) |> Repo.insert() do
             assign(conn, :entity, entity) |> json(entity)
           end
@@ -107,13 +108,20 @@ defmodule ProblemService.BaseController do
       if(Enum.member?(unquote(routes), :update)) do
         def update(conn, %{"id" => id} = params) do
           entity = Repo.get(unquote(schema), id)
-          params = if((authenticated?(conn) and unquote(add_user)), do: Map.put(params, "user_id", current_resource(conn).id), else: params)
+
+          params =
+            if(authenticated?(conn) and unquote(add_user)) do
+              params
+              |> Map.put("user_id", current_resource(conn).id)
+              |> Map.put("updated_by_id", current_resource(conn).id)
+            else
+              params
+            end
 
           with {:ok, updated} <-
                  entity
                  |> unquote(schema).changeset(params)
                  |> Repo.update() do
-
             assign(conn, :entity, updated) |> json(updated)
           end
         end

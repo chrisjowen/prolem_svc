@@ -7,6 +7,7 @@ defmodule ProblemService.Schema.Answer do
 
     belongs_to(:discussion, ProblemService.Schema.Discussion)
     belongs_to(:user, ProblemService.Schema.User)
+    belongs_to :updated_by, ProblemService.Schema.User
 
     timestamps()
   end
@@ -14,7 +15,7 @@ defmodule ProblemService.Schema.Answer do
   @doc false
   def changeset(answer, attrs) do
     answer
-    |> cast(attrs, [:answer, :discussion_id, :user_id])
+    |> cast(attrs, [:answer, :discussion_id, :user_id, :updated_by_id])
     |> validate_required([:answer, :discussion_id, :user_id])
   end
 end

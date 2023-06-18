@@ -11,10 +11,12 @@ config :problem_service, ProblemService.Repo,
   port: 5532,
   types: ProblemService.PostgresTypes
 
+config :problem_service, ProblemService.Mailer,
+  adapter: Swoosh.Adapters.Local
+
 config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
   client_id: "773947543964189",
   client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
-
 
 config :problem_service, ProblemService.AuthController,
   completion_url: "http://localhost:8080/callback/"
@@ -48,10 +50,6 @@ config :problem_service, ProblemService.Web.Endpoint,
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
-
-
-
-
 
 # ## SSL Support
 #

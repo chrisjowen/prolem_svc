@@ -12,6 +12,7 @@ defmodule ProblemService.Schema.Link do
     field :type, :string, default: "other"
 
     belongs_to :user, ProblemService.Schema.User
+    belongs_to :updated_by, ProblemService.Schema.User
     belongs_to :solution, ProblemService.Schema.Solution
     belongs_to :problem, ProblemService.Schema.Problem
 
@@ -21,7 +22,7 @@ defmodule ProblemService.Schema.Link do
   @doc false
   def changeset(link, attrs) do
     link
-    |> cast(attrs, [:url, :text, :icon, :screenshot, :description, :user_id, :solution_id, :problem_id, :type])
+    |> cast(attrs, [:url, :text, :icon, :screenshot, :description, :user_id, :solution_id, :problem_id, :type, :updated_by_id])
     |> validate_required([:url, :text])
     |> Util.EctoUtil.validate_required_inclusion([:solution_id, :problem_id])
   end

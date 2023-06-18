@@ -20,7 +20,7 @@ defmodule ProblemService.MixProject do
   def application do
     [
       mod: {ProblemService.Application, []},
-      extra_applications: [:logger, :runtime_tools, :ueberauth_facebook, :que, :httpoison]
+      extra_applications: [:logger, :runtime_tools, :ueberauth_facebook, :que, :httpoison, :swoosh]
     ]
   end
 
@@ -39,7 +39,7 @@ defmodule ProblemService.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_live_dashboard, "~> 0.6"},
       {:esbuild, "~> 0.3", runtime: Mix.env() == :dev},
-      {:swoosh, "~> 1.3"},
+      {:swoosh, "~> 1.11"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},

@@ -23,6 +23,7 @@ defmodule Modules do
     {Schema.Tag, []},
     {Schema.PushSub, []},
     {Scrivener.Page, []},
+    {ProblemService.Services.FeedService.ProblemFeedItem, []},
     {Schema.User, [:password, :clear_password]},
   ]
 
