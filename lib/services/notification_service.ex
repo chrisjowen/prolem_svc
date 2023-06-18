@@ -3,22 +3,15 @@ defmodule ProblemService.Services.NotificationService do
   alias ProblemService.Schema.Notification
   alias ProblemService.Repo
 
-  def notify(:problem_updated, user, problem) do
+  def notify(:update, user, problem) do
     Notification.changeset(%{
-      type: "problem_updated",
-      title: "Problem Updated",
-      actions: [%{
-        title: "Show Problem",
-        href: "/problem/show/#{problem.id}"
-      }],
+      type: "problem",
+      action: "updated",
       to_id: user.id,
-      content: """
-        <p>Problem: <strong>#{problem.title}</strong></p>
-        <p>Was updated by #{problem.updated_by.name}</p>
-      """
+      by_id: problem.updated_by_id || problem.user_id,
+      item: Util.MapUtil.from_struct(problem),
     })
     |> Repo.insert()
-    |> IO.inspect()
   end
 
   def notify(_, _, _ ) do
