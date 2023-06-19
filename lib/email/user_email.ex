@@ -22,7 +22,7 @@ defmodule ProblemService.UserEmail do
     )
     |> put_layout({ProblemService.LayoutView, :email})
     |> assign(:notification, notification)
-    |> assign(:base_url, "http://127.0.0.1:5173")
+    |> assign(:base_url,  System.get_env("UI_BASE_URL") ||  "http://127.0.0.1:5173")
     |> render(:notification)
   end
 end

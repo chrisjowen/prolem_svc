@@ -40,15 +40,17 @@ config :problem_service, ProblemService.SecurePipeline,
 
 
 
-  config :problem_service, ProblemService.Mailer,
-      adapter: Bamboo.MailgunAdapter,
-      api_key: System.get_env("MAILGUN_API_KEY"),
-      domain: System.get_env("MAILGUN_DOMAIN"),
-      # base_uri: "https://api.eu.mailgun.net/v3",
-      # base_uri: "https://api.mailgun.net/v3",
-      hackney_opts: [
-        recv_timeout: :timer.minutes(1)
-      ]
+
+
+config :problem_service, ProblemService.Mailer,
+    adapter: Bamboo.MailgunAdapter,
+    api_key: System.get_env("MAILGUN_API_KEY"),
+    domain: System.get_env("MAILGUN_DOMAIN"),
+    # base_uri: "https://api.eu.mailgun.net/v3",
+    # base_uri: "https://api.mailgun.net/v3",
+    hackney_opts: [
+      recv_timeout: :timer.minutes(1)
+    ]
 
 
 config :problem_service, Util.Screenshot,
