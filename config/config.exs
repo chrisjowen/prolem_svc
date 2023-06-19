@@ -32,11 +32,23 @@ config :problem_service, ProblemService.SecurePipeline,
 
 #  config :swoosh, :api_client, ProblemService.ApiClient
 
-config :problem_service, ProblemService.Mailer,
-  adapter: Swoosh.Adapters.Mailgun,
-  api_key: System.get_env("MAILGUN_API_KEY"),
-  domain: System.get_env("MAILGUN_DOMAIN"),
-  base_url: "https://api.mailgun.net/v3"
+# config :problem_service, ProblemService.Mailer,
+#   adapter: Swoosh.Adapters.Mailgun,
+#   api_key: System.get_env("MAILGUN_API_KEY"),
+#   domain: System.get_env("MAILGUN_DOMAIN"),
+#   base_url: "https://api.mailgun.net/v3"
+
+
+
+  config :problem_service, ProblemService.Mailer,
+      adapter: Bamboo.MailgunAdapter,
+      api_key: System.get_env("MAILGUN_API_KEY"),
+      domain: System.get_env("MAILGUN_DOMAIN"),
+      # base_uri: "https://api.eu.mailgun.net/v3",
+      # base_uri: "https://api.mailgun.net/v3",
+      hackney_opts: [
+        recv_timeout: :timer.minutes(1)
+      ]
 
 
 config :problem_service, Util.Screenshot,
@@ -61,10 +73,8 @@ config :problem_service, ProblemService.Guardian,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :problem_service, ProblemService.Mailer, adapter: Swoosh.Adapters.Local
 
-# Swoosh API client is needed for adapters other than SMTP.
-config :swoosh, :api_client, false
+
 
 # Configure esbuild (the version is required)
 config :esbuild,

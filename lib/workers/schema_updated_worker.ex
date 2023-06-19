@@ -3,9 +3,15 @@ defmodule ProblemService.Workers.SchemaUpdatedWorker do
   require Logger
 
   alias ProblemService.Web.Endpoint
-  alias ProblemService.Repo
+  alias ProblemService.Eventing.Repo
   alias ProblemService.Schema
   alias ProblemService.Services.NotificationService
+
+
+  def perform([%Schema.Notification{} = notification, mode]) do
+    send_notification_email(notification)
+  end
+
 
   def perform([%Schema.Problem{} = problem, mode]) do
     notify_all(problem.id, mode, problem)
@@ -60,7 +66,16 @@ defmodule ProblemService.Workers.SchemaUpdatedWorker do
     |> IO.inspect
   end
 
+  def send_notification_email(%Schema.Notification{} = notification) do
+    notification
+    |> Repo.preload([:to, :by])
+    |> ProblemService.UserEmail.notification()
+    |> ProblemService.Mailer.deliver_now()
+
+
+  end
+
   def perform(args) do
-    IO.inspect(args)
+    IO.inspect("I HIT CATCHALL LAND #{inspect(args)}")
   end
 end

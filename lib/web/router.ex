@@ -9,8 +9,6 @@ defmodule ProblemService.Web.Router do
     plug(ProblemService.SecurePipeline)
   end
 
-
-
   scope "/api", ProblemService do
     pipe_through(:api)
     # Unsecured
@@ -89,6 +87,7 @@ defmodule ProblemService.Web.Router do
 
     resources("/obstacle", ObstacleController, only: [:create, :update, :delete])
     resources "/notification", NotificationController, only: [:update, :delete]
+
     resources "/problem", ProblemController, only: [:create, :update, :delete] do
       resources "/page", PageController, only: [:create, :update, :delete]
       resources "/user", ProblemUserController, only: [:create, :update, :delete]
@@ -140,8 +139,9 @@ defmodule ProblemService.Web.Router do
     scope "/dev" do
       pipe_through([:fetch_session, :protect_from_forgery])
 
+      # If using Phoenix
+      forward "/mail", Bamboo.SentEmailViewerPlug
       get("/sendmail", ProblemService.EmailController, :send)
-      forward("/mailbox", Plug.Swoosh.MailboxPreview)
     end
   end
 end

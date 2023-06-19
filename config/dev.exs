@@ -11,8 +11,12 @@ config :problem_service, ProblemService.Repo,
   port: 5532,
   types: ProblemService.PostgresTypes
 
+# config :problem_service, ProblemService.Mailer,
+#   adapter: Swoosh.Adapters.Local
+
+# config :swoosh, :api_client, Swoosh.ApiClient.Hackney
 config :problem_service, ProblemService.Mailer,
-  adapter: Swoosh.Adapters.Local
+  adapter: Bamboo.LocalAdapter
 
 config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
   client_id: "773947543964189",
@@ -77,6 +81,7 @@ config :problem_service, ProblemService.Web.Endpoint,
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
+config :logger, level: :debug
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.

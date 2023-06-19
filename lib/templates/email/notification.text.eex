@@ -1,0 +1,18 @@
+
+    <%= @notification.by.name %> <%= @notification.by.last_name %> <%= @notification.action %> <%= @notification.type %>
+
+    Visit:
+    <%= case @notification.type do %>
+    <% "problem" -> %>
+       <%= @base_url %>/problem/show/<%= @notification.item.id %>: <%= @notification.item.title %> 
+    <% "discussion" -> %>
+       <%= @base_url %>/problem/show/<%= @notification.item.problem_id %>/discussion/<%= @notification.item.id %>: <%= @notification.item.title %> 
+    <% "page" -> %>
+       <%= @base_url %>/problem/show/<%= @notification.item.problem_id %>/page/<%= @notification.item.id %>: <%= @notification.item.title %> 
+    <% "answer" -> %>
+        On discussion:<%= @base_url %>/problem/show/<%= @notification.item.discussion.problem_id %>/discussion/<%= @notification.item.discussion_id %>: <%= @notification.item.discussion.title %> 
+    <% "link" -> %>
+       <%= @notification.item.url %>: <%= @notification.item.text %> 
+    <% _ -> %>
+       <%= @base_url %>:@base_url
+    <% end %>

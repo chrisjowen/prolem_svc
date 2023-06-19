@@ -30,8 +30,8 @@ defmodule ProblemService.Web do
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/problem_service_web/templates",
-        namespace: ProblemService.Web
+        root: "lib/templates",
+        namespace: ProblemService
 
       # Import convenience functions from controllers
       import Phoenix.Controller,

@@ -1,13 +1,28 @@
 defmodule ProblemService.UserEmail do
-  import Swoosh.Email
+  use Bamboo.Phoenix, view: ProblemService.EmailView
+  alias ProblemService.Schema
 
   def welcome() do
-    new()
-    |> to({"Christopher Owen", "chris.j.owen@hotmail.co.uk"})
-    # |> to({user.name, user.email})
-    |> from({"Support", "mailgun@mail.chrisjowen.net"})
-    |> subject("Hello, Avengers!")
-    |> html_body("<h1>Hello hi</h1>")
-    |> text_body("Hello hi\n")
+    new_email(
+      to: "chris.j.owen@hotmail.co.uk",
+      from: "support@mail.chrisjowen.net"
+    )
+    |> put_layout({ProblemService.LayoutView, :email})
+    |> assign(:dog, "rat girl")
+    # Pass atom to render html AND plain text templates
+    |> render(:email)
+  end
+
+  def notification(%Schema.Notification{} = notification) do
+    new_email(
+      subject:
+        "#{notification.by.name} #{notification.by.last_name} #{notification.action} #{notification.type}",
+      to: notification.to.email,
+      from: "support@mail.chrisjowen.net"
+    )
+    |> put_layout({ProblemService.LayoutView, :email})
+    |> assign(:notification, notification)
+    |> assign(:base_url, "http://127.0.0.1:5173")
+    |> render(:notification)
   end
 end

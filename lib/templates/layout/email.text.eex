@@ -1,0 +1,4 @@
+http://www.ideasworthsolving.com
+
+
+ <%= @inner_content %>

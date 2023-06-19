@@ -1,0 +1,22 @@
+
+<h2>
+    <%= @notification.by.name %> <%= @notification.by.last_name %> <%= @notification.action %> <%= @notification.type %>
+</h2>
+
+<div style="padding: 18px; background: #f3f4f6; border:solid 1px #e5e7eb; margin-bottom: 2px;">
+    Visit:
+    <%= case @notification.type do %>
+    <% "problem" -> %>
+        <a href="<%= @base_url %>/problem/show/<%= @notification.item.id %>"> <%= @notification.item.title %> </a>
+    <% "discussion" -> %>
+        <a href="<%= @base_url %>/problem/show/<%= @notification.item.problem_id %>/discussion/<%= @notification.item.id %>"> <%= @notification.item.title %> </a>
+    <% "page" -> %>
+        <a href="<%= @base_url %>/problem/show/<%= @notification.item.problem_id %>/page/<%= @notification.item.id %>"> <%= @notification.item.title %> </a>
+    <% "answer" -> %>
+        On discussion: <a href="<%= @base_url %>/problem/show/<%= @notification.item.discussion.problem_id %>/discussion/<%= @notification.item.discussion_id %>"> <%= @notification.item.discussion.title %> </a>
+    <% "link" -> %>
+        <a href="<%= @notification.item.url %>"> <%= @notification.item.text %> </a>
+    <% _ -> %>
+        <a href="<%= @base_url %>">@base_url</a>
+    <% end %>
+</div>
