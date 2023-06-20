@@ -14,6 +14,8 @@ defmodule ProblemService.Schema.Product do
 
     # belongs_to :user, ProblemService.Schema.User
     belongs_to :problem, ProblemService.Schema.Problem
+
+
     timestamps()
   end
 

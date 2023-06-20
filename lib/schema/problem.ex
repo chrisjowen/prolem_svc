@@ -24,8 +24,6 @@ defmodule ProblemService.Schema.Problem do
     has_many :problem_sectors, ProblemService.Schema.ProblemSector
     has_many :sectors, through: [:problem_sectors, :sector]
 
-
-
     timestamps()
   end
 

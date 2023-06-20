@@ -17,23 +17,13 @@ defmodule ProblemService.Web.Router do
 
 
     resources("/sector", SectorController, only: [:show, :index])
-
     resources("/link", LinkController, only: [:show, :index])
-
     resources("/discussion", DiscussionController, only: [:show, :index])
-
     resources "/problem_suggestion", ProblemSuggestionController, only: [:show, :index]
-
     resources "/follower", FollowerController, only: [:index]
     resources("/obstacle", ObstacleController, only: [:show, :index])
-
     resources "/user", UserController, only: [:show, :index]
-
-
     resources "/membership", ProblemUserController, only: [:show, :index]
-
-
-
     resources "/problem", ProblemController, only: [:show, :index] do
       resources "/feed", ProblemFeedController, only: [:index]
       resources "/user", ProblemUserController, only: [:show, :index]

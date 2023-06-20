@@ -17,11 +17,11 @@ defmodule ProblemService.AIProblemController do
   end
 
 
-  def precheck(conn, %{"statement" => statement, "sector" => sector}) do
+  def precheck(conn, %{"statement" => statement}) do
     sectors = Repo.all(ProblemService.Schema.Sector)
     |> Enum.map(fn sector -> sector.name  end)
 
-    with {:ok, response} <- Ai.ProblemPrecheck.execute(statement, sector, sectors) do
+    with {:ok, response} <- Ai.ProblemPrecheck.execute(statement, sectors) do
       json(conn, response)
     end
   end

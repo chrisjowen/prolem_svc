@@ -19,6 +19,7 @@ defmodule ProblemService.Workers.CreateProblemResourcesWorker do
           Task.async(fn -> test_and_save_resource(problem, resource) end)
       end)
 
+
       Task.await_many(tasks, 50_000)
       Endpoint.broadcast!("problem:#{problem.id}", "problem:links:created", %{})
     end
@@ -31,7 +32,8 @@ defmodule ProblemService.Workers.CreateProblemResourcesWorker do
       Logger.info("Creating problem resource: #{resource["url"]}")
       save_resource(problem, resource)
     else
-      _ ->  Logger.info("Invalid resource: #{resource["url"]}")
+      _ ->
+        Logger.info("Invalid resource: #{resource["url"]}")
     end
   end
 
@@ -44,5 +46,6 @@ defmodule ProblemService.Workers.CreateProblemResourcesWorker do
     })
     |> Repo.insert()
     Endpoint.broadcast!("problem:#{problem.id}", "problem:links:added", %{})
+
   end
 end

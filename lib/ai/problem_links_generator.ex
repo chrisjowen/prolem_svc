@@ -13,7 +13,7 @@ defmodule Ai.ProblemLinksGenerator do
       |> PromptBuilder.with_action(action(statement, sector))
       |> PromptBuilder.build()
 
-    prompt |> PromptExecutor.execute() |> IO.inspect()
+    prompt |> PromptExecutor.execute()
   end
 
   def goal() do

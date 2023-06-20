@@ -1,9 +1,8 @@
 defmodule Ai.ProblemPrecheck do
-  alias Faker.Commerce
   alias Ai.PromptBuilder
   alias Ai.PromptExecutor
 
-  def execute(statement, sector, sectors) do
+  def execute(statement, sectors) do
     {:ok, prompt} =
       PromptBuilder.new()
       |> PromptBuilder.with_type(:json)
@@ -11,10 +10,10 @@ defmodule Ai.ProblemPrecheck do
       |> PromptBuilder.with_hints(hints(sectors))
       |> PromptBuilder.with_format(format())
       |> PromptBuilder.with_examples(examples())
-      |> PromptBuilder.with_action(action(statement, sector))
+      |> PromptBuilder.with_action(action(statement))
       |> PromptBuilder.build()
 
-    prompt |> PromptExecutor.execute() |> IO.inspect()
+    prompt |> PromptExecutor.execute()
   end
 
   def goal() do
@@ -26,20 +25,16 @@ defmodule Ai.ProblemPrecheck do
   def format() do
     """
     {
-      "score": "Integer - // percentage how confident you are that the problem statement can be expanded",
-      "proposedSector": "String - Name of the sector that is most relevent to the problem statement",
-      "hints": [
-        {
-          "hint": "String: The hint you would give to the user to expand the problem statement"
-        }
-      ]
+      "score": "Integer - percentage how confident you are that the problem statement can be expanded",
+      "proposedSectors": "String[] - Name of the sector that is most relevent to the problem statement",
+      "hints": "String[] - The hint you would give to the user to expand the problem statement"
     }
     """
   end
 
   def hints(sectors) do
     """
-    The key proposedSector MUST be one of [#{Enum.join(sectors, "|")}]
+    The key proposedSectors MUST be one of [#{Enum.join(sectors, "|")}]
     """
   end
 
@@ -56,27 +51,11 @@ defmodule Ai.ProblemPrecheck do
         ```
           {
             "score": 30,
-            "proposedSector": "E-Commerce",
+            "proposedSectors": ["E-Commerce"]
             "hints": [
-              {
-                "hint": "What fruit are they looking for?",
-              },
-              {
-                "hint": "Where in London are they looking?"
-              }
+              "What fruit are they looking for?",
+              "Where in London are they looking?"
             ]
-          }
-        ```
-
-        Input:
-        ```
-        Some utter nonsense
-        ```
-
-        Output:
-        ```
-          {
-            "error": "Not enough informaiton provided"
           }
         ```
 
@@ -89,14 +68,10 @@ defmodule Ai.ProblemPrecheck do
         ```
           {
             "score": 55,
-            "proposedSector": "Wearable Tech",
+            "proposedSectors": ["Wearable Tech", "E-Commerce"]
             "hints": [
-              {
-                "hint": "Consider the target audience for the wearable technology. Who would use it and why?"
-              },
-              {
-                "hint": "Explain how this is relevent to the E-Commerce sector"
-              }
+                "Consider the target audience for the wearable technology. Who would use it and why?",
+                "Explain how this is relevent to the E-Commerce sector"
             ]
           }
 
@@ -111,21 +86,13 @@ defmodule Ai.ProblemPrecheck do
         ```
         {
           "hints": [
-              {
-                  "hint": "What other problems do customers face when hiring cars abroad?"
-              },
-              {
-                  "hint": "How can the organisations be educated about the advantages of AI?"
-              },
-              {
-                  "hint": "What other applications can the technology for translation be used for?"
-              },
-              {
-                  "hint": "This seems more relevent to AI that E-Commerce, can you explain why it is relevent to E-Commerce?"
-              }
+            "What other problems do customers face when hiring cars abroad?",
+            "How can the organisations be educated about the advantages of AI?",
+            "What other applications can the technology for translation be used for?",
+            "This seems more relevent to AI that E-Commerce, can you explain why it is relevent to E-Commerce?"
           ],
           "score": 84,
-          "proposedSector": "AI"
+          "proposedSectors": ["Artificial Intelligence"]
 
       }
       ```
@@ -134,9 +101,9 @@ defmodule Ai.ProblemPrecheck do
     |> String.trim()
   end
 
-  defp action(statement, sector) do
+  defp action(statement) do
     """
-      The problem statement is  is specified below within the tripple backticks
+      The problem statement is is specified below within the tripple backticks
       ```
         #{statement}
       ```

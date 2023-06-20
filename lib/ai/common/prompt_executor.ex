@@ -23,6 +23,7 @@ defmodule Ai.PromptExecutor do
 
   defp sanitizeResponse(content, :json) do
     content |> String.replace("```", "")
+            |> String.replace("Response:", "")
   end
 
   defp sanitizeResponse(content, :html) do
