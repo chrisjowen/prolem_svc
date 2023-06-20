@@ -28,6 +28,11 @@ defmodule ProblemService.Web.Router do
 
     resources "/user", UserController, only: [:show, :index]
 
+
+    resources "/membership", ProblemUserController, only: [:show, :index]
+
+
+
     resources "/problem", ProblemController, only: [:show, :index] do
       resources "/feed", ProblemFeedController, only: [:index]
       resources "/user", ProblemUserController, only: [:show, :index]

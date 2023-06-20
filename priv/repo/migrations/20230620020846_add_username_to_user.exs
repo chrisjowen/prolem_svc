@@ -11,7 +11,7 @@ defmodule ProblemService.Repo.Migrations.AddUsernameToUser do
 
     flush()
 
-    ProblemService.Repo.transaction(fn ->
+    Repo.transaction(fn ->
       User
       |> Repo.all()
       |> Enum.each(fn record ->

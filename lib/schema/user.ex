@@ -39,6 +39,8 @@ defmodule ProblemService.Schema.User do
     field :dob, :date
     field :clear_password, :string, virtual: true
     has_many :problems, ProblemService.Schema.Problem
+    has_many :memberships, ProblemService.Schema.ProblemUser, foreign_key: :member_id
+
     timestamps()
   end
 

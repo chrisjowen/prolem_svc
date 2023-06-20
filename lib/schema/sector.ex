@@ -6,7 +6,9 @@ defmodule ProblemService.Schema.Sector do
     field :name, :string
     field :description, :string
     field :image, :string
-    has_many :problems, ProblemService.Schema.Problem
+    has_many :problem_sectors, ProblemService.Schema.ProblemSector
+    has_many :problems, through: [:problem_sectors, :problem]
+
 
     timestamps()
   end

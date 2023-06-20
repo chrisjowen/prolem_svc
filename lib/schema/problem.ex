@@ -21,6 +21,10 @@ defmodule ProblemService.Schema.Problem do
     has_many :products, ProblemService.Schema.Product
     has_many :problem_users, ProblemService.Schema.ProblemUser
     has_many :users, through: [:problem_users, :member]
+    has_many :problem_sectors, ProblemService.Schema.ProblemSector
+    has_many :sectors, through: [:problem_sectors, :sector]
+
+
 
     timestamps()
   end
