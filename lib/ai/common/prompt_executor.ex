@@ -28,6 +28,7 @@ defmodule Ai.PromptExecutor do
   defp sanitizeResponse(content, :html) do
     content |> String.replace("```", "")
             |> String.replace("\n", "")
+            |> String.replace("\t", "")
   end
 
   defp try_decode_json(response) do
@@ -38,8 +39,8 @@ defmodule Ai.PromptExecutor do
 
   defp generate_messages(prompt) do
     add_message(prompt.goal)
-    |> add_message(prompt.hints, "system")
-    |> add_message(prompt.format, "system")
+    |> add_message(prompt.hints)
+    |> add_message(prompt.format)
     |> add_message(prompt.examples)
     |> add_message(prompt.action)
   end

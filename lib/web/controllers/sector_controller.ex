@@ -16,4 +16,10 @@ defmodule ProblemService.SectorController do
   end
 
 
+  def generate(conn,  %{"sector" => sector}) do
+    Que.add(ProblemService.Workers.SectorCreateWorker, sector)
+    json(conn, :ok)
+  end
+
+
 end

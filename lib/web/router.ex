@@ -15,6 +15,7 @@ defmodule ProblemService.Web.Router do
 
     get("/image/*path", ImageController, :show)
 
+
     resources("/sector", SectorController, only: [:show, :index])
 
     resources("/link", LinkController, only: [:show, :index])
@@ -58,6 +59,9 @@ defmodule ProblemService.Web.Router do
 
   scope "/api", ProblemService do
     pipe_through([:api, :auth])
+
+    post("/sector/generate", SectorController, :generate)
+
 
     resources "/notification", NotificationController, only: [:show, :index]
 
@@ -142,11 +146,13 @@ defmodule ProblemService.Web.Router do
   # node running the Phoenix server.
   if Mix.env() == :dev do
     scope "/dev" do
-      pipe_through([:fetch_session, :protect_from_forgery])
+      # pipe_through([:fetch_session, :protect_from_forgery])
 
       # If using Phoenix
       forward "/mail", Bamboo.SentEmailViewerPlug
       get("/sendmail", ProblemService.EmailController, :send)
+      post("/ai/imagery", ProblemService.AiController, :imagery)
+      post("/ai/sector", ProblemService.AiController, :sector)
     end
   end
 end

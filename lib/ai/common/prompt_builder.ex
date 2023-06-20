@@ -67,7 +67,7 @@ defmodule Ai.PromptBuilder do
     #{prompt.hints}
     ```
     """
-    {:ok, prompt.hints}
+    {:ok, hints}
   end
 
   defp build_action(prompt) do
@@ -119,6 +119,8 @@ defmodule Ai.PromptBuilder do
       """
       The output format MUST be 100% valid HTML it should:
 
+        - Only return the HTML inside the <body> not the <head> or <html> tags
+        - It should not contain any comments new '\n' or '\t'
         - The output should be a VALID HTML with text not enclosed in any tags.
         - It should be as compact as possible.
         - It should NOT contain any comments, or \n new line breaks

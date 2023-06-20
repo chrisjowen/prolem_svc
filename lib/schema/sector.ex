@@ -15,9 +15,8 @@ defmodule ProblemService.Schema.Sector do
 
   @doc false
   def changeset(schema, attrs) do
-    required = [:name, :description]
+    required = [:name, :description, :image]
     additional = [
-      :image
     ]
 
     schema

@@ -9,7 +9,7 @@ defmodule Ai.ProblemPrecheck do
       |> PromptBuilder.with_type(:json)
       |> PromptBuilder.with_goal(goal())
       |> PromptBuilder.with_hints(hints(sectors))
-      |> PromptBuilder.with_format(format(sector))
+      |> PromptBuilder.with_format(format())
       |> PromptBuilder.with_examples(examples())
       |> PromptBuilder.with_action(action(statement, sector))
       |> PromptBuilder.build()
@@ -23,7 +23,7 @@ defmodule Ai.ProblemPrecheck do
     """
   end
 
-  def format(sector) do
+  def format() do
     """
     {
       "score": "Integer - // percentage how confident you are that the problem statement can be expanded",

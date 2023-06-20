@@ -1,5 +1,5 @@
 defmodule Ai.ImageGenerator do
-  def generate(prompt, size \\ :mid) do
+  def execute(prompt, size \\ :mid) do
     dimensions =
       case size do
         :small -> "512x512"
@@ -13,6 +13,7 @@ defmodule Ai.ImageGenerator do
              %OpenAI.Config{http_options: [recv_timeout: 10 * 60 * 1000]}
            ) do
       [h | _] = response.data
+      {:ok, response.data}
     end
   end
 end
