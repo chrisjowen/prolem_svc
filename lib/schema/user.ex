@@ -29,6 +29,8 @@ defmodule ProblemService.Schema.User do
     field :email, :string
     field :password, Comeonin.Ecto.Password
     field :salt, :string, default: Ecto.UUID.generate()
+    field :type, :string, default: "human"
+    field :profile_pic, :string
 
     # field :avatar, ProblemService.Avatar.Type
     # field :avatar_id, Ecto.UUID
@@ -67,7 +69,9 @@ defmodule ProblemService.Schema.User do
       :dob,
       :password,
       :salt,
-      :clear_password
+      :clear_password,
+      :profile_pic,
+      :type
     ])
     # |> cast_attachments(attrs, [:avatar])
     |> validate_length(:clear_password, min: 6, max: 15)
