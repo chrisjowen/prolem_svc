@@ -1,4 +1,4 @@
-defmodule ProblemService.Schema.Space do
+defmodule ProblemService.Schema.WorkSpace do
   use Ecto.Schema
   import Ecto.Changeset
 

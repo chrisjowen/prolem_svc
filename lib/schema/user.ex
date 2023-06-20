@@ -33,8 +33,7 @@ defmodule ProblemService.Schema.User do
     # field :avatar, ProblemService.Avatar.Type
     # field :avatar_id, Ecto.UUID
 
-
-    field :nickname, :string
+    field :username, :string
     field :nationality, :string
     field :gender, :string
     field :dob, :date
@@ -46,10 +45,13 @@ defmodule ProblemService.Schema.User do
   @doc false
 
   def changeset(user, attrs) do
-
-    #IO.inspect(attrs)
-    attrs = Map.put(attrs ,"clear_password", Map.get(attrs, "password"))
-
+    password = attrs["password"]
+    attrs =
+      if(password != nil) do
+        attrs |> Map.put("clear_password", password)
+      else
+        attrs
+      end
 
     user
     |> cast(attrs, [
@@ -57,7 +59,7 @@ defmodule ProblemService.Schema.User do
       :last_name,
       :gender,
       :email,
-      :nickname,
+      :username,
       :nationality,
       :gender,
       :dob,
@@ -67,11 +69,13 @@ defmodule ProblemService.Schema.User do
     ])
     # |> cast_attachments(attrs, [:avatar])
     |> validate_length(:clear_password, min: 6, max: 15)
-    |> validate_format(:clear_password, ~r/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, message: "must contain at least one uppercase letter, a number and a special character")
-    |> validate_required([:clear_password, :name, :last_name, :email, :password, :salt])
+    |> validate_format(
+      :clear_password,
+      ~r/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      message: "must contain at least one uppercase letter, a number and a special character"
+    )
+    |> validate_required([:name, :last_name, :email, :password, :salt, :username])
   end
-
-
 
   defmodule Queries do
     import Ecto.Query
@@ -81,8 +85,4 @@ defmodule ProblemService.Schema.User do
         where: u.email == ^email
     end
   end
-
-
-
-
 end
