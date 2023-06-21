@@ -9,9 +9,9 @@ defmodule Modules do
     {Schema.Link, []},
     {Schema.Answer, []},
     {Schema.Obstacle, []},
-    {Schema.Problem, []},
+    {Schema.Problem, [embed: [:overview]]},
     {Schema.Follower, []},
-    {Schema.Sector, []},
+    {Schema.Sector, [embed: [:description]]},
     {Schema.Questionaire, []},
     {Schema.Questionaire.Question, []},
     {Schema.Product, []},
@@ -19,12 +19,13 @@ defmodule Modules do
     {Schema.Stakeholder, []},
     {Schema.Event, []},
     {Schema.ProblemUser, []},
+    {Schema.ProblemSector, []},
     {Schema.Page, []},
     {Schema.Tag, []},
     {Schema.PushSub, []},
     {Scrivener.Page, []},
     {ProblemService.Services.FeedService.ProblemFeedItem, []},
-    {Schema.User, [:password, :clear_password]},
+    {Schema.User, [:password, :clear_password, :salt]}
   ]
 
   def modules, do:  @modules
@@ -34,11 +35,8 @@ end
 Enum.map(Modules.modules, fn {module, strip} ->
   defimpl Jason.Encoder, for: module do
     def encode(schema, options) do
-      stripped = Util.MapUtil.from_struct(schema, unquote(Modules.modules))
-
-      stripped
-      |> Map.take(Map.keys(stripped))
-      |> Jason.Encoder.Map.encode(options)
+     Util.MapUtil.from_struct(schema, unquote(Modules.modules))
+      |>  Jason.Encoder.Map.encode(options)
     end
   end
 end)

@@ -16,7 +16,10 @@ defmodule ProblemService.Web.Router do
     get("/image/*path", ImageController, :show)
 
 
-    resources("/sector", SectorController, only: [:show, :index])
+    resources("/sector", SectorController, only: [:show, :index]) do
+      resources "/problem", ProblemSectorController, only: [:index, :show]
+
+    end
     resources("/link", LinkController, only: [:show, :index])
     resources("/discussion", DiscussionController, only: [:show, :index])
     resources "/problem_suggestion", ProblemSuggestionController, only: [:show, :index]
@@ -25,6 +28,7 @@ defmodule ProblemService.Web.Router do
     resources "/user", UserController, only: [:show, :index]
     resources "/membership", ProblemUserController, only: [:show, :index]
     resources "/problem", ProblemController, only: [:show, :index] do
+      resources "/sector", ProblemSectorController, only: [:index, :show]
       resources "/feed", ProblemFeedController, only: [:index]
       resources "/user", ProblemUserController, only: [:show, :index]
       resources "/member", ProblemUserController, only: [:show, :index]

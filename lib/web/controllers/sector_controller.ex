@@ -7,13 +7,13 @@ defmodule ProblemService.SectorController do
   ]
 
 
-  def index(conn, params) do
-    searchable_fileds = @excluded_fields ++ Modules.modules()
-    result =
-      search(conn, params)
-      |> Util.MapUtil.from_struct(searchable_fileds)  # TODO: This can be automatically done
-    json(conn, result)
-  end
+  # def index(conn, params) do
+  #   searchable_fileds = @excluded_fields ++ Modules.modules()
+  #   result =
+  #     search(conn, params)
+  #     |> Util.MapUtil.from_struct(searchable_fileds)  # TODO: This can be automatically done
+  #   json(conn, result)
+  # end
 
 
   def generate(conn,  %{"sector" => sector}) do
