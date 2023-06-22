@@ -5,6 +5,8 @@ defmodule ProblemService.Schema.Discussion do
   schema "discussions" do
     field :question, :string
     field :title, :string
+    field :public, :boolean, default: true
+    field :tags, {:array, :string}
     belongs_to :user, ProblemService.Schema.User
     belongs_to :solution, ProblemService.Schema.Solution
     belongs_to :problem, ProblemService.Schema.Problem
@@ -16,7 +18,7 @@ defmodule ProblemService.Schema.Discussion do
   @doc false
   def changeset(question, attrs) do
     question
-    |> cast(attrs, [:title, :question, :user_id, :solution_id, :problem_id, :updated_by_id])
+    |> cast(attrs, [:title, :question, :user_id, :solution_id, :public,:problem_id, :updated_by_id, :tags])
     |> validate_required([:title, :question, :user_id])
     |> Util.EctoUtil.validate_required_inclusion([:solution_id, :problem_id])
   end

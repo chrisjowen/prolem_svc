@@ -4,7 +4,10 @@ defmodule ProblemService.CommentController do
   plug ProblemService.SetQuery, only: [:index]
 
 
-  def index(conn,%{"solution_id" => solution_id} = params), do: super(assign(conn, :q, "solution_id=#{solution_id}"), params)
-  def index(conn,%{"problem_id" => problem_id} = params), do: super(assign(conn, :q, "problem_id=#{problem_id}"), params)
+  def index(conn,%{"solution_id" => id} = params), do: super(assign(conn, :q, "solution_id=#{id}"), params)
+  def index(conn,%{"problem_id" => id} = params), do: super(assign(conn, :q, "problem_id=#{id}"), params)
+  def index(conn,%{"answer_id" => id} = params), do: super(assign(conn, :q, "answer_id=#{id}"), params)
+  def index(conn,%{"discussion_id" => id} = params), do: super(assign(conn, :q, "discussion_id=#{id}"), params)
+
 
 end

@@ -15,18 +15,30 @@ defmodule ProblemService.Web.Router do
 
     get("/image/*path", ImageController, :show)
 
-
     resources("/sector", SectorController, only: [:show, :index]) do
       resources "/problem", ProblemSectorController, only: [:index, :show]
-
     end
+
     resources("/link", LinkController, only: [:show, :index])
-    resources("/discussion", DiscussionController, only: [:show, :index])
+
+    resources("/answer", AnswerController, only: [:show, :index]) do
+      resources("/comment", CommentController, only: [:show, :index])
+    end
+
+    resources("/discussion", DiscussionController, only: [:show, :index]) do
+      resources "/answer", AnswerController, only: [:show, :index] do
+        resources("/comment", CommentController, only: [:show, :index])
+      end
+
+      resources("/comment", CommentController, only: [:show, :index])
+    end
+
     resources "/problem_suggestion", ProblemSuggestionController, only: [:show, :index]
     resources "/follower", FollowerController, only: [:index]
     resources("/obstacle", ObstacleController, only: [:show, :index])
     resources "/user", UserController, only: [:show, :index]
     resources "/membership", ProblemUserController, only: [:show, :index]
+
     resources "/problem", ProblemController, only: [:show, :index] do
       resources "/sector", ProblemSectorController, only: [:index, :show]
       resources "/feed", ProblemFeedController, only: [:index]
@@ -56,7 +68,6 @@ defmodule ProblemService.Web.Router do
 
     post("/sector/generate", SectorController, :generate)
 
-
     resources "/notification", NotificationController, only: [:show, :index]
 
     post("/image/:type", ImageController, :create)
@@ -64,8 +75,16 @@ defmodule ProblemService.Web.Router do
     post("/problem/:problem_id/follow", FollowerController, :create)
     post("/problem/:problem_id/unfollow", FollowerController, :unfollow)
 
+    resources("/answer", AnswerController, only: [:create, :update, :delete]) do
+      resources("/comment", CommentController, only: [:create, :update, :delete])
+    end
+
     resources("/discussion", DiscussionController, only: [:create, :update, :delete]) do
-      resources("/answer", AnswerController, only: [:create, :update, :delete])
+      resources("/answer", AnswerController, only: [:create, :update, :delete]) do
+        resources("/comment", CommentController, only: [:create, :update, :delete])
+      end
+
+      resources("/comment", CommentController, only: [:create, :update, :delete])
     end
 
     post "/workflow/template", WorkflowController, :problem_template

@@ -106,6 +106,10 @@ defmodule Util.ParamQueryGenerator do
         values = String.split(values, ",")
         dynamic([q], field(q, ^field) in ^values)
 
+      ["list", field] ->
+          values = String.split(values, ",")
+          dynamic([q], fragment("? && ?", field(q, ^field), ^values))
+
       ["not_in", field] ->
         values = String.split(values, ",")
         dynamic([q], field(q, ^field) not in ^values)
@@ -125,11 +129,12 @@ defmodule Util.ParamQueryGenerator do
 
       ["lte", field] ->
         dynamic([q], field(q, ^field) <= ^values)
+
     end
   end
 
   defp extract_op(input) do
-    regex = ~r/([a-zA-Z_-]+)\[(eq|in|like|gt|gte|lt|lte)\]/
+    regex = ~r/([a-zA-Z_-]+)\[(eq|in|like|gt|gte|lt|lte|list)\]/
 
     case Regex.run(regex, input) do
       [_, field, op] -> [op, AtomUtil.string_to_atom(field)]
