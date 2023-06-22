@@ -9,6 +9,7 @@ defmodule ProblemService.Schema.Problem do
     field :overview, :string
     field :status, :string, default: "DRAFT"
     field :img, :string
+    field :banner_image, :string
     field :public, :boolean, default: true
 
     belongs_to :space, ProblemService.Schema.Space
@@ -36,7 +37,8 @@ defmodule ProblemService.Schema.Problem do
       :img,
       :blurb,
       :space_id,
-      :updated_by_id
+      :updated_by_id,
+      :banner_image
     ]
 
     user
