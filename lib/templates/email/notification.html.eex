@@ -6,9 +6,9 @@
        <% "requested" -> %>
             requested access to join a problem
        <% "invited" -> %>
-            invited @<%= @notification.item["member"]["username"] %>  to join a problem
+            invited @<%= @notification.item.member.username %>  to join a problem
        <% "active" -> %>
-            accepted  @<%= @notification.item["member"]["username"] %> to join problem
+            accepted  @<%= @notification.item.member.username %> to join problem
         <% _ -> %>
            <%= @notification.action %> <%= @notification.type %>
     <% end %>
@@ -18,17 +18,17 @@
     Visit:
     <%= case @notification.type do %>
     <% "problem" -> %>
-        <a href="<%= @base_url %>/problem/show/<%= @notification.item["id"] %>"> <%= @notification.item["title"] %> </a>
+        <a href="<%= @base_url %>/problem/show/<%= @notification.item.id %>"> <%= @notification.item.title %> </a>
     <% "problemuser" -> %>
-        <a href="<%= @base_url %>/problem/show/<%= @notification.item["problem"]["id"] %>/users"> <%= @notification.item["problem"]["title"] %> </a> to view problem
+        <a href="<%= @base_url %>/problem/show/<%= @notification.item.problem.id %>/users"> <%= @notification.item.problem.title %> </a> to view problem
     <% "discussion" -> %>
-        <a href="<%= @base_url %>/problem/show/<%= @notification.item["problem_id"] %>/discussion/<%= @notification.item["id"] %>"> <%= @notification.item["title"] %> </a>
+        <a href="<%= @base_url %>/problem/show/<%= @notification.item.problem_id %>/discussion/<%= @notification.item.id %>"> <%= @notification.item.title %> </a>
     <% "page" -> %>
-        <a href="<%= @base_url %>/problem/show/<%= @notification.item["problem_id"] %>/page/<%= @notification.item["id"] %>"> <%= @notification.item["title"] %> </a>
+        <a href="<%= @base_url %>/problem/show/<%= @notification.item.problem_id %>/page/<%= @notification.item.id %>"> <%= @notification.item.title %> </a>
     <% "answer" -> %>
-        On discussion: <a href="<%= @base_url %>/problem/show/<%= @notification.item["discussion"]["problem_id"] %>/discussion/<%= @notification.item["discussion_id"] %>"> <%= @notification.item["discussion"]["title"] %> </a>
+        On discussion: <a href="<%= @base_url %>/problem/show/<%= @notification.item.discussion.problem_id %>/discussion/<%= @notification.item.discussion_id %>"> <%= @notification.item.discussion.title %> </a>
     <% "link" -> %>
-        <a href="<%= @notification.item["url"] %>"> <%= @notification.item["text"] %> </a>
+        <a href="<%= @notification.item.url %>"> <%= @notification.item.text %> </a>
     <% _ -> %>
         <a href="<%= @base_url %>">@base_url</a>
     <% end %>
