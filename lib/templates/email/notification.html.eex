@@ -1,6 +1,17 @@
 
 <h2>
-    <%= @notification.by.name %> <%= @notification.by.last_name %> <%= @notification.action %> <%= @notification.type %>
+    @<%= @notification.by.username %>
+
+      <%= case @notification.action do %>
+       <% "requested" -> %>
+            requested access to join a problem
+       <% "invited" -> %>
+            invited @<%= @notification.item.member.username %>  to join a problem
+       <% "active" -> %>
+            accepted  @<%= @notification.item.member.username %> to join problem
+        <% _ -> %>
+           <%= @notification.action %> <%= @notification.type %>
+    <% end %>
 </h2>
 
 <div style="padding: 18px; background: #f3f4f6; border:solid 1px #e5e7eb; margin-bottom: 2px;">
@@ -8,6 +19,8 @@
     <%= case @notification.type do %>
     <% "problem" -> %>
         <a href="<%= @base_url %>/problem/show/<%= @notification.item.id %>"> <%= @notification.item.title %> </a>
+    <% "problemuser" -> %>
+        <a href="<%= @base_url %>/problem/show/<%= @notification.item.problem.id %>/users"> <%= @notification.item.problem.title %> </a> to view problem
     <% "discussion" -> %>
         <a href="<%= @base_url %>/problem/show/<%= @notification.item.problem_id %>/discussion/<%= @notification.item.id %>"> <%= @notification.item.title %> </a>
     <% "page" -> %>

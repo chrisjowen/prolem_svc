@@ -19,6 +19,8 @@ defmodule Modules do
     {Schema.Stakeholder, []},
     {Schema.Event, []},
     {Schema.ProblemUser, []},
+    {Schema.UserProfile, []},
+    {Schema.ProblemInvite, []},
     {Schema.ProblemSector, []},
     {Schema.Page, []},
     {Schema.Tag, []},

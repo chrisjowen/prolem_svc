@@ -4,31 +4,35 @@ defmodule ProblemService.Schema.ProblemUser do
 
   schema "problem_users" do
     field :role, :string
-    field :status, :string, default: "invited" #  requested, invited, active, declined
+    #  requested, invited, active, declined
+    field :status, :string, default: "invited"
     belongs_to :problem, ProblemService.Schema.Problem
     belongs_to :member, ProblemService.Schema.User
+    belongs_to :user, ProblemService.Schema.User
+    belongs_to :updated_by, ProblemService.Schema.User
   end
 
   @doc false
   def changeset(problem_user, attrs) do
-    required = [:role, :problem_id, :member_id]
-    additional = [:status]
+    required = [:role, :problem_id, :member_id, :user_id]
+    additional = [:updated_by_id, :status]
 
     problem_user
     |> cast(attrs, required ++ additional)
     |> validate_required(required)
   end
 
-  def authorize(:create, user, %{params: %{"status" =>  "requested"}, problem: problem}) do
+  def authorize(:create, user, %{params: %{"status" => "requested"}, problem: problem}) do
     problem.public
   end
 
-  def authorize(:update, user, %{problem: problem, member: %{status: "invited" } = member}) do
+  def authorize(:update, user, %{problem: problem, member: %{status: "invited"} = member}) do
     member.member_id == user.id
   end
 
   def authorize(:delete, user, %{problem: problem, member: member}) do
-    is_owner(problem, user) || is_admin(problem.problem_users, user) || user.id == member.member_id
+    is_owner(problem, user) || is_admin(problem.problem_users, user) ||
+      user.id == member.member_id
   end
 
   def authorize(mode, user, %{problem: problem}) when mode in [:create, :update] do

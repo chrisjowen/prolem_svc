@@ -31,17 +31,17 @@ defmodule ProblemService.Schema.User do
     field :salt, :string, default: Ecto.UUID.generate()
     field :type, :string, default: "human"
     field :profile_pic, :string
+    field :username, :string
+    field :tagline, :string
 
     # field :avatar, ProblemService.Avatar.Type
     # field :avatar_id, Ecto.UUID
 
-    field :username, :string
-    field :nationality, :string
-    field :gender, :string
-    field :dob, :date
+
     field :clear_password, :string, virtual: true
     has_many :problems, ProblemService.Schema.Problem
     has_many :memberships, ProblemService.Schema.ProblemUser, foreign_key: :member_id
+    has_one :profile, ProblemService.Schema.UserProfile
 
     timestamps()
   end
@@ -61,17 +61,14 @@ defmodule ProblemService.Schema.User do
     |> cast(attrs, [
       :name,
       :last_name,
-      :gender,
       :email,
       :username,
-      :nationality,
-      :gender,
-      :dob,
       :password,
       :salt,
       :clear_password,
       :profile_pic,
-      :type
+      :type,
+      :tagline
     ])
     # |> cast_attachments(attrs, [:avatar])
     |> validate_length(:clear_password, min: 6, max: 15)
@@ -88,7 +85,7 @@ defmodule ProblemService.Schema.User do
 
     def with_username(user, email) do
       from u in user,
-        where: u.email == ^email
+        where: u.email == ^email or  u.username == ^email
     end
   end
 end

@@ -41,6 +41,7 @@ defmodule ProblemService.Web.Router do
 
     resources "/problem", ProblemController, only: [:show, :index] do
       resources "/sector", ProblemSectorController, only: [:index, :show]
+      resources "/invite", ProblemInviteController, only: [:index, :show]
       resources "/feed", ProblemFeedController, only: [:index]
       resources "/user", ProblemUserController, only: [:show, :index]
       resources "/member", ProblemUserController, only: [:show, :index]
@@ -112,6 +113,7 @@ defmodule ProblemService.Web.Router do
 
     resources "/problem", ProblemController, only: [:create, :update, :delete] do
       resources "/page", PageController, only: [:create, :update, :delete]
+      resources "/invite", ProblemInviteController, only: [:create, :update, :delete]
       resources "/user", ProblemUserController, only: [:create, :update, :delete]
       resources "/member", ProblemUserController, only: [:create, :update, :delete]
       resources("/comment", CommentController, only: [:create, :update, :delete])
@@ -131,7 +133,10 @@ defmodule ProblemService.Web.Router do
     get("/user/me", UserController, :me)
     get("/user/id", UserController, :id)
     get("/user/:id", UserController, :show)
+    resources "/user/:user_id/profile", UserProfileController, only: [:create, :update, :delete]
     post("/user/search", UserController, :search)
+
+
 
     post("/ai/advice/solution/:type", AiSolutionController, :advice)
     post("/ai/advice/text", AiTextController, :advice)

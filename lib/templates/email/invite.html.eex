@@ -1,0 +1,10 @@
+
+<h2 >
+    <%= @invite.user.name %> <%= @invite.user.last_name %> invited you to participate in solving a problem
+</h2>
+
+<div style="padding: 18px; background: #f3f4f6; border:solid 1px #e5e7eb; margin-bottom: 2px;">
+    <a href="<%= @base_url %>/problem/show/<%= @invite.problem_id %>?ivt=<%= @invite.identifier %>">
+        <strong><%= @invite.problem.title %></strong>
+    </a>
+</div>
