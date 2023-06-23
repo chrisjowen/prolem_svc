@@ -12,7 +12,7 @@ defmodule ProblemService.Workers.CreateProblemObstaclesWorker do
   end
 
   defp create_problem_resources(problem) do
-    Endpoint.broadcast!("problem:#{problem.id}", "problem:obstacles:creating", %{})
+    Endpoint.broadcast!("user:#{problem.user_id}", "problem:obstacles:creating", %{})
 
     with {:ok, response} <- Ai.ProblemObstaclesGenerator.execute(problem.overview, problem.sector.name) do
         response["obstacles"]
@@ -27,7 +27,7 @@ defmodule ProblemService.Workers.CreateProblemObstaclesWorker do
           |> Repo.insert()
         end)
 
-      Endpoint.broadcast!("problem:#{problem.id}", "problem:obstacles:created", %{})
+      Endpoint.broadcast!("user:#{problem.user_id}", "problem:obstacles:created", %{})
     end
   end
 

@@ -12,7 +12,7 @@ defmodule ProblemService.Workers.CreateProblemResourcesWorker do
   end
 
   defp create_problem_resources(problem) do
-    Endpoint.broadcast!("problem:#{problem.id}", "problem:links:creating", %{})
+    Endpoint.broadcast!("user:#{problem.user_id}", "problem:links:creating", %{})
     with {:ok, response} <- Ai.ProblemResourceGenerator.execute(problem.overview, problem.sector.name) do
       tasks = response["resources"]
       |> Enum.map(fn resource ->
@@ -21,7 +21,7 @@ defmodule ProblemService.Workers.CreateProblemResourcesWorker do
 
 
       Task.await_many(tasks, 50_000)
-      Endpoint.broadcast!("problem:#{problem.id}", "problem:links:created", %{})
+      Endpoint.broadcast!("user:#{problem.user_id}", "problem:links:created", %{})
     end
   end
 
@@ -45,7 +45,7 @@ defmodule ProblemService.Workers.CreateProblemResourcesWorker do
       type: resource["type"]
     })
     |> Repo.insert()
-    Endpoint.broadcast!("problem:#{problem.id}", "problem:links:added", %{})
+    Endpoint.broadcast!("user:#{problem.user_id}", "problem:links:added", %{})
 
   end
 end

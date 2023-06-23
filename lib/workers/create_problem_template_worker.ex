@@ -23,20 +23,20 @@ defmodule ProblemService.Workers.CreateProblemTemplateWorker do
       |> Enum.map(fn sector -> sector.name end)
       |> Enum.join(",")
 
-    Endpoint.broadcast!("problem:trace:#{trace_id}", "problem:creating", %{})
+    Endpoint.broadcast!("user:trace:#{trace_id}", "problem:creating", %{})
 
     with {:ok, full_statement} <- Ai.ProblemStatementGenerator.execute(statement, sector_names),
          {:ok, meta} <- generate_meta(statement, sector_names, trace_id),
          {:ok, path} <- generate_image(meta["imagery"], trace_id),
          {:ok, problem} <- save_problem(full_statement, sectors, meta, user_id, path) do
-      Endpoint.broadcast("problem:trace:#{trace_id}", "problem:created", %{id: problem.id})
+      Endpoint.broadcast("user:trace:#{trace_id}", "problem:created", %{id: problem.id})
     else
       error -> Logger.error("Error: #{inspect(error)}")
     end
   end
 
   def generate_meta(statement, sectors_names, trace_id) do
-    Endpoint.broadcast!("problem:trace:#{trace_id}", "problem:creating:meta", %{})
+    Endpoint.broadcast!("user:trace:#{trace_id}", "problem:creating:meta", %{})
     Ai.ProblemStatementMetaGenerator.execute(statement, sectors_names)
   end
 

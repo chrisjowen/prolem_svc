@@ -12,10 +12,9 @@ defmodule ProblemService.Web.Endpoint do
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
-  socket "/socket", ProblemService.ProblemSocket,
+  socket "/socket", ProblemService.UserSocket,
     websocket: true,
     longpoll: true
-
 
   plug Plug.Static, at: "/", from: :problem_service, only: ~w(css images js favicon.ico robots.txt)
 

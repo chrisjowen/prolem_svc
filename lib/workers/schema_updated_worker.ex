@@ -25,8 +25,11 @@ defmodule ProblemService.Workers.SchemaUpdatedWorker do
       "requested" ->
         notify(:requested, problem_user.problem.user_id, problem_user)
 
-        problem_user.problem
-        |> Repo.preload(:problem_users)
+        problem =
+          problem_user.problem
+          |> Repo.preload(:problem_users)
+
+        problem.problem_users
         |> Enum.filter(fn pu -> pu.status == "active" end)
         |> Enum.each(fn pu ->
           notify(:requested, pu.member_id, problem_user)
@@ -35,8 +38,11 @@ defmodule ProblemService.Workers.SchemaUpdatedWorker do
       "active" ->
         notify(:active, problem_user.problem.user_id, problem_user)
 
-        problem_user.problem
-        |> Repo.preload(:problem_users)
+        problem =
+          problem_user.problem
+          |> Repo.preload(:problem_users)
+
+        problem.problem_users
         |> Enum.filter(fn pu -> pu.status == "active" end)
         |> Enum.each(fn pu ->
           notify(:requested, pu.member_id, problem_user)
@@ -88,23 +94,30 @@ defmodule ProblemService.Workers.SchemaUpdatedWorker do
 
     updater_id = entity.updated_by_id || entity.user_id
 
-    (follower_ids ++ member_ids ++ problem.user_id)
+    if(problem.user_id != updater_id) do
+      notify(mode, problem.user_id, entity)
+    end
+
+    (follower_ids ++ member_ids)
     |> Enum.uniq()
-    # |> Enum.filter(fn id -> id != updater_id end)
+    |> Enum.filter(fn id -> id != updater_id end)
     |> Enum.each(&notify(mode, &1, entity))
   end
 
   def notify(mode, to_id, entity) do
     type = entity.__struct__ |> Module.split() |> List.last() |> String.downcase()
 
-    Schema.Notification.changeset(%{
-      type: type,
-      action: Atom.to_string(mode),
-      to_id: to_id,
-      by_id: entity.updated_by_id || entity.user_id,
-      item: Util.MapUtil.from_struct(entity)
-    })
-    |> Repo.insert()
+    notification =
+      Schema.Notification.changeset(%{
+        type: type,
+        action: Atom.to_string(mode),
+        to_id: to_id,
+        by_id: entity.updated_by_id || entity.user_id,
+        item: Util.MapUtil.from_struct(entity)
+      })
+      |> Repo.insert!()
+
+    Endpoint.broadcast!("user:#{notification.to_id}", "notification", %{})
   end
 
   def send_notification_email(%Schema.Notification{} = notification) do
