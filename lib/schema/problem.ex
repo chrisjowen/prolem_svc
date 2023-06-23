@@ -10,6 +10,7 @@ defmodule ProblemService.Schema.Problem do
     field :status, :string, default: "DRAFT"
     field :img, :string
     field :banner_image, :string
+    field :pinned_note, :string
     field :public, :boolean, default: true
 
     belongs_to :space, ProblemService.Schema.Space
@@ -38,7 +39,8 @@ defmodule ProblemService.Schema.Problem do
       :blurb,
       :space_id,
       :updated_by_id,
-      :banner_image
+      :banner_image,
+      :pinned_note
     ]
 
     user
