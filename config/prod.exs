@@ -22,7 +22,6 @@ config :ueberauth, Ueberauth,
 providers: [
   google:   {Ueberauth.Strategy.Google, [default_scope: "email profile", callback_path: "https://www.crowdsolve.ai/oauth/google/callback"]}
   facebook: {Ueberauth.Strategy.Facebook, [ default_scope: "email,public_profile",callback_url: "https://www.crowdsolve.ai/oauth/facebook/callback"]}
-  base_path: "/oauth"
 ]
 
 # Do not print debug messages in production
