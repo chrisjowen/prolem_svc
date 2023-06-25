@@ -1,22 +1,3 @@
-defmodule ProblemService.Avatar do
-  use Waffle.Definition
-  use Waffle.Ecto.Definition
-
-  @versions [:original]
-
-  def storage_dir(version, {_file, scope}) do
-    "uploads/avatars/#{scope.media_id}/#{version}"
-  end
-
-  def filename(_, {_file, scope}) do
-    scope.id
-  end
-
-  def transform(:original, _) do
-    {:convert, "-strip -thumbnail 500x500^ -gravity center -extent 500x500"}
-  end
-end
-
 defmodule ProblemService.Schema.User do
   use Ecto.Schema
   use Waffle.Ecto.Schema
@@ -33,59 +14,76 @@ defmodule ProblemService.Schema.User do
     field :profile_pic, :string
     field :username, :string
     field :tagline, :string
-
-    # field :avatar, ProblemService.Avatar.Type
-    # field :avatar_id, Ecto.UUID
-
-
+    field :ext_id, :string
+    field :ext_ref, :string
     field :clear_password, :string, virtual: true
     has_many :problems, ProblemService.Schema.Problem
     has_many :memberships, ProblemService.Schema.ProblemUser, foreign_key: :member_id
     has_one :profile, ProblemService.Schema.UserProfile
-
     timestamps()
   end
 
   @doc false
 
   def changeset(user, attrs) do
-    password = attrs["password"]
-    attrs =
-      if(password != nil) do
-        attrs |> Map.put("clear_password", password)
-      else
-        attrs
-      end
-
-    user
-    |> cast(attrs, [
-      :name,
-      :last_name,
-      :email,
-      :username,
+    attrs = maybe_add_clear_password(attrs)
+    required = [:name, :last_name, :email, :username]
+    additional = [
       :password,
       :salt,
-      :clear_password,
       :profile_pic,
       :type,
-      :tagline
-    ])
-    # |> cast_attachments(attrs, [:avatar])
-    |> validate_length(:clear_password, min: 6, max: 15)
-    |> validate_format(
-      :clear_password,
-      ~r/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      message: "must contain at least one uppercase letter, a number and a special character"
-    )
-    |> validate_required([:name, :last_name, :email, :password, :salt, :username])
+      :tagline,
+      :ext_id,
+      :ext_ref,
+      :clear_password
+    ]
+
+    user
+    |> cast(attrs, required ++ additional)
+    |> maybe_validate_password(user, attrs)
+    |> maybe_validate_ext_login(user, attrs)
+    |> validate_required(required)
   end
+
+  defp maybe_validate_password(changeset, user, attrs) do
+    if((user.ext_id == nil && attrs["ext_id"] == nil) ||  attrs["password"] != nil ) do
+      changeset
+      |> validate_length(:clear_password, min: 6)
+      |> validate_format(
+        :clear_password,
+        ~r/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        message: "must contain at least one uppercase letter, a number and a special character"
+      )
+      |> validate_required([:password, :salt, :username])
+    else
+      changeset
+    end
+  end
+
+  defp maybe_validate_ext_login(changeset, user, attrs) do
+    if(user.ext_id != nil || attrs["ext_id"] != nil) do
+      changeset
+      |> validate_required([:ext_id, :ext_ref])
+    else
+      changeset
+    end
+  end
+
+  defp maybe_add_clear_password(attrs), do: attrs
+
+  defp maybe_validate_ext_login(%{"password" => password} = attrs) do
+    attrs |> Map.put("clear_password", password)
+  end
+
+  defp maybe_validate_ext_login(attrs), do: attrs
 
   defmodule Queries do
     import Ecto.Query
 
     def with_username(user, email) do
       from u in user,
-        where: u.email == ^email or  u.username == ^email
+        where: u.email == ^email or u.username == ^email
     end
   end
 end

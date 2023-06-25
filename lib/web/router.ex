@@ -9,14 +9,87 @@ defmodule ProblemService.Web.Router do
     plug(ProblemService.SecurePipeline)
   end
 
+  scope "/oauth", ProblemService do
+    get("/:provider", OAuthController, :request)
+    get("/:provider/callback", OAuthController, :callback)
+    post("/:provider/callback", OAuthController, :callback)
+    delete("/logout", OAuthController, :delete)
+  end
+
+
+  scope "/api", ProblemService do
+    pipe_through([:api, :auth])
+
+    get("/user/me", UserController, :me)
+    resources("/user/:user_id/profile", UserProfileController, only: [:create, :update, :delete])
+    post("/user/search", UserController, :search)
+
+
+    post("/sector/generate", SectorController, :generate)
+    resources("/notification", NotificationController, only: [:show, :index])
+    post("/image/:type", ImageController, :create)
+    post("/problem/:problem_id/follow", FollowerController, :create)
+    post("/problem/:problem_id/unfollow", FollowerController, :unfollow)
+
+    resources("/answer", AnswerController, only: [:create, :update, :delete]) do
+      resources("/comment", CommentController, only: [:create, :update, :delete])
+    end
+
+    resources("/discussion", DiscussionController, only: [:create, :update, :delete]) do
+      resources("/answer", AnswerController, only: [:create, :update, :delete]) do
+        resources("/comment", CommentController, only: [:create, :update, :delete])
+      end
+
+      resources("/comment", CommentController, only: [:create, :update, :delete])
+    end
+
+    post("/workflow/template", WorkflowController, :problem_template)
+    post("/workflow/problem_suggestions", WorkflowController, :problem_suggestions)
+    post("/workflow/problem_resources", WorkflowController, :problem_resources)
+    post("/workflow/problem_obstacles", WorkflowController, :problem_obstacles)
+    post("/ai/problem/precheck", AIProblemController, :precheck)
+    post("/ai/problem/:problem_id/:type", AIProblemController, :execute)
+    post("/ai/problem/:type", AIProblemController, :execute)
+
+    resources("/problem_suggestion", ProblemSuggestionController,
+      only: [:create, :update, :delete]
+    )
+
+    resources("/obstacle", ObstacleController, only: [:create, :update, :delete])
+    resources("/notification", NotificationController, only: [:update, :delete])
+
+    resources "/problem", ProblemController, only: [:create, :update, :delete] do
+      resources("/page", PageController, only: [:create, :update, :delete])
+      resources("/invite", ProblemInviteController, only: [:create, :update, :delete])
+      resources("/user", ProblemUserController, only: [:create, :update, :delete])
+      resources("/member", ProblemUserController, only: [:create, :update, :delete])
+      resources("/comment", CommentController, only: [:create, :update, :delete])
+      resources("/discussion", DiscussionController, only: [:create, :update, :delete])
+      resources("/obstacle", ObstacleController, only: [:create, :update, :delete])
+      resources("/link", LinkController, only: [:create, :update, :delete])
+    end
+
+    resources("/product", ProductController, only: [:create, :update, :delete])
+
+    resources "/solution", SolutionController, only: [:create, :update, :delete] do
+      resources("/comment", CommentController, only: [:create, :update, :delete])
+      resources("/discussion", DiscussionController, only: [:create, :update, :delete])
+      resources("/link", LinkController, only: [:create, :update, :delete])
+    end
+
+
+    post("/ai/advice/solution/:type", AiSolutionController, :advice)
+    post("/ai/advice/text", AiTextController, :advice)
+  end
+
+
   scope "/api", ProblemService do
     pipe_through(:api)
     # Unsecured
-
     get("/image/*path", ImageController, :show)
 
     resources("/sector", SectorController, only: [:show, :index]) do
-      resources "/problem", ProblemSectorController, only: [:index, :show]
+      resources("/problem", ProblemSectorController, only: [:index, :show])
     end
 
     resources("/link", LinkController, only: [:show, :index])
@@ -33,19 +106,19 @@ defmodule ProblemService.Web.Router do
       resources("/comment", CommentController, only: [:show, :index])
     end
 
-    resources "/problem_suggestion", ProblemSuggestionController, only: [:show, :index]
-    resources "/follower", FollowerController, only: [:index]
+    resources("/problem_suggestion", ProblemSuggestionController, only: [:show, :index])
+    resources("/follower", FollowerController, only: [:index])
     resources("/obstacle", ObstacleController, only: [:show, :index])
-    resources "/user", UserController, only: [:show, :index]
-    resources "/membership", ProblemUserController, only: [:show, :index]
+    resources("/user", UserController, only: [:show, :index])
+    resources("/membership", ProblemUserController, only: [:show, :index])
 
     resources "/problem", ProblemController, only: [:show, :index] do
-      resources "/sector", ProblemSectorController, only: [:index, :show]
-      resources "/invite", ProblemInviteController, only: [:index, :show]
-      resources "/feed", ProblemFeedController, only: [:index]
-      resources "/user", ProblemUserController, only: [:show, :index]
-      resources "/member", ProblemUserController, only: [:show, :index]
-      resources "/page", PageController, only: [:show, :index]
+      resources("/sector", ProblemSectorController, only: [:index, :show])
+      resources("/invite", ProblemInviteController, only: [:index, :show])
+      resources("/feed", ProblemFeedController, only: [:index])
+      resources("/user", ProblemUserController, only: [:show, :index])
+      resources("/member", ProblemUserController, only: [:show, :index])
+      resources("/page", PageController, only: [:show, :index])
       resources("/comment", CommentController, only: [:show, :index])
       resources("/discussion", DiscussionController, only: [:show, :index])
       resources("/obstacle", ObstacleController, only: [:show, :index])
@@ -58,97 +131,13 @@ defmodule ProblemService.Web.Router do
       resources("/link", LinkController, only: [:index, :show])
     end
 
-    resources "/discussion/:discussion_id/answer", AnswerController, only: [:show, :index]
-
+    resources("/discussion/:discussion_id/answer", AnswerController, only: [:show, :index])
     post("/login", LoginController, :login)
     post("/register", LoginController, :register)
   end
 
-  scope "/api", ProblemService do
-    pipe_through([:api, :auth])
-
-    post("/sector/generate", SectorController, :generate)
-
-    resources "/notification", NotificationController, only: [:show, :index]
-
-    post("/image/:type", ImageController, :create)
-
-    post("/problem/:problem_id/follow", FollowerController, :create)
-    post("/problem/:problem_id/unfollow", FollowerController, :unfollow)
-
-    resources("/answer", AnswerController, only: [:create, :update, :delete]) do
-      resources("/comment", CommentController, only: [:create, :update, :delete])
-    end
-
-    resources("/discussion", DiscussionController, only: [:create, :update, :delete]) do
-      resources("/answer", AnswerController, only: [:create, :update, :delete]) do
-        resources("/comment", CommentController, only: [:create, :update, :delete])
-      end
-
-      resources("/comment", CommentController, only: [:create, :update, :delete])
-    end
-
-    post "/workflow/template", WorkflowController, :problem_template
-    post "/workflow/problem_suggestions", WorkflowController, :problem_suggestions
-    post "/workflow/problem_resources", WorkflowController, :problem_resources
-    post "/workflow/problem_obstacles", WorkflowController, :problem_obstacles
-
-    post "/ai/problem/precheck", AIProblemController, :precheck
-
-    post "/ai/problem/:problem_id/:type", AIProblemController, :execute
-    post "/ai/problem/:type", AIProblemController, :execute
-
-    # post "/ai/problem/statement", ProblemController, :problem_statement
-    # post "/ai/problem/links", ProblemController, :links
-    # post "/ai/problem/obstacles", ProblemController, :obstacles
-    # post "/ai/problem/discussions", ProblemController, :discussions
-    # post "/ai/problem/suggestions", ProblemController, :suggestions
-    # post "/ai/problem/meta", ProblemController, :meta
-
-    resources "/problem_suggestion", ProblemSuggestionController,
-      only: [:create, :update, :delete]
-
-    resources("/obstacle", ObstacleController, only: [:create, :update, :delete])
-    resources "/notification", NotificationController, only: [:update, :delete]
-
-    resources "/problem", ProblemController, only: [:create, :update, :delete] do
-      resources "/page", PageController, only: [:create, :update, :delete]
-      resources "/invite", ProblemInviteController, only: [:create, :update, :delete]
-      resources "/user", ProblemUserController, only: [:create, :update, :delete]
-      resources "/member", ProblemUserController, only: [:create, :update, :delete]
-      resources("/comment", CommentController, only: [:create, :update, :delete])
-      resources("/discussion", DiscussionController, only: [:create, :update, :delete])
-      resources("/obstacle", ObstacleController, only: [:create, :update, :delete])
-      resources("/link", LinkController, only: [:create, :update, :delete])
-    end
-
-    resources("/product", ProductController, only: [:create, :update, :delete])
-
-    resources "/solution", SolutionController, only: [:create, :update, :delete] do
-      resources("/comment", CommentController, only: [:create, :update, :delete])
-      resources("/discussion", DiscussionController, only: [:create, :update, :delete])
-      resources("/link", LinkController, only: [:create, :update, :delete])
-    end
-
-    get("/user/me", UserController, :me)
-    get("/user/id", UserController, :id)
-    get("/user/:id", UserController, :show)
-    resources "/user/:user_id/profile", UserProfileController, only: [:create, :update, :delete]
-    post("/user/search", UserController, :search)
-
-
-
-    post("/ai/advice/solution/:type", AiSolutionController, :advice)
-    post("/ai/advice/text", AiTextController, :advice)
-  end
 
   # Enables LiveDashboard only for development
-  #
-  # If you want to use the LiveDashboard in production, you should put
-  # it behind authentication and allow only admins to access it.
-  # If your application does not have an admins-only section yet,
-  # you can use Plug.BasicAuth to set up some basic authentication
-  # as long as you are also using SSL (which you should anyway).
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
 
@@ -158,16 +147,9 @@ defmodule ProblemService.Web.Router do
     end
   end
 
-  # Enables the Swoosh mailbox preview in development.
-  #
-  # Note that preview only shows emails that were sent by the same
-  # node running the Phoenix server.
   if Mix.env() == :dev do
     scope "/dev" do
-      # pipe_through([:fetch_session, :protect_from_forgery])
-
-      # If using Phoenix
-      forward "/mail", Bamboo.SentEmailViewerPlug
+      forward("/mail", Bamboo.SentEmailViewerPlug)
       get("/sendmail", ProblemService.EmailController, :send)
       post("/ai/imagery", ProblemService.AiController, :imagery)
       post("/ai/sector", ProblemService.AiController, :sector)

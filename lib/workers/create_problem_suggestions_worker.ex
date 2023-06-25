@@ -30,6 +30,8 @@ defmodule ProblemService.Workers.CreateProblemSuggestionsWorker do
   end
 
   defp save_problem_suggestion(suggestion, sector) do
+
+
     ProblemSuggestion.changeset(%ProblemSuggestion{}, %{
       sector_id: sector.id,
       title: suggestion["title"],

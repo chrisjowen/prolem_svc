@@ -10,8 +10,26 @@ import Config
 config :problem_service,
   ecto_repos: [ProblemService.Repo]
 
+config :ueberauth, Ueberauth,
+  providers: [
+    # github: { Ueberauth.Strategy.Github, [ opt1: "value", opts2: "value" ] },
+    google: {Ueberauth.Strategy.Google, [default_scope: "email profile", callback_path: "/oauth/google/callback"]}
+  ],
+  base_path: "/oauth"
+
+config :ueberauth, Ueberauth.Strategy.Google.OAuth,
+  client_id: System.get_env("GOOGLE_CLIENT_ID"),
+  client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
+
 config :cors_plug,
-  origin: ["http://www.crowdsolve.ai/", "http://localhost:8080","http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173", "http://problem.chrisjowen.net"],
+  origin: [
+    "http://www.crowdsolve.ai/",
+    "http://localhost:8080",
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://problem.chrisjowen.net"
+  ],
   max_age: 86400,
   methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS", "HEAD"]
 
@@ -38,24 +56,17 @@ config :problem_service, ProblemService.SecurePipeline,
 #   domain: System.get_env("MAILGUN_DOMAIN"),
 #   base_url: "https://api.mailgun.net/v3"
 
-
-
-
-
 config :problem_service, ProblemService.Mailer,
-    adapter: Bamboo.MailgunAdapter,
-    api_key: System.get_env("MAILGUN_API_KEY"),
-    domain: System.get_env("MAILGUN_DOMAIN"),
-    # base_uri: "https://api.eu.mailgun.net/v3",
-    # base_uri: "https://api.mailgun.net/v3",
-    hackney_opts: [
-      recv_timeout: :timer.minutes(1)
-    ]
+  adapter: Bamboo.MailgunAdapter,
+  api_key: System.get_env("MAILGUN_API_KEY"),
+  domain: System.get_env("MAILGUN_DOMAIN"),
+  # base_uri: "https://api.eu.mailgun.net/v3",
+  # base_uri: "https://api.mailgun.net/v3",
+  hackney_opts: [
+    recv_timeout: :timer.minutes(1)
+  ]
 
-
-config :problem_service, Util.Screenshot,
-  token: System.get_env("SCREENSHOT_API_KEY")
-
+config :problem_service, Util.Screenshot, token: System.get_env("SCREENSHOT_API_KEY")
 
 config :waffle,
   storage: Waffle.Storage.Local,
@@ -65,8 +76,7 @@ config :problem_service, ProblemService.Guardian,
   issuer: "problem_service",
   secret_key: "SIs0ZqwWwih49ZMx5CeXI2eY0q5Mv6n9gYz1xKvatjBdlpL4Pfo7HAgn/Gug2qtr6"
 
-
-  # config :logger, level: :error
+# config :logger, level: :error
 
 # Configures the mailer
 #
@@ -75,8 +85,6 @@ config :problem_service, ProblemService.Guardian,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-
-
 
 # Configure esbuild (the version is required)
 config :esbuild,
@@ -99,17 +107,15 @@ config :phoenix, :json_library, Jason
 config :geo_postgis,
   json_library: Jason
 
+config :openai,
+  api_key: System.get_env("OPEN_AI_KEY"),
+  organization_key: "org-2cJ3cEThmAglpQRKQr3X2W64",
+  http_options: [recv_timeout: 120_000]
 
-  config :openai,
-    api_key: System.get_env("OPEN_AI_KEY") ,
-    organization_key: "org-2cJ3cEThmAglpQRKQr3X2W64",
-    http_options: [recv_timeout: 120_000]
-  # optional, useful if you want to do local integration tests using Bypass or similar
-  # (https://github.com/PSPDFKit-labs/bypass), do not use it for production code,
-  # but only in your test config!
-  # api_url: "http://localhost/"
-
-
+# optional, useful if you want to do local integration tests using Bypass or similar
+# (https://github.com/PSPDFKit-labs/bypass), do not use it for production code,
+# but only in your test config!
+# api_url: "http://localhost/"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

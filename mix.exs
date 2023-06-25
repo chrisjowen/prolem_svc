@@ -65,7 +65,9 @@ defmodule ProblemService.MixProject do
       {:comeonin_ecto_password, "~> 3.0.0"},
       {:pbkdf2_elixir, "~> 1.0"},
       {:bodyguard, "~> 2.4"},
-      {:bamboo_phoenix, "~> 1.0.0"}
+      {:bamboo_phoenix, "~> 1.0.0"},
+      {:ueberauth, "~> 0.10"},
+      {:ueberauth_google, "~> 0.10"}
     ]
   end
 
