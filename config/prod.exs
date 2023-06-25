@@ -20,17 +20,12 @@ config :problem_service, ProblemService.AuthController,
 
 config :ueberauth, Ueberauth,
 providers: [
-  facebook:
-    {Ueberauth.Strategy.Facebook,
-     [
-       default_scope: "email,public_profile,user_friends",
-       callback_url: "https://group.chrisjowen.net/auth/facebook/callback"
-     ]}
+  google:   {Ueberauth.Strategy.Google, [default_scope: "email profile", callback_path: "https://www.crowdsolve.ai/oauth/google/callback"]}
+  facebook: {Ueberauth.Strategy.Facebook, [ default_scope: "email,public_profile",callback_url: "https://www.crowdsolve.ai/oauth/facebook/callback"]}
+  base_path: "/oauth"
 ]
-
 
 # Do not print debug messages in production
 config :logger, level: :debug
-
 
 # mix phx.gen.schema GroupMember group_members user_id:references:users is_host:boolean status:string
