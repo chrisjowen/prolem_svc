@@ -20,7 +20,7 @@ config :problem_service, ProblemService.AuthController,
 
 config :ueberauth, Ueberauth,
 providers: [
-  google:   {Ueberauth.Strategy.Google, [default_scope: "email profile", callback_path: "https://www.crowdsolve.ai/oauth/google/callback"]},
+  google:   {Ueberauth.Strategy.Google, [default_scope: "email profile", callback_url: "https://www.crowdsolve.ai/oauth/google/callback"]},
   facebook: {Ueberauth.Strategy.Facebook, [ default_scope: "email,public_profile",callback_url: "https://www.crowdsolve.ai/oauth/facebook/callback"]}
 ]
 
