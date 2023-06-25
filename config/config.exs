@@ -23,6 +23,9 @@ config :ueberauth, Ueberauth.Strategy.Google.OAuth,
 
 config :cors_plug,
   origin: [
+    "https://www.crowdsolve.ai/",
+    "https://crowdsolve.ai/",
+    "http://crowdsolve.ai/",
     "http://www.crowdsolve.ai/",
     "http://localhost:8080",
     "http://localhost:3000",
