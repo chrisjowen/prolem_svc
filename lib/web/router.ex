@@ -9,7 +9,16 @@ defmodule ProblemService.Web.Router do
     plug(ProblemService.SecurePipeline)
   end
 
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
   scope "/oauth", ProblemService do
+    pipe_through :browser
     get("/:provider", OAuthController, :request)
     get("/:provider/callback", OAuthController, :callback)
     post("/:provider/callback", OAuthController, :callback)

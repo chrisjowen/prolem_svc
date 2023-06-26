@@ -12,14 +12,35 @@ config :problem_service,
 
 config :ueberauth, Ueberauth,
   providers: [
-    # github: { Ueberauth.Strategy.Github, [ opt1: "value", opts2: "value" ] },
-    google: {Ueberauth.Strategy.Google, [default_scope: "email profile", callback_path: "/oauth/google/callback"]}
+    facebook:
+      {Ueberauth.Strategy.Facebook,
+       [
+         default_scope: "public_profile",
+         callback_path: "/oauth/facebook/callback"
+       ]},
+    google:
+      {Ueberauth.Strategy.Google,
+       [
+         default_scope: "email profile",
+         callback_path: "/oauth/google/callback"
+       ]},
+    linkedin:
+      {Ueberauth.Strategy.LinkedIn,
+       [ callback_path: "/oauth/linkedin/callback", ignores_csrf_attack: true]}
   ],
   base_path: "/oauth"
+
+config :ueberauth, Ueberauth.Strategy.LinkedIn.OAuth,
+  client_id: System.get_env("LINKEDIN_CLIENT_ID"),
+  client_secret: System.get_env("LINKEDIN_CLIENT_SECRET")
 
 config :ueberauth, Ueberauth.Strategy.Google.OAuth,
   client_id: System.get_env("GOOGLE_CLIENT_ID"),
   client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
+
+config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
+  client_id: System.get_env("FACEBOOK_CLIENT_ID"),
+  client_secret: System.get_env("FACEBOOK_CLIENT_SECRET")
 
 config :cors_plug,
   origin: [

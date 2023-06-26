@@ -18,23 +18,21 @@ config :problem_service, ProblemService.Repo,
 config :problem_service, ProblemService.Mailer,
   adapter: Bamboo.LocalAdapter
 
-config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
-  client_id: "773947543964189",
-  client_secret: "afaac670206d02cbc2ddfaaec0f8fb8b"
+
 
 config :problem_service, ProblemService.AuthController,
   completion_url: "http://localhost:8080/callback/"
 
-config :ueberauth, Ueberauth,
-  providers: [
-    facebook:
-      {Ueberauth.Strategy.Facebook,
-       [
-         default_scope: "email,public_profile,user_friends",
-         callback_url: "http://localhost:4000/auth/facebook/callback"
-       ]},
-    identity: {Ueberauth.Strategies.Identity, [callback_methods: ["POST"]]}
-  ]
+# config :ueberauth, Ueberauth,
+#   providers: [
+#     facebook:
+#       {Ueberauth.Strategy.Facebook,
+#        [
+#          default_scope: "email,public_profile,user_friends",
+#          callback_url: "http://localhost:4000/auth/facebook/callback"
+#        ]},
+#     identity: {Ueberauth.Strategies.Identity, [callback_methods: ["POST"]]}
+#   ]
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -81,7 +79,7 @@ config :problem_service, ProblemService.Web.Endpoint,
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
-config :logger, level: :debug
+config :logger, level: :error
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.

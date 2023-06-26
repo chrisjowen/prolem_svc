@@ -67,7 +67,9 @@ defmodule ProblemService.MixProject do
       {:bodyguard, "~> 2.4"},
       {:bamboo_phoenix, "~> 1.0.0"},
       {:ueberauth, "~> 0.10"},
-      {:ueberauth_google, "~> 0.10"}
+      {:ueberauth_google, "~> 0.10", override: true},
+      # {:ueberauth_linkedin, "~> 0.3.2"}
+
     ]
   end
 

@@ -27,7 +27,7 @@ defmodule ProblemService.Schema.User do
 
   def changeset(user, attrs) do
     attrs = maybe_add_clear_password(attrs)
-    required = [:name, :last_name, :email, :username]
+    required = [:name, :last_name,  :username]
     additional = [
       :password,
       :salt,
@@ -36,6 +36,7 @@ defmodule ProblemService.Schema.User do
       :tagline,
       :ext_id,
       :ext_ref,
+      :email,
       :clear_password
     ]
 
