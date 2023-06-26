@@ -36,8 +36,10 @@ defmodule ProblemService.OAuthController do
   end
 
   defp create_user(auth = %Ueberauth.Auth{}) do
-    username = auth.info.name |> String.downcase() |> String.replace(" ", "_")
-    [first_name, lastname | _] = String.split(auth.info.name, " ")
+    IO.inspect(auth.info)
+    name = auth.info.name || "#{auth.info.first_name} #{auth.info.last_name}"
+    username = (name |> String.downcase() |> String.replace(" ", "_")) <> "_" <> (Ecto.UUID.generate() |> String.slice(0..5))
+    [first_name, lastname | _] = String.split(name, " ")
 
     User.changeset(%User{}, %{
       "username" => username,
