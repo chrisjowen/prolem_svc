@@ -32,6 +32,11 @@ config :ueberauth, Ueberauth,
        [
          default_scope: "email,public_profile",
          callback_url: "https://www.crowdsolve.ai/oauth/facebook/callback"
+       ]},
+    linkedin:
+      {Ueberauth.Strategy.LinkedIn,
+       [
+         callback_url: "https://www.crowdsolve.ai/oauth/linkedin/callback"
        ]}
   ]
 
