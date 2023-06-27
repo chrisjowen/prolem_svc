@@ -33,6 +33,7 @@ defmodule ProblemService.Web.Router do
     resources("/user/:user_id/profile", UserProfileController, only: [:create, :update, :delete])
     post("/user/search", UserController, :search)
 
+    resources("/soon", ComingSoonController, only: [:create, :update, :delete])
 
     post("/sector/generate", SectorController, :generate)
     resources("/notification", NotificationController, only: [:show, :index])
@@ -96,6 +97,8 @@ defmodule ProblemService.Web.Router do
     pipe_through(:api)
     # Unsecured
     get("/image/*path", ImageController, :show)
+
+    resources("/soon", ComingSoonController, only: [:index, :show])
 
     resources("/sector", SectorController, only: [:show, :index]) do
       resources("/problem", ProblemSectorController, only: [:index, :show])

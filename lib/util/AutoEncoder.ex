@@ -23,6 +23,7 @@ defmodule Modules do
     {Schema.ProblemInvite, []},
     {Schema.ProblemSector, []},
     {Schema.Page, []},
+    {Schema.ComingSoon, []},
     {Schema.Tag, []},
     {Schema.PushSub, []},
     {Scrivener.Page, []},

@@ -5,15 +5,12 @@ defmodule ProblemService.OAuthController do
 
   plug Ueberauth
 
-
   def callback(%{assigns: %{ueberauth_failure: failure}} = conn, _params) do
     conn
     |> redirect(external: System.get_env("UI_BASE_URL") <> "/login?error=#{failure.reason}")
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
-    IO.inspect(auth)
-
     user =
       case Repo.get_by(User, ext_id: auth.uid, ext_ref: Atom.to_string(auth.provider)) do
         nil -> get_or_create_user(auth)
@@ -26,7 +23,7 @@ defmodule ProblemService.OAuthController do
     |> redirect(external: System.get_env("UI_BASE_URL") <> "/login/cb/#{token}")
   end
 
-  defp get_or_create_user(auth = %Ueberauth.Auth{info: %{ email: nil }}), do: create_user(auth)
+  defp get_or_create_user(auth = %Ueberauth.Auth{info: %{email: nil}}), do: create_user(auth)
 
   defp get_or_create_user(auth = %Ueberauth.Auth{}) do
     case Repo.get_by(User, email: auth.info.email) do
@@ -38,7 +35,11 @@ defmodule ProblemService.OAuthController do
   defp create_user(auth = %Ueberauth.Auth{}) do
     IO.inspect(auth.info)
     name = auth.info.name || "#{auth.info.first_name} #{auth.info.last_name}"
-    username = (name |> String.downcase() |> String.replace(" ", "_")) <> "_" <> (Ecto.UUID.generate() |> String.slice(0..5))
+
+    username =
+      (name |> String.downcase() |> String.replace(" ", "_")) <>
+        "_" <> (Ecto.UUID.generate() |> String.slice(0..5))
+
     [first_name, lastname | _] = String.split(name, " ")
 
     User.changeset(%User{}, %{
