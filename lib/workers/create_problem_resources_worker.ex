@@ -43,6 +43,7 @@ defmodule ProblemService.Workers.CreateProblemResourcesWorker do
       text: resource["text"],
       url: resource["url"],
       type: resource["type"]
+      # user_id: problem.user_id
     })
     |> Repo.insert()
     Endpoint.broadcast!("user:#{problem.user_id}", "problem:links:added", %{})

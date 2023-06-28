@@ -25,7 +25,6 @@ defmodule ProblemService.Web.Router do
     delete("/logout", OAuthController, :delete)
   end
 
-
   scope "/api", ProblemService do
     pipe_through([:api, :auth])
 
@@ -57,6 +56,8 @@ defmodule ProblemService.Web.Router do
     post("/workflow/problem_suggestions", WorkflowController, :problem_suggestions)
     post("/workflow/problem_resources", WorkflowController, :problem_resources)
     post("/workflow/problem_obstacles", WorkflowController, :problem_obstacles)
+    post("/workflow/problem_stakeholders", WorkflowController, :problem_stakeholders)
+
     post("/ai/problem/precheck", AIProblemController, :precheck)
     post("/ai/problem/:problem_id/:type", AIProblemController, :execute)
     post("/ai/problem/:type", AIProblemController, :execute)
@@ -77,6 +78,7 @@ defmodule ProblemService.Web.Router do
       resources("/discussion", DiscussionController, only: [:create, :update, :delete])
       resources("/obstacle", ObstacleController, only: [:create, :update, :delete])
       resources("/link", LinkController, only: [:create, :update, :delete])
+      resources("/stakeholder", StakeholderController, only: [:create, :update, :delete])
     end
 
     resources("/product", ProductController, only: [:create, :update, :delete])
@@ -87,11 +89,9 @@ defmodule ProblemService.Web.Router do
       resources("/link", LinkController, only: [:create, :update, :delete])
     end
 
-
     post("/ai/advice/solution/:type", AiSolutionController, :advice)
     post("/ai/advice/text", AiTextController, :advice)
   end
-
 
   scope "/api", ProblemService do
     pipe_through(:api)
@@ -135,6 +135,7 @@ defmodule ProblemService.Web.Router do
       resources("/discussion", DiscussionController, only: [:show, :index])
       resources("/obstacle", ObstacleController, only: [:show, :index])
       resources("/link", LinkController, only: [:index, :show])
+      resources("/stakeholder", StakeholderController, only: [:index, :show])
     end
 
     resources "/solution", SolutionController, only: [:show, :index] do
@@ -147,7 +148,6 @@ defmodule ProblemService.Web.Router do
     post("/login", LoginController, :login)
     post("/register", LoginController, :register)
   end
-
 
   # Enables LiveDashboard only for development
   if Mix.env() in [:dev, :test] do
@@ -164,7 +164,9 @@ defmodule ProblemService.Web.Router do
       forward("/mail", Bamboo.SentEmailViewerPlug)
       get("/sendmail", ProblemService.EmailController, :send)
       post("/ai/imagery", ProblemService.AiController, :imagery)
+      post("/ai/stakeholder", ProblemService.AiController, :stakeholder)
       post("/ai/sector", ProblemService.AiController, :sector)
+      post("/ai/stakeholder_describe", ProblemService.AiController, :stakeholder_describe)
     end
   end
 end

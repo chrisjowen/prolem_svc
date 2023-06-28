@@ -6,35 +6,51 @@ defmodule ProblemService.Schema.Stakeholder do
     field :type, :string
     field :description, :string
     field :problems, {:array, :string}
+
+
+
     field :age_from, :integer
     field :age_to, :integer
     field :regions, {:array, :string}
-    field :when, :string
     field :gender, :string
-    field :traits, {:array, :string}
-    field :socioEcenomics, {:array, :string}
+
+    # remove
+    # field :when, :string
+    # field :traits, {:array, :string}
+
+    # Add
+    field :img, :string
+    field :benefits, :string
+    field :professions, {:array, :string}
+    field :education, :string
+    field :interests, {:array, :string}
+
     field :races, {:array, :string}
+    field :socioEcenomics, {:array, :string}
+
+
     # belongs_to :user, ProblemService.Schema.User
     belongs_to :problem, ProblemService.Schema.Problem
+    belongs_to :user, ProblemService.Schema.User
     timestamps()
   end
 
   @doc false
 
   def changeset(schema, attrs) do
-    # attrs = Map.put(attrs ,"avatar_id", Ecto.UUID.generate())
-
-    required = [:type,:description, :problems, :problem_id]
+    required = [:type,:description, :problems, :problem_id, :user_id]
     additional = [
       :age_from,
       :age_to,
       :regions,
-      :when,
       :gender,
-      :traits,
       :socioEcenomics,
-      :races
-
+      :races,
+      :benefits,
+      :professions,
+      :education,
+      :interests,
+      :img
     ]
 
     schema

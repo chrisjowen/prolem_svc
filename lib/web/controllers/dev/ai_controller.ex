@@ -18,4 +18,17 @@ defmodule ProblemService.AiController do
 
     json(conn, result)
   end
+
+
+  def stakeholder(conn, %{"idea" => idea, "problem" => problem}) do
+    {:ok, result}  = Ai.StakeholderGenerator.execute(idea,problem)
+
+    json(conn, result)
+  end
+
+  def stakeholder_describe(conn, %{"stakeholder" => stakeholder}) do
+    {:ok, result}  = Ai.StakeholderImageGenerator.execute(stakeholder)
+    json(conn, result)
+  end
+
 end
