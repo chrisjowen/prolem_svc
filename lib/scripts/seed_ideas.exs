@@ -12,7 +12,7 @@ defmodule Seeder do
 
 
     sectors["entries"]
-    |> Enum.take(1)
+    # |> Enum.take(1)
     |> Enum.each(&queue_ideas/1)
 
 

@@ -11,4 +11,15 @@ defmodule ProblemService.IdeaController do
   def search(conn, params), do: super(conn, params)
 
 
+  def tags(conn, _params) do
+    tags = Idea |> Repo.all() |> Enum.map(&(&1.tags)) |> List.flatten() |> Enum.uniq()
+    json(conn, tags)
+  end
+
+  def skills(conn, _params) do
+    skills = Idea |> Repo.all() |> Enum.map(&(&1.skills)) |> List.flatten() |> Enum.uniq()
+    json(conn, skills)
+  end
+
+
 end

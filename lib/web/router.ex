@@ -111,6 +111,10 @@ defmodule ProblemService.Web.Router do
     end
 
     resources("/link", LinkController, only: [:show, :index])
+
+    get "/idea/tags", IdeaController, :tags
+    get "/idea/skills", IdeaController, :skills
+
     resources("/idea", IdeaController, only: [:show, :index]) do
       resources("/comment", CommentController, only: [:show, :index])
       resources("/vote", VoteController, only: [:show, :index])
