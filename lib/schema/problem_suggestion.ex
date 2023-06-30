@@ -15,7 +15,7 @@ defmodule ProblemService.Schema.ProblemSuggestion do
   @doc false
   def changeset(problem_suggestion, attrs) do
     problem_suggestion
-    |> cast(attrs, [:title, :blurb, :status, :used, :sector_id])
+    |> cast(attrs, [:title, :blurb, :status,  :sector_id])
     |> validate_required([:title, :blurb, :status, :used, :sector_id])
   end
 end

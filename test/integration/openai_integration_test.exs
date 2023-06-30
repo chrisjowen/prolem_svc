@@ -30,7 +30,7 @@ defmodule ProblemScv.Integration.OpenAITest do
     #   }
     # )
 
-    ProblemService.Workers.SectorImageWorker.perform(40)
+    # ProblemService.Workers.SectorImageWorker.perform(40)
 
 
   end

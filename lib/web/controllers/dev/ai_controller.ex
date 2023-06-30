@@ -1,5 +1,7 @@
 defmodule ProblemService.AiController do
   use ProblemService.Web, :controller
+  alias ProblemService.Repo
+  alias ProblemService.Schema
 
   def imagery(conn, %{"content" => content}) do
     with {:ok, result} <- Ai.ImageryGenerator.execute(content),
@@ -28,6 +30,12 @@ defmodule ProblemService.AiController do
 
   def stakeholder_describe(conn, %{"stakeholder" => stakeholder}) do
     {:ok, result}  = Ai.StakeholderImageGenerator.execute(stakeholder)
+    json(conn, result)
+  end
+
+  def ideas(conn, %{"sector" => sector}) do
+    sectors = Repo.all(Schema.Sector) |> Enum.map(& &1.name)
+    {:ok, result}  = Ai.IdeaGenerator.execute(sectors, sector)
     json(conn, result)
   end
 

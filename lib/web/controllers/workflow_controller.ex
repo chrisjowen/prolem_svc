@@ -44,7 +44,6 @@ defmodule ProblemService.WorkflowController do
     json(conn, :ok)
   end
 
-
   def problem_stakeholders(conn, %{"problem_id" => problem_id} = params) do
     Que.add(
       ProblemService.Workers.CreateStakeholdersWorker,
@@ -54,5 +53,8 @@ defmodule ProblemService.WorkflowController do
     json(conn, :ok)
   end
 
-
+  def ideas(conn, %{"sector_id" => sector_id} = params) do
+    Que.add(ProblemService.Workers.CreateIdeasWorker, params)
+    json(conn, :ok)
+  end
 end

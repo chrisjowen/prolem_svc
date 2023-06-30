@@ -9,6 +9,7 @@ defmodule ProblemService.Schema.Comment do
     belongs_to :problem, ProblemService.Schema.Problem
     belongs_to :discussion, ProblemService.Schema.Discussion
     belongs_to :answer, ProblemService.Schema.Answer
+    belongs_to :idea, ProblemService.Schema.Idea
     timestamps()
   end
 
@@ -17,6 +18,7 @@ defmodule ProblemService.Schema.Comment do
 
     owner = [
       :solution_id,
+      :idea_id,
       :problem_id,
       :discussion_id,
       :answer_id

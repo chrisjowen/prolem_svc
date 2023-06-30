@@ -10,25 +10,6 @@ defmodule ProblemService.Repo.Migrations.AddMissingProfiles do
       add :tagline, :string
     end
 
-    flush()
 
-    Repo.transaction(fn ->
-      User
-      |> Repo.all()
-      |> Enum.each(fn d ->
-
-        Repo.update!(User.changeset(d, %{tagline: "Maker of things"}))
-        Repo.insert!(
-          UserProfile.changeset(
-            %UserProfile{},
-            %{
-              intro: "Please complete me" ,
-              country: "Singapore",
-              user_id: d.id
-            }
-          )
-        )
-      end)
-    end)
   end
 end

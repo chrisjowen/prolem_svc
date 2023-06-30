@@ -9,18 +9,7 @@ defmodule ProblemService.Repo.Migrations.AddUsernameToUser do
       add :username, :string
     end
 
-    flush()
 
-    Repo.transaction(fn ->
-      User
-      |> Repo.all()
-      |> Enum.each(fn record ->
-        User.changeset(record, %{
-          username: "#{String.downcase(record.name)}_#{String.downcase(record.last_name)}"
-        })
-        |> Repo.update!()
-      end)
-    end)
   end
 
   def down do

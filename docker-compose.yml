@@ -9,6 +9,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: problem_service_dev
+    volumes:
+      - ./data:/var/lib/postgresql/data
   test_db:
     image: postgis/postgis
     restart: always

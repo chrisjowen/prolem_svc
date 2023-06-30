@@ -26,7 +26,7 @@ defmodule ProblemService.Workers.CreateStakeholderImageWorker do
     path = "/general/#{id}.png"
 
     prompt =
-      "A photo of a #{persona["age"]} year old #{persona["gender"]} of race #{persona["race"]} with features #{persona["features"]}"
+      "A photo of a #{persona["age"]} year old #{persona["gender"]} of race #{persona["race"]} with features #{persona["features"]  }"
 
     with {:ok, image} <-
            OpenAI.images_generations(

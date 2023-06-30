@@ -12,17 +12,6 @@ defmodule ProblemService.Repo.Migrations.CreateProblemSectors do
 
     flush()
 
-    Repo.transaction(fn ->
-      Problem
-      |> Repo.all()
-      |> Enum.each(fn problem ->
-        ProblemSector.changeset(%ProblemSector{}, %{
-          problem_id: problem.id,
-          sector_id: problem.sector_id
-        })
-        |> Repo.insert!()
-      end)
-    end)
 
     create index(:problem_sectors, [:problem_id])
     create index(:problem_sectors, [:sector_id])

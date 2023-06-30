@@ -12,6 +12,7 @@ defmodule ProblemService.BaseController do
       @ops unquote(ops)
 
       if(Keyword.has_key?(@ops, :schema)) do
+
         defcrud(
           Keyword.get(@ops, :schema),
           Keyword.get(@ops, :only, [:show, :index, :create, :update, :delete]),
@@ -65,7 +66,7 @@ defmodule ProblemService.BaseController do
 
       if(Enum.member?(unquote(routes), :index)) do
         def index(conn, params) do
-          result = search(conn, params)
+          result = search(conn, params) |> Repo.paginate(params)
           json(conn, result)
         end
 
@@ -83,7 +84,7 @@ defmodule ProblemService.BaseController do
               preload: ^preloads
             )
             |> Util.ParamQueryGenerator.generate(query, conn.assigns[:q], order_by)
-            |> Repo.paginate(params)
+
         end
 
         defoverridable search: 2

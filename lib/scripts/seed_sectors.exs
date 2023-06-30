@@ -3,8 +3,8 @@ alias ProblemService.Schema.Obstacle
 alias ProblemService.Repo
 
 defmodule Seeder do
-  @liveUrl "http://www.crowdsolve.ai"
-  @devUrl "http://problem.chrisjowen.net"
+  @liveUrl "https://www.crowdsolve.ai"
+  @devUrl "http://localhost:4000"
 
   def execute() do
 
@@ -12,6 +12,7 @@ defmodule Seeder do
     |> Jason.decode!()
 
     live_sectors = HTTPoison.get!("#{@liveUrl}/api/sector?page_size=1000").body
+    |> IO.inspect()
     |> Jason.decode!()
 
 
@@ -62,22 +63,22 @@ defmodule Seeder do
     Social Media Analytics
     """
     |> String.split("\n")
-    |> Enum.filter(fn name -> !Enum.member?(live_names, name) or name == "" end)
+    |> Enum.filter(fn name -> !Enum.member?(dev_names, name) or name == "" end)
     |> Enum.uniq()
     |> Enum.each(&generate_resources/1)
 
-    Enum.join(live_names, "\n") |> IO.inspect()
+    Enum.join(dev_names, "\n") |> IO.inspect()
 
   end
   def generate_resources(sector) do
     Task.async(fn ->
 
       token =
-        "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJwcm9ibGVtX3NlcnZpY2UiLCJleHAiOjE2ODk2ODEzOTYsImlhdCI6MTY4NzI2MjE5NiwiaXNzIjoicHJvYmxlbV9zZXJ2aWNlIiwianRpIjoiZDU4ZWIwNGYtOTAyNC00NWY1LTkzYTQtZDVkODgxZjE0MmFiIiwibmJmIjoxNjg3MjYyMTk1LCJzdWIiOiIyIiwidHlwIjoiYWNjZXNzIn0.JeRUm-25JDf_Fp4n_mFxmq8GPgXjm0Hd3A2aM8HXPT-Rytz8BrgFhHn-2axK987q6FjKjRQMGNePd5lqRrdrBw"
+        "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJwcm9ibGVtX3NlcnZpY2UiLCJleHAiOjE2OTA0NTU1NTUsImlhdCI6MTY4ODAzNjM1NSwiaXNzIjoicHJvYmxlbV9zZXJ2aWNlIiwianRpIjoiY2JhNjU2MDYtNTAxMi00OWY2LTgzZmYtOTQ4YjIzYmYxYzE5IiwibmJmIjoxNjg4MDM2MzU0LCJzdWIiOiIyIiwidHlwIjoiYWNjZXNzIn0.ac7GiAb-cerLQCq8QBkxENEiMzgAiQAemeQblnfAN-hfiUg3afSp7lUo-Bmdotp2lEiUKPdp9qczBGGxMoXVOw"
 
       headers = [Authorization: "Bearer #{token}", "Content-Type": "application/json"]
 
-      HTTPoison.post!("#{@liveUrl}/api/sector/generate", Jason.encode!(%{
+      HTTPoison.post!("#{@devUrl}/api/sector/generate", Jason.encode!(%{
         "sector" => sector,
       }), headers,
         timeout: 50_000,

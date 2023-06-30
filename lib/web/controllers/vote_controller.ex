@@ -1,7 +1,5 @@
-defmodule ProblemService.CommentController do
-  use ProblemService.BaseController, schema: ProblemService.Schema.Comment
-
-  plug ProblemService.SetQuery, only: [:index]
+defmodule ProblemService.VoteController do
+  use ProblemService.BaseController, schema: ProblemService.Schema.Vote
 
 
   def index(conn,%{"solution_id" => id} = params), do: super(assign(conn, :q, "solution_id=#{id}"), params)
