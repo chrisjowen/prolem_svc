@@ -10,5 +10,4 @@ defmodule ProblemService.Repo.Migrations.UpdateIdeaAddEstimatedTimescale do
     create index(:idea_sectors, [:idea_id])
     create index(:idea_sectors, [:sector_id])
   end
-  end
 end
