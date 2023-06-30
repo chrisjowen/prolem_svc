@@ -20,6 +20,8 @@ defmodule ProblemService.Workers.CreateIdeaWorker do
         Schema.IdeaSector.changeset(%Schema.IdeaSector{}, params)
         |> Repo.insert!()
       end)
+    else
+      error -> Logger.error("Error creating idea: #{inspect(error)}")
     end
   end
 
@@ -44,6 +46,8 @@ defmodule ProblemService.Workers.CreateIdeaWorker do
          %HTTPoison.Response{body: body} <- HTTPoison.get!(List.first(image.data)["url"]) do
       File.write!(File.cwd!() <> "/resources/images#{path}", body)
       {:ok, path}
+    else
+      error -> Logger.error("Error generating image: #{inspect(error)}")
     end
   end
 end

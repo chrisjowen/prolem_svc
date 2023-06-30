@@ -31,6 +31,8 @@ defmodule ProblemService.Workers.CreateIdeasWorker do
           "sectors" => sectors
         })
       end)
+    else
+      error -> Logger.error("Error: #{inspect(error)}")
     end
   end
 end
