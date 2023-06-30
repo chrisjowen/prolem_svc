@@ -3,7 +3,6 @@ defmodule ProblemService.IdeaController do
   alias ProblemService.Schema.Idea
 
 
-
   def search(conn, %{"sectors" => sector_ids} = params) do
     super(conn, params)
       |> Idea.with_sectors(String.split(sector_ids, ","))

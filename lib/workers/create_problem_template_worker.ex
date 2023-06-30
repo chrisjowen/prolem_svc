@@ -82,7 +82,7 @@ defmodule ProblemService.Workers.CreateProblemTemplateWorker do
     with {:ok, image} <-
            OpenAI.images_generations(
              [
-               prompt: "A colorful pencil & ink sketch of: #{keywords}. NO FONTS OR TEXT. ONLY IMAGES!!!",
+               prompt: "A detailed, colorful cartoon sketch of: #{keywords}. NO FONTS OR TEXT. ONLY IMAGES!!!",
                size: "512x512"
              ],
              %OpenAI.Config{http_options: [recv_timeout: 10 * 60 * 1000]}
