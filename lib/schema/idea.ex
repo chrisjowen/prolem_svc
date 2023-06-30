@@ -6,6 +6,7 @@ defmodule ProblemService.Schema.Idea do
   schema "ideas" do
     field :title, :string
     field :description, :string
+    field :imagery, :string
     field :img, :string
     field :tags, {:array, :string}
     field :features, {:array, :string}
@@ -24,6 +25,7 @@ defmodule ProblemService.Schema.Idea do
     required = [:title, :description]
 
     additional = [
+      :imagery,
       :img,
       :estimated_timescale,
       :tags,

@@ -6,8 +6,10 @@ defmodule ProblemService.Workers.CreateIdeaWorker do
   require Logger
 
   def perform(%{"suggestion" => suggestion, "sectors" => sectors}) do
-    with {:ok, path} <- generate_image(suggestion["imagery"]),
-         {:ok, idea} <- save_suggestion(suggestion, path) do
+    # with {:ok, path} <- generate_image(suggestion["imagery"]),
+    #      {:ok, idea} <- save_suggestion(suggestion, path) do
+
+      with {:ok, idea} <- save_suggestion(suggestion) do
       Logger.info("Created idea: #{suggestion["title"]}")
 
       sectors
@@ -25,6 +27,10 @@ defmodule ProblemService.Workers.CreateIdeaWorker do
     end
   end
 
+
+  def save_suggestion(suggestion) do
+    Repo.insert(Schema.Idea.changeset(%Schema.Idea{}, suggestion))
+  end
   def save_suggestion(suggestion, path) do
     params = Map.put(suggestion, "img", path)
     Repo.insert(Schema.Idea.changeset(%Schema.Idea{}, params))
