@@ -15,6 +15,8 @@ import Config
 #   port: 5433,
 #   types: ProblemService.PostgresTypes
 
+config :problem_service, Oban, testing: :inline
+
 config :problem_service, ProblemService.Repo,
   username: "postgres",
   password: "postgres",

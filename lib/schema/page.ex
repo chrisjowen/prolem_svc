@@ -9,6 +9,11 @@ defmodule ProblemService.Schema.Page do
     field :title, :string
     field :version, :integer, default: 1
 
+    field :slug, :string
+    field :scope, :string, default: "problem"
+    field :priority, :integer, default: 1
+
+
     belongs_to :problem, ProblemService.Schema.Problem
     belongs_to :user, ProblemService.Schema.User
     belongs_to :updated_by, ProblemService.Schema.User
@@ -19,8 +24,25 @@ defmodule ProblemService.Schema.Page do
 
   @doc false
   def changeset(page, attrs) do
+    required = [
+      :title,
+      :body,
+      :version,
+      :status,
+      :user_id,
+      :scope
+    ]
+    additional = [
+      :tags,
+      :parent_id,
+      :updated_by_id,
+      :problem_id,
+      :slug,
+      :priority
+    ]
+
     page
-    |> cast(attrs, [:title, :body, :tags, :version, :status, :parent_id, :user_id, :problem_id, :updated_by_id])
-    |> validate_required([:title, :body, :version, :status, :user_id, :problem_id])
+    |> cast(attrs, required ++ additional)
+    |> validate_required(required)
   end
 end

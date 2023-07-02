@@ -33,12 +33,15 @@ defmodule ProblemService.Web.Router do
     post("/user/search", UserController, :search)
 
     resources("/soon", ComingSoonController, only: [:create, :update, :delete])
+    resources("/page", PageController, only: [:create, :update, :delete])
 
     post("/sector/generate", SectorController, :generate)
     resources("/notification", NotificationController, only: [:show, :index])
     post("/image/:type", ImageController, :create)
     post("/problem/:problem_id/follow", FollowerController, :create)
     post("/problem/:problem_id/unfollow", FollowerController, :unfollow)
+
+    resources("/expert", ExpertController, only: [:create, :update, :delete, :show, :index])
 
     resources("/answer", AnswerController, only: [:create, :update, :delete]) do
       resources("/comment", CommentController, only: [:create, :update, :delete])
@@ -48,7 +51,6 @@ defmodule ProblemService.Web.Router do
       resources("/answer", AnswerController, only: [:create, :update, :delete]) do
         resources("/comment", CommentController, only: [:create, :update, :delete])
       end
-
       resources("/comment", CommentController, only: [:create, :update, :delete])
     end
 
@@ -102,7 +104,9 @@ defmodule ProblemService.Web.Router do
   scope "/api", ProblemService do
     pipe_through(:api)
     # Unsecured
+
     get("/image/*path", ImageController, :show)
+    resources("/page", PageController, only: [:index, :show])
 
     resources("/soon", ComingSoonController, only: [:index, :show])
 

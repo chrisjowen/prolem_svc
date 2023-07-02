@@ -2,7 +2,6 @@ defmodule ProblemService.Workers.CreateStakeholderImageWorker do
   use Que.Worker, concurrency: 10
 
   alias ProblemService.Schema.Stakeholder
-  alias ProblemService.Schema.Problem
   alias ProblemService.Repo
 
   require Logger

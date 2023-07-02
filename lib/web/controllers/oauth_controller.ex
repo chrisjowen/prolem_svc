@@ -2,6 +2,7 @@ defmodule ProblemService.OAuthController do
   use ProblemService.Web, :controller
   alias ProblemService.Repo
   alias ProblemService.Schema.User
+  alias ProblemService.Schema.UserProfile
 
   plug Ueberauth
 
@@ -42,14 +43,18 @@ defmodule ProblemService.OAuthController do
 
     [first_name, lastname | _] = String.split(name, " ")
 
-    User.changeset(%User{}, %{
-      "username" => username,
-      "name" => auth.info.first_name || first_name,
-      "last_name" => auth.info.last_name || lastname,
-      "email" => auth.info.email,
-      "ext_id" => auth.uid,
-      "ext_ref" => Atom.to_string(auth.provider)
-    })
+    user =
+      User.changeset(%User{}, %{
+        "username" => username,
+        "name" => auth.info.first_name || first_name,
+        "last_name" => auth.info.last_name || lastname,
+        "email" => auth.info.email,
+        "ext_id" => auth.uid,
+        "ext_ref" => Atom.to_string(auth.provider)
+      })
+      |> Repo.insert!()
+
+    UserProfile.changeset(%UserProfile{}, %{user_id: user.id})
     |> Repo.insert!()
   end
 

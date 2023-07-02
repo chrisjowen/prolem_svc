@@ -12,7 +12,8 @@ defmodule ProblemService.Application do
       ProblemService.Web.Telemetry,
       {Phoenix.PubSub, name: ProblemService.PubSub},
       ProblemService.Web.Endpoint,
-      {Cachex, :lfg_cache}
+      {Cachex, :lfg_cache},
+      {Oban, Application.fetch_env!(:problem_service, Oban)}
     ]
 
     opts = [strategy: :one_for_one, name: ProblemService.Supervisor]

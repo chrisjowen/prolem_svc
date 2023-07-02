@@ -54,7 +54,6 @@ defmodule ProblemService.MixProject do
       {:waffle_ecto, "~> 0.0"},
       {:que, "~> 0.10.1"},
       {:httpoison, "~> 2.0"},
-      {:floki, "~> 0.33.0"},
       {:phoenix_api_toolkit, "~> 2.0.0"},
       # {:web_push_encryption, "~> 0.3.1"},
       {:cors_plug, "~> 3.0"},
@@ -67,7 +66,9 @@ defmodule ProblemService.MixProject do
       {:bodyguard, "~> 2.4"},
       {:bamboo_phoenix, "~> 1.0.0"},
       {:ueberauth, "~> 0.10"},
+      {:oban, "~> 2.14"},
       {:ueberauth_google, "~> 0.10", override: true},
+      {:floki, "~> 0.34.0"}
       # {:ueberauth_linkedin, "~> 0.3.2"}
 
     ]

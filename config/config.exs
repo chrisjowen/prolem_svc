@@ -10,6 +10,12 @@ import Config
 config :problem_service,
   ecto_repos: [ProblemService.Repo]
 
+
+config :problem_service, Oban,
+  repo: ProblemService.Repo,
+  plugins: [Oban.Plugins.Pruner],
+  queues: [default: 10]
+
 config :ueberauth, Ueberauth,
   providers: [
     facebook:
@@ -26,7 +32,7 @@ config :ueberauth, Ueberauth,
        ]},
     linkedin:
       {Ueberauth.Strategy.LinkedIn,
-       [ callback_path: "/oauth/linkedin/callback", ignores_csrf_attack: true]}
+       [callback_path: "/oauth/linkedin/callback", ignores_csrf_attack: true]}
   ],
   base_path: "/oauth"
 

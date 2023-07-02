@@ -23,12 +23,12 @@ defmodule ProblemService.Schema.UserProfile do
   @doc false
   def changeset(user_profile, attrs) do
     required = [
-      :intro,
-      :country,
       :user_id
     ]
 
     additional = [
+      :intro,
+      :country,
       :languages,
       :linkedin,
       :accomplishments,
