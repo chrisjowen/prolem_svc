@@ -23,9 +23,6 @@ defmodule Ai.StakeholderGenerator do
   end
 
 
-
-
-
   def format() do
     """
     {
@@ -35,13 +32,13 @@ defmodule Ai.StakeholderGenerator do
          "problems": String[],             //The problems specific to this stakeholder
          "age_from": Integer,              //Optional: if the problem has any age constraints mentioned in problem statement
          "age_to": Integer,                //Optional: if the problem has any age constraints mentioned in problem statement
-         "regions":  String[],             //Optional: if the problem states any geographic constraints mentioned in problem statement,
+         "regions":  String[],             //If the problem states any geographic constraints mentioned in problem statement,
          "gender": String,                 //One of [MALE | FEMALE | OTHER | ALL] - use ALL if no gender constraints mentioned in problem statement,
-         "professions": String[],          //Optional: if tye profession is something that would be valueable information for the problem
-         "education": String,              //Optional: if tye profession is something that would be valueable information for the problem
-         "interests": String[],            //Optional: if the problem states any other traits i.e. lesbian, obese, etc.
-         "socioEcenomics": String[],       //Optional: if the problem states mentions any socio-economic constraints i.e. poor, rich, etc.
-         "races": String[]                 //Optional: if the problem states mentions race constraints i.e. white, black, asian etc.
+         "professions": String[],          //If tye profession is something that would be valueable information for the problem
+         "education": String,              //If tye profession is something that would be valueable information for the problem
+         "interests": String[],            //If the problem states any interests i.e. sports, music, etc.
+         "socioEcenomics": String[],       //If the problem states mentions any socio-economic constraints i.e. poor, rich, etc.
+         "races": String[]                 //If the problem states mentions race constraints i.e. white, black, asian etc.
       ]
     }
     """
@@ -53,6 +50,9 @@ defmodule Ai.StakeholderGenerator do
     In other words, its an imaginary person that embodies the most important characteristics found within your broad audience.
     Just like a real living and breathing customer, a persona should have a demographic and psychographic profile, behavior trends, values, desires,
     pain points, and affiliations. Though the persona is fictional, the profile should be as well rounded as possible.
+
+    Note: For regions and races pay attention to the problem statement or idea and try to find any hints that might be mentioned.
+
     """
   end
 

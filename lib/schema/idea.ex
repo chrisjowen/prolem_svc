@@ -13,6 +13,8 @@ defmodule ProblemService.Schema.Idea do
     field :complexity, :integer
     field :estimated_timescale, :integer
     field :skills, {:array, :string}
+    field :generated, :boolean, default: true
+    belongs_to :user, ProblemService.Schema.User
     has_many :idea_sectors, ProblemService.Schema.IdeaSector
     has_many :sectors, through: [:idea_sectors, :sector]
     has_many :comments, ProblemService.Schema.Comment
@@ -31,7 +33,9 @@ defmodule ProblemService.Schema.Idea do
       :tags,
       :features,
       :complexity,
-      :skills
+      :skills,
+      :generated,
+      :user_id
     ]
 
     user

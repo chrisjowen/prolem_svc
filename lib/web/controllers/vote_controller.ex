@@ -9,4 +9,6 @@ defmodule ProblemService.VoteController do
   def index(conn,%{"idea_id" => id} = params), do: super(assign(conn, :q, "idea_id=#{id}"), params)
 
 
+
+
 end

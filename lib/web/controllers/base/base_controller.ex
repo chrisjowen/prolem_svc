@@ -66,8 +66,7 @@ defmodule ProblemService.BaseController do
 
       if(Enum.member?(unquote(routes), :index)) do
         def index(conn, params) do
-          result = search(conn, params) |> Repo.paginate(params)
-          json(conn, result)
+          search(conn, params) |> paginate(conn, params)
         end
 
         defoverridable index: 2
@@ -87,7 +86,13 @@ defmodule ProblemService.BaseController do
 
         end
 
+        defp paginate(query, conn, params) do
+          result = query |> Repo.paginate(params)
+          json(conn, result)
+        end
+
         defoverridable search: 2
+        defoverridable paginate: 3
       end
 
       if(Enum.member?(unquote(routes), :create)) do

@@ -25,7 +25,7 @@ defmodule ProblemService.Workers.CreateProblemTemplateWorker do
 
     Endpoint.broadcast!("user:trace:#{trace_id}", "problem:creating", %{})
 
-    with {:ok, full_statement} <- Ai.ProblemStatementGenerator.execute(statement, sector_names),
+    with {:ok, full_statement} <- Ai.ProblemStatementGenerator.execute(statement),
          {:ok, meta} <- generate_meta(statement, sector_names, trace_id),
          {:ok, path} <- generate_image(meta["imagery"], trace_id),
          {:ok, problem} <- save_problem(full_statement, sectors, meta, user_id, path) do

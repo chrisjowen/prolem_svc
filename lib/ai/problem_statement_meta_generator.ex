@@ -1,9 +1,8 @@
 defmodule Ai.ProblemStatementMetaGenerator do
-  alias Faker.Commerce
   alias Ai.PromptBuilder
   alias Ai.PromptExecutor
 
-  def execute(statement, sector) do
+  def execute(statement) do
     {:ok, prompt} =
       PromptBuilder.new()
       |> PromptBuilder.with_type(:json)
@@ -11,7 +10,7 @@ defmodule Ai.ProblemStatementMetaGenerator do
       |> PromptBuilder.with_hints(hints())
       |> PromptBuilder.with_examples(examples())
       |> PromptBuilder.with_format(format())
-      |> PromptBuilder.with_action(action(statement, sector))
+      |> PromptBuilder.with_action(action(statement))
       |> PromptBuilder.build()
 
     prompt |> PromptExecutor.execute()
@@ -62,11 +61,10 @@ defmodule Ai.ProblemStatementMetaGenerator do
     """
   end
 
-  defp action(statement, sector) do
+  defp action(statement) do
     """
       The problem statement to extend is specified below in HTML within the tripple backticks
       ```
-        <h1>Sector: #{sector}</h1>
         #{statement}
       ```
     """

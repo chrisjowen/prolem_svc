@@ -1,6 +1,7 @@
 defmodule ProblemService.Schema.Problem do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
 
   schema "problems" do
     field :title, :string
@@ -24,7 +25,11 @@ defmodule ProblemService.Schema.Problem do
     has_many :problem_users, ProblemService.Schema.ProblemUser
     has_many :users, through: [:problem_users, :member]
     has_many :problem_sectors, ProblemService.Schema.ProblemSector
+    has_many :stakeholders, ProblemService.Schema.Stakeholder
     has_many :sectors, through: [:problem_sectors, :sector]
+    has_many :votes,  ProblemService.Schema.Vote
+    has_many :comments,  ProblemService.Schema.Comment
+    has_many :contribution_requests,  ProblemService.Schema.ContributeRequest
 
     timestamps()
   end
@@ -32,15 +37,18 @@ defmodule ProblemService.Schema.Problem do
   @doc false
 
   def changeset(user, attrs) do
-    required = [:title, :overview, :slug, :sector_id, :user_id]
+    required = [:title, :blurb, :user_id]
 
     additional = [
+      :overview,
+      :slug,
+      :sector_id,
       :img,
-      :blurb,
       :space_id,
       :updated_by_id,
       :banner_image,
-      :pinned_note
+      :pinned_note,
+      :status
     ]
 
     user
@@ -63,6 +71,17 @@ defmodule ProblemService.Schema.Problem do
       end)
 
     is_owner || is_admin
+  end
+
+  def with_sectors(query, sector_ids \\ []) do
+    case sector_ids do
+      [""] -> query
+      [] -> query
+      _ ->
+        from p in query,
+          join: ps in assoc(p, :problem_sectors),
+          where: ps.sector_id in ^sector_ids
+    end
   end
 
 

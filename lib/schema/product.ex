@@ -11,11 +11,8 @@ defmodule ProblemService.Schema.Product do
     field :productHuntUrl, :string
     field :screenshot, :string
 
-
     # belongs_to :user, ProblemService.Schema.User
     belongs_to :problem, ProblemService.Schema.Problem
-
-
     timestamps()
   end
 

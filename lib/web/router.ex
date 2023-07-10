@@ -59,6 +59,7 @@ defmodule ProblemService.Web.Router do
     post("/workflow/problem_resources", WorkflowController, :problem_resources)
     post("/workflow/problem_obstacles", WorkflowController, :problem_obstacles)
     post("/workflow/problem_stakeholders", WorkflowController, :problem_stakeholders)
+    post("/workflow/problem/generate", WorkflowController, :problem_generator)
     post("/workflow/ideas", WorkflowController, :ideas)
 
     post("/ai/problem/precheck", AIProblemController, :precheck)
@@ -78,15 +79,18 @@ defmodule ProblemService.Web.Router do
       resources("/user", ProblemUserController, only: [:create, :update, :delete])
       resources("/member", ProblemUserController, only: [:create, :update, :delete])
       resources("/comment", CommentController, only: [:create, :update, :delete])
+      resources("/product", ProductController, only: [:create, :update, :delete])
       resources("/discussion", DiscussionController, only: [:create, :update, :delete])
       resources("/obstacle", ObstacleController, only: [:create, :update, :delete])
       resources("/link", LinkController, only: [:create, :update, :delete])
       resources("/stakeholder", StakeholderController, only: [:create, :update, :delete])
+      resources("/vote", VoteController, only: [:create, :update, :delete])
+      resources("/contibute_request", ContributionRequestController, only: [:create, :update, :delete])
+
     end
 
     resources("/idea", IdeaController, only: [:create, :update, :delete]) do
       resources("/comment", CommentController, only: [:create, :update, :delete])
-      resources("/vote", VoteController, only: [:create, :update, :delete])
     end
 
     resources("/product", ProductController, only: [:create, :update, :delete])
@@ -154,6 +158,8 @@ defmodule ProblemService.Web.Router do
       resources("/obstacle", ObstacleController, only: [:show, :index])
       resources("/link", LinkController, only: [:index, :show])
       resources("/stakeholder", StakeholderController, only: [:index, :show])
+      resources("/vote", VoteController, only: [:show, :index])
+      resources("/contibute_request", ContributionRequestController, only: [:show, :index])
     end
 
     resources "/solution", SolutionController, only: [:show, :index] do
@@ -186,6 +192,7 @@ defmodule ProblemService.Web.Router do
       post("/ai/sector", ProblemService.AiController, :sector)
       post("/ai/stakeholder_describe", ProblemService.AiController, :stakeholder_describe)
       post("/ai/ideas", ProblemService.AiController, :ideas)
+      post("/ai/problem_statement", ProblemService.AiController, :problem_statement)
     end
   end
 end

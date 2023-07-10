@@ -20,3 +20,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: problem_service_test
+  graphiql:
+    image: plutoz/graphiql
+    ports:
+      - 9876:4000

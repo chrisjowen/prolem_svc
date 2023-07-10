@@ -6,6 +6,7 @@ defmodule Modules do
     {Schema.Comment, []},
     {Schema.Discussion, []},
     {Schema.Expert, []},
+    {Schema.ContributeRequest, []},
     {Schema.Notification, []},
     {Schema.Link, []},
     {Schema.Answer, []},

@@ -3,14 +3,14 @@ defmodule Ai.ProblemStatementGenerator do
   alias Ai.PromptBuilder
   alias Ai.PromptExecutor
 
-  def execute(statement, sector) do
+  def execute(overview) do
     {:ok, prompt} =
       PromptBuilder.new()
       |> PromptBuilder.with_type(:html)
       |> PromptBuilder.with_goal(goal())
       |> PromptBuilder.with_hints(hints())
       |> PromptBuilder.with_format(format())
-      |> PromptBuilder.with_action(action(statement, sector))
+      |> PromptBuilder.with_action(action(overview))
       |> PromptBuilder.build()
 
     prompt |> PromptExecutor.execute()
@@ -18,21 +18,19 @@ defmodule Ai.ProblemStatementGenerator do
 
   def goal() do
     """
-    Your goal is to generate an expanded HTML problem statement given a small sample and your knowladge.
+    You are StartupCoachAI: Your goal is to take an idea and rephrase it into a problem statment. You should take the idea and ensure it is phrased as a problem not a solution.
     """
   end
 
   def format() do
     """
     <h1>Problem Statement</h1>
-    //Section introducing the problem statement with an initial pargrah of the biggest problem pumping up the pain.
-    <h2>Why is this a problem?</h2>
-    //Section listing  why this is a problem and what is causing it? Are there any specific examples you can provide? If not can you provide a background story explaining this?
-    <h2>Who does this effect?</h2>
-    //Section listing who does this effect, are there any specific groups or individuals most effected? Can you provide any examples?
-    <h2>When & Where Does This Happen?</h2>
-    //Section listing when does this happen? Is it a recent thing or has it always been a problem? Where does this happen? Is it a specific location or is it a global problem? Can you provide any examples?
-    <h1>Why Is It Worth Solving?</h1>
+    //This is the What part - introducing the problem statement with an initial pargrah or two of the biggest problems. This should be a focusing on the problems and not solutions. two to three paragraphs.
+    <h2>Who, when and where?</h2>
+    //Section listing who would be effected by the problem and if there any time or geographic concerns that are applicable.
+    <h3>Examples:</h3>
+    //Up to 3 Bullet points of examples of the problem in the real world
+    <h2>Why Is It Worth Solving?</h2>
     //Section listing  the benefits of solving this problem? What are the costs of not solving this problem? Can you provide any examples?
     """
   end
@@ -60,17 +58,17 @@ defmodule Ai.ProblemStatementGenerator do
         - Support your claims with solid evidence
         - Summarise the problem and the ideal solution
         - Use plain language that everyone can understand
+        - remove any mention of I or we, this is about the problem not the individual, rephrase according to the stakeholders
         - List the benefits to solving this problem
         ```
     """
   end
 
-  defp action(statement, sector) do
+  defp action(overview) do
     """
       The problem statement to extend is specified below within the tripple backticks
       ```
-        Sector: #{sector}
-        Problem: #{statement}
+       #{overview}
       ```
     """
   end

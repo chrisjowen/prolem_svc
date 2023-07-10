@@ -14,10 +14,14 @@ defmodule ProblemService.AiController do
 
   end
 
+  def problem_statement(conn, %{"overview" => overview}) do
+    {:ok, result}  = Ai.ProblemStatementGenerator.execute(overview)
+    json(conn, result)
+  end
+
 
   def sector(conn, %{"sector" => sector}) do
     {:ok, result}  = Ai.SectorDescriptionGenerator.execute(sector)
-
     json(conn, result)
   end
 

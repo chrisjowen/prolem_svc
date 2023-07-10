@@ -1,6 +1,18 @@
 defmodule ProblemService.WorkflowController do
   use ProblemService.BaseController
   alias Guardian.UUID
+  alias ProblemService.Workers
+
+  def problem_generator(conn, params) do
+    with {:ok, job} =
+           Workers.ProblemCreationWorker.new(
+             params
+             |> Map.put("user_id", current_resource(conn).id)
+           )
+           |> Oban.insert() do
+      json(conn, %{job_id: job.id})
+    end
+  end
 
   def problem_template(conn, params) do
     trace_id = UUID.generate()
