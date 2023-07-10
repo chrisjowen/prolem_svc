@@ -63,7 +63,6 @@ defmodule ProblemService.Web.Router do
     post("/workflow/ideas", WorkflowController, :ideas)
 
     post("/ai/problem/:problem_id/:type", AIProblemController, :execute)
-    post("/ai/problem/:type", AIProblemController, :execute)
 
     resources("/problem_suggestion", ProblemSuggestionController,
       only: [:create, :update, :delete]
@@ -108,7 +107,6 @@ defmodule ProblemService.Web.Router do
     pipe_through(:api)
     # Unsecured
 
-    post("/ai/problem/precheck", AIProblemController, :precheck)
 
     get("/image/*path", ImageController, :show)
     resources("/page", PageController, only: [:index, :show])
@@ -140,6 +138,9 @@ defmodule ProblemService.Web.Router do
 
       resources("/comment", CommentController, only: [:show, :index])
     end
+
+    post("/ai/problem/precheck", AIProblemController, :precheck)
+    # post("/ai/problem/:type", AIProblemController, :execute)
 
     resources("/problem_suggestion", ProblemSuggestionController, only: [:show, :index])
     resources("/follower", FollowerController, only: [:index])
