@@ -62,7 +62,6 @@ defmodule ProblemService.Web.Router do
     post("/workflow/problem/generate", WorkflowController, :problem_generator)
     post("/workflow/ideas", WorkflowController, :ideas)
 
-    post("/ai/problem/precheck", AIProblemController, :precheck)
     post("/ai/problem/:problem_id/:type", AIProblemController, :execute)
     post("/ai/problem/:type", AIProblemController, :execute)
 
@@ -108,6 +107,8 @@ defmodule ProblemService.Web.Router do
   scope "/api", ProblemService do
     pipe_through(:api)
     # Unsecured
+
+    post("/ai/problem/precheck", AIProblemController, :precheck)
 
     get("/image/*path", ImageController, :show)
     resources("/page", PageController, only: [:index, :show])
