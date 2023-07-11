@@ -61,7 +61,7 @@ defmodule ProblemService.OAuthController do
   defp maybe_update_user_ext_id(user, auth = %Ueberauth.Auth{}) do
     case user.ext_id do
       nil ->
-        User.changeset(user, %{ext_id: auth.uid, ext_ref: "google"})
+        User.changeset(user, %{ext_id: auth.uid, ext_ref: Atom.to_string(auth.provider)})
         |> Repo.update!()
 
       _ ->

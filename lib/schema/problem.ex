@@ -13,6 +13,7 @@ defmodule ProblemService.Schema.Problem do
     field :banner_image, :string
     field :pinned_note, :string
     field :public, :boolean, default: true
+    field :generated, :boolean, default: false
 
     belongs_to :space, ProblemService.Schema.Space
     belongs_to :user, ProblemService.Schema.User
@@ -48,7 +49,8 @@ defmodule ProblemService.Schema.Problem do
       :updated_by_id,
       :banner_image,
       :pinned_note,
-      :status
+      :status,
+      :generated
     ]
 
     user

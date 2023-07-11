@@ -17,6 +17,11 @@ defmodule ProblemService.AIProblemController do
   end
 
 
+  @spec precheck(any, map) ::
+          ({:cont, any} | {:halt, any} | {:suspend, any}, any ->
+             {:halted, any} | {:suspended, any, (any -> any)})
+          | {:error, any}
+          | Plug.Conn.t()
   def precheck(conn, %{"statement" => statement}) do
     sectors = Repo.all(ProblemService.Schema.Sector)
     |> Enum.map(fn sector -> sector.name  end)
