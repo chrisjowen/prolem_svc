@@ -71,13 +71,13 @@ defmodule ProblemService.Schema.User do
     end
   end
 
-  defp maybe_add_clear_password(attrs), do: attrs
 
-  defp maybe_validate_ext_login(%{"password" => password} = attrs) do
+  defp maybe_add_clear_password(%{"password" => password} = attrs) do
     attrs |> Map.put("clear_password", password)
   end
+  defp maybe_add_clear_password(attrs), do: attrs
 
-  defp maybe_validate_ext_login(attrs), do: attrs
+
 
   defmodule Queries do
     import Ecto.Query

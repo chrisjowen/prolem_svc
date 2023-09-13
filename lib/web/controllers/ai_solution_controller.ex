@@ -17,8 +17,6 @@ defmodule ProblemService.AiSolutionController do
         module = handler["module"]
         arg_mapper  = Map.get(handler, "arg_mapper", fn _conn, params -> [params] end )
         args = arg_mapper.(conn, params)
-        #IO.inspect(module)
-        #IO.inspect(args)
         with {:ok, result} <- apply(module, :process, args) do
           json(conn, result)
         end

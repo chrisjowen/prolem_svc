@@ -51,6 +51,7 @@ defmodule ProblemService.Web.Router do
       resources("/answer", AnswerController, only: [:create, :update, :delete]) do
         resources("/comment", CommentController, only: [:create, :update, :delete])
       end
+
       resources("/comment", CommentController, only: [:create, :update, :delete])
     end
 
@@ -83,8 +84,10 @@ defmodule ProblemService.Web.Router do
       resources("/link", LinkController, only: [:create, :update, :delete])
       resources("/stakeholder", StakeholderController, only: [:create, :update, :delete])
       resources("/vote", VoteController, only: [:create, :update, :delete])
-      resources("/contibute_request", ContributionRequestController, only: [:create, :update, :delete])
 
+      resources("/contibute_request", ContributionRequestController,
+        only: [:create, :update, :delete]
+      )
     end
 
     resources("/idea", IdeaController, only: [:create, :update, :delete]) do
@@ -106,7 +109,6 @@ defmodule ProblemService.Web.Router do
   scope "/api", ProblemService do
     pipe_through(:api)
     # Unsecured
-
 
     get("/image/*path", ImageController, :show)
     resources("/page", PageController, only: [:index, :show])
@@ -173,6 +175,22 @@ defmodule ProblemService.Web.Router do
     resources("/discussion/:discussion_id/answer", AnswerController, only: [:show, :index])
     post("/login", LoginController, :login)
     post("/register", LoginController, :register)
+
+
+
+    # twilio api:conversations:v1:conversations:participants:create \
+    # --conversation-sid CH8d7273b58e7b44e0bacc0981a690069b \
+    # --messaging-binding.address whatsapp:+6598073911 \
+    # --messaging-binding.proxy-address whatsapp:+14155238886
+
+
+  end
+
+  scope "/api/inbound", ProblemService.Inbound do
+    pipe_through(:api)
+
+    post("/whatsapp", WhatsAppController, :inbound)
+    get("/whatsapp", WhatsAppController, :inbound)
   end
 
   # Enables LiveDashboard only for development
